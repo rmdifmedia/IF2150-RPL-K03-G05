@@ -63,9 +63,9 @@ Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang men
 ## 3.1 Identifikasi Aktor
 | Aktor | Deskripsi |
 | :--- | :--- |
-| *Mitra Pengacara* | *Praktisi hukum yang mendaftar sebagai pengacara HaloLaw untuk menerima dan menanggapi permintaan konsultasi dari klien. *|
-| *Masyarakat* | *Pengguna umum yang secara aktif menggunakan fitur SearchLaw untuk mencari dasar hukum dan fitur HaloLaw untuk berkonsultasi langsung dengan pengacara. *|
-| *Admin* | *Mengakses sistem untuk mengelola data dan melayani keluhan pengguna. *|
+| *Mitra Pengacara* | *Praktisi hukum yang mendaftar sebagai pengacara HaloLaw untuk menerima dan menanggapi permintaan konsultasi dari klien.*|
+| *Masyarakat* | *Pengguna umum yang secara aktif menggunakan fitur SearchLaw untuk mencari dasar hukum dan fitur HaloLaw untuk berkonsultasi langsung dengan pengacara.*|
+| *Admin* | *Mengakses sistem untuk mengelola data dan melayani keluhan pengguna.*|
 
 
 
