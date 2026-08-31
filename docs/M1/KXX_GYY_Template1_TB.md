@@ -61,22 +61,21 @@ Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang men
 # BAB 3: Spesifikasi Kebutuhan dan Proses Bisnis
 
 ## 3.1 Identifikasi Aktor
-Buatlah daftar seluruh aktor (pengguna) yang akan berinteraksi langsung dengan sistem solusi yang kalian kembangkan. Berikan penjelasan singkat mengenai peran dan karakteristik dari masing-masing aktor tersebut.
-
 | Aktor | Deskripsi |
 | :--- | :--- |
-| *Kasir* | *Pengguna ini bertindak sebagai pihak yang bertanggung jawab untuk memproses transaksi harian dan melayani pembayaran pelanggan. Karakteristik dari pengguna ini adalah mengutamakan kecepatan dan keakuratan saat bertransaksi.* |
-| ... | ... |
+| *Mitra Pengacara* | *Praktisi hukum yang mendaftar sebagai pengacara HaloLaw untuk menerima dan menanggapi permintaan konsultasi dari klien. *|
+| *Masyarakat* | *Pengguna umum yang secara aktif menggunakan fitur SearchLaw untuk mencari dasar hukum dan fitur HaloLaw untuk berkonsultasi langsung dengan pengacara. *|
+| *Admin* | *Mengakses sistem untuk mengelola data dan melayani keluhan pengguna. *|
+
 
 
 ## 3.2 Kebutuhan Pengguna Awal
-Definisikan apa yang ingin dicapai oleh pengguna saat menggunakan sistem ini dalam format *User Story* (Sebagai [Aktor], saya ingin [Aktivitas/Kebutuhan], sehingga [Tujuan/Nilai]). Pastikan kalian berfokus pada "apa yang ingin dilakukan pengguna".
-
 | ID | Aktor | Kebutuhan / Aktivitas | Tujuan / Nilai |
 | :--- | :--- | :--- | :--- |
-| US-01 | *Kasir* |  *Memindai barcode barang* | *Proses pembayaran berjalan cepat dan akurat* |
-| US-02 | *[Nama Aktor]* | *[Kebutuhan pengguna]* | *[Tujuan yang dicapai pengguna]* |
-| ... | ... | ... | ... |
+| US-01 | *Mitra Pengacara* | *Menerima dan menanggapi permintaan konsultasi dari klien secara real-time* | *Dapat memberikan layanan konsultasi secara cepat dan terorganisir* |
+| US-02 | *Masyarakat* | *Mencari pasal atau dasar hukum dengan memasukkan kata kunci kasus yang dialami atau mencari konsultan hukum dengan harga terjangkau* | *Mendapatkan pemahaman secara cepat dan tepat serta memilih konsultan yang sesuai* |
+| US-03 | *Admin* | *Mengelola dan memverifikasi data landasan hukum maupun mitra pengacara yang mendaftar* | *Memastikan informasi hukum yang ditampilkan kepada masyarakat selalu akurat dan terkini* |
+
 
 ## 3.3 Model Proses Bisnis
 Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja proses bisnis dari sistem solusi. Diagram ini harus memvisualisasikan bagaimana alur operasional di dunia nyata berjalan lebih efisien dengan adanya interaksi antara aktor (yang didefinisikan pada poin 3.1) dan sistem perangkat lunak. Perhatikan notasi yang digunakan dalam pembuatannya.
