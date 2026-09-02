@@ -79,14 +79,18 @@ Batasan: Sistem hanya berperan sebagai media pengaduan, penyedia informasi, kons
 | US-03 | Masyarakat | Mencari pasal atau dasar hukum dengan memasukkan kata kunci kasus yang dialami | Mendapatkan pemahaman secara cepat dan tepat tanpa harus mencari dari berbagai sumber secara manual |
 | US-04 | Masyarakat | Mencari pengacara atau konsultan hukum sesuai dengan kebutuhan dan preferensi | Memilih pengacara yang paling sesuai dengan kebutuhan dan anggaran|
 | US-05 | Masyarakat | Berkonsultasi dengan konsultan secara live, baik melalui telefon atau chat dalam platform | Mendapat penjelasan lebih lanjut terkait kasus yang sedang dialami |
-| US-06 | Masyarakat | Memberikan ulasan, feedback, dan/atau rating kepada konsultan setelah sesi konsultasi  | Membantu klien lain menilai kredibilitas pengacara serta memberi masukan kualitas layanan|
-| US-07 | Mitra Pengacara | Mendaftar akun dengan melampirkan dokumen legalitas dan identitas diri atau firma | Memilii akun yang terverifikasi kelayakannya sebelum melayani masyarakat |
+| US-06 | Masyarakat | Memberikan ulasan, feedback, rating, dan/atau laporan/pelanggaran mengenai konsultan setelah sesi konsultasi  | Membantu klien lain menilai kredibilitas pengacara serta memberi masukan kualitas layanan|
+| US-07 | Mitra Pengacara | Mendaftar akun dengan melampirkan dokumen legalitas dan identitas diri atau firma | Memiliki akun yang terverifikasi kelayakannya sebelum melayani masyarakat |
 | US-08 | Mitra Pengacara | Menerima dan menanggapi permintaan konsultasi dari klien secara real-time | Dapat memberikan layanan konsultasi secara cepat dan terorganisir |
 | US-09 | Mitra Pengacara | Melihat riwayat dan ringkasan seluruh sesi konsultasi yang pernah ditangani | Memudahkan dokumentasi kasus dan tindak lanjut bila klien kembali berkonsultasi |
 | US-10 | Admin | Memverifikasi dokumen legalitas atau lisensi praktik mitra pengacara yang baru mendaftar sebelum akun diaktifkan | Memastikan mitra yang akan melayani masyarakat kredibel |
 | US-11 | Admin | Melayani pertanyaan dan kendala pengguna melalui live chat dalam platform | Membantu pengguna menyelesaikan masalah teknis maupun non-teknis dengan cepat |
 | US-12 | Admin | Meninjau laporan yang diajukan pengguna terhadap akun lain, baik akun masyarakat maupun mitra pengacara | Memastikan akun yang akan dinonaktifkan benar melanggar aturan |
 | US-13 | Admin | Melakukan suspend atau ban terhadap akun yang terbukti melanggar ketentuan platform, baik akun masyarakat maupun mitra pengacara | Menjaga ekosistem platform tetap aman dan tepercaya bagi seluruh pengguna |
+| US-14 | Sistem | Menyimpan data akun pengguna ke dalam database | Menyimpan data dan riwayat pengguna |
+| US-15 | Sistem | Memfilter data yang ada agar sesuai dengan kata kunci yang di input | Menampilkan hasil pencarian yang sudah di filter sesuai dengan kata kunci | 
+| US-16 | Sistem | Menyimpan data proses dan hasil konsultasi serta feedback pengguna | Menampilkan riwayat konsultasi pengguna (pada interface mitra) dan feedback |
+| US-17 | Sistem | Membuat daftar seluruh akun Mitra terdaftar | Menampilkan seluruh akun mitra yang terdaftar |
 
 
 
@@ -120,36 +124,34 @@ Batasan: Sistem hanya berperan sebagai media pengaduan, penyedia informasi, kons
 </p>
 <p align="center">
 <i>Gambar 1. Gambar Diagram Pembuatan Akun</i>
+</p>
 
 <p align="center">
 <img alt="Gambar Diagram Fitur SearchLaw" src="./assets/diagram/Diagram SearchLaw.jpg" width="70%">
 </p>
 <p align="center">
 <i>Gambar 2. Gambar Diagram Fitur SearchLaw</i>
+</p>
 
 <p align="center">
 <img alt="Gambar Diagram Fitur HaloLaw" src="./assets/diagram/Diagram HaloLaw.jpg" width="70%">
 </p>
 <p align="center">
 <i>Gambar 3. Gambar Diagram Fitur HaloLaw</i>
+</p>
 
 <p align="center">
 <img alt="Gambar Diagram Pengiriman Laporan" src="./assets/diagram/Diagram Pengiriman Laporan.jpg" width="70%">
 </p>
 <p align="center">
 <i>Gambar 4. Gambar Diagram Pengiriman Laporan</i>
+</p>
 
 <p align="center">
 <img alt="Gambar Diagram Live Chat" src="./assets/diagram/Diagram LiveChat.jpg" width="70%">
 </p>
 <p align="center">
 <i>Gambar 5. Gambar Diagram Live Chat</i>
-  
-<p align="center">
-<img alt="Contoh Activity Diagram" src="./assets/diagram/diagram-act-1.avif" width="70%">
-</p>
-<p align="center">
-<i>Gambar 1. Contoh Activity Diagram</i>
 </p>
 
 <br>
