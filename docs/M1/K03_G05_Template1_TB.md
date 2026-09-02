@@ -163,4 +163,7 @@ Batasan: Sistem hanya berperan sebagai media pengaduan, penyedia informasi, kons
 - Diagram UML: https://www.drawio.com/, https://staruml.io/
 - SDG 16: https://www.un.org/sustainabledevelopment/peace-justice/ 
 - Website bantuan hukum: https://bantuanhukum.bphn.go.id/
-- Aksesibilitas bantuan hukum masyarakat: https://ombudsman.go.id/artikel/r/artikel--aksesibilitas-bantuan-hukum-kepada-masyarakat-tidak-mampu 
+- Aksesibilitas bantuan hukum masyarakat: https://ombudsman.go.id/artikel/r/artikel--aksesibilitas-bantuan-hukum-kepada-masyarakat-tidak-mampu
+- Sengketa tanah: https://bphn.go.id/berita-utama/sekata-3-kupas-tuntas-sengketa-tanah-di-desa-bphn-dorong-kolaborasi-untuk-penyelesaian-yang-adil-dan-damai 
+- Konflik di Indonesia: https://kemenkopmk.go.id/pemerintah-identifikasi-permasalahan-bidang-penanganan-konflik-sosial-tahun-2026 
+- Alur manual pelaporan: https://www.dinamikakepri.co.id/2026/07/mengenal-alur-penanganan-kasus-pidana.html 
