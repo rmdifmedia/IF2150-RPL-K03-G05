@@ -7,23 +7,23 @@ TOPIC BRAINSTORMING
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## LawHub
 
-### Untuk: *[Mikha]*
+### Untuk: Mikhael Andrian Yonatan
 
 Dipersiapkan oleh:
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[K03\]* |
-| Kelompok | *\[G05\]*  |
+| Kelas | K03 |
+| Kelompok | G05  |
 
 | NIM | Nama |
 |---|---|
-| *[13525057]* | *[Raya Medina Farrelin]* |
-| *[13525003]* | *[Cherinette Corsane Khassyah Purceria]* |
-| *[13525108]* | *[Khasya Nurul Amini]* |
-| *[13525150]* | *[Livy Chandra]* |
-| *[13525138]* | *[Cathrine Angel Siburian]* |
+| 13525057 | Raya Medina Farrelin |
+| 13525003 | Cherinette Corsane Khassyah Purceria |
+| 13525108 | Khasya Nurul Amini |
+| 13525150 | Livy Chandra |
+| 13525138 | Cathrine Angel Siburian |
 ---
 
 <br>
@@ -63,18 +63,29 @@ Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang men
 ## 3.1 Identifikasi Aktor
 | Aktor | Deskripsi |
 | :--- | :--- |
-| *Mitra Pengacara* | *Praktisi hukum yang mendaftar sebagai pengacara HaloLaw untuk menerima dan menanggapi permintaan konsultasi dari klien.*|
-| *Masyarakat* | *Pengguna umum yang secara aktif menggunakan fitur SearchLaw untuk mencari dasar hukum dan fitur HaloLaw untuk berkonsultasi langsung dengan pengacara.*|
-| *Admin* | *Mengakses sistem untuk mengelola data dan melayani keluhan pengguna.*|
+| Mitra Pengacara | Praktisi hukum yang mendaftar sebagai pengacara HaloLaw untuk menerima dan menanggapi permintaan konsultasi dari klien. Karakteristik dari aktor ini adalah berorientasi profesional dan mengutamakan rating baik dari klien sebagai modal utama mendapatkan kepercayaan di platform.|
+| Masyarakat | Pengguna umum yang secara aktif menggunakan fitur SearchLaw untuk mencari dasar hukum dan fitur HaloLaw untuk berkonsultasi langsung dengan pengacara. Aktor ini umumnya awam terhadap istilah hukum sehingga mengutamakan kemudahan bahasa dan kepercayaan terhadap pengacara yang dipilih.|
+| Admin | Melayani pengguna melalui live chat, memverifikasi legalitas mitra pengacara, serta menindaklanjuti laporan dan melakukan suspend/ban terhadap mitra ataupun akun pengguna yang melanggar aturan. Karakteristik dari aktor ini adalah berperan sebagai penjaga kualitas dan keamanan platform, bukan pengguna fitur hukum.|
 
 
 
 ## 3.2 Kebutuhan Pengguna Awal
 | ID | Aktor | Kebutuhan / Aktivitas | Tujuan / Nilai |
 | :--- | :--- | :--- | :--- |
-| US-01 | *Mitra Pengacara* | *Menerima dan menanggapi permintaan konsultasi dari klien secara real-time* | *Dapat memberikan layanan konsultasi secara cepat dan terorganisir* |
-| US-02 | *Masyarakat* | *Mencari pasal atau dasar hukum dengan memasukkan kata kunci kasus yang dialami atau mencari konsultan hukum dengan harga terjangkau* | *Mendapatkan pemahaman secara cepat dan tepat serta memilih konsultan yang sesuai* |
-| US-03 | *Admin* | *Mengelola dan memverifikasi data landasan hukum maupun mitra pengacara yang mendaftar* | *Memastikan informasi hukum yang ditampilkan kepada masyarakat selalu akurat dan terkini* |
+| US-01 | Masyarakat | Membuat akun baru dengan mengisi data diri | Memiliki akun terdaftar agar dapat mengakses fitur LawHub |
+| US-02 | Masyarakat | Log In dengan akun yang sudah terdaftar | Mengakses LawHub kembali tanpa riwayat penggunaan sebelumnya terhapus |
+| US-03 | Masyarakat | Mencari pasal atau dasar hukum dengan memasukkan kata kunci kasus yang dialami | Mendapatkan pemahaman secara cepat dan tepat tanpa harus mencari dari berbagai sumber secara manual |
+| US-04 | Masyarakat | Mencari pengacara atau konsultan hukum sesuai dengan kebutuhan dan preferensi | Memilih pengacara yang paling sesuai dengan kebutuhan dan anggaran|
+| US-05 | Masyarakat | Berkonsultasi dengan konsultan secara live, baik melalui telefon atau chat dalam platform | Mendapat penjelasan lebih lanjut terkait kasus yang sedang dialami |
+| US-06 | Masyarakat | Memberikan ulasan, feedback, dan/atau rating kepada konsultan setelah sesi konsultasi  | Membantu klien lain menilai kredibilitas pengacara serta memberi masukan kualitas layanan|
+| US-07 | Mitra Pengacara | Mendaftar akun dengan melampirkan dokumen legalitas dan identitas diri atau firma | Memilii akun yang terverifikasi kelayakannya sebelum melayani masyarakat |
+| US-08 | Mitra Pengacara | Menerima dan menanggapi permintaan konsultasi dari klien secara real-time | Dapat memberikan layanan konsultasi secara cepat dan terorganisir |
+| US-09 | Mitra Pengacara | Melihat riwayat dan ringkasan seluruh sesi konsultasi yang pernah ditangani | Memudahkan dokumentasi kasus dan tindak lanjut bila klien kembali berkonsultasi |
+| US-10 | Admin | Memverifikasi dokumen legalitas atau lisensi praktik mitra pengacara yang baru mendaftar sebelum akun diaktifkan | Memastikan mitra yang akan melayani masyarakat kredibel |
+| US-11 | Admin | Melayani pertanyaan dan kendala pengguna melalui live chat dalam platform | Membantu pengguna menyelesaikan masalah teknis maupun non-teknis dengan cepat |
+| US-12 | Admin | Meninjau laporan yang diajukan pengguna terhadap akun lain, baik akun masyarakat maupun mitra pengacara | Memastikan akun yang akan dinonaktifkan benar melanggar aturan |
+| US-13 | Admin | Melakukan suspend atau ban terhadap akun yang terbukti melanggar ketentuan platform, baik akun masyarakat maupun mitra pengacara | Menjaga ekosistem platform tetap aman dan tepercaya bagi seluruh pengguna |
+
 
 
 ## 3.3 Model Proses Bisnis
