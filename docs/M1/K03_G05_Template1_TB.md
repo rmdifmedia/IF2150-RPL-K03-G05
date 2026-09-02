@@ -51,7 +51,6 @@ Platform LawHub dikembangkan berbasis web (Web-based Application) untuk menjangk
 Inovasi inti sekaligus nilai unik dari LawHub terletak pada dua fitur utamanya yaitu, HaloLaw dan SearchLaw. Kedua fitur dan konsep ini memberikan efisiensi biaya dan waktu bagi pengguna yang memiliki suatu kasus hukum tertentu. Dengan ini pengguna dapat memiliki pemahaman awal atas kasus yang dialaminya sebelum membawa kasus tersebut ke ranah yang lebih serius/dalam. 
 
 
-(Main idea) Membuat perangkat lunak sebagai wadah konsultasi hukum. Konsultasi tersebut dibagi menjadi dua, yaitu konsultasi hukum secara langsung bersama pengacara dan konsultasi melalui search engine.
 
 ## 2.2 Asumsi dan Batasan
 Asumsi: Sistem ditujukan kepada masyarakat yang membutuhkan bantuan hukum dan firma hukum yang bersedia menangani kasus masyarakat. Pengguna masyarakat diasumsikan memiliki pemahaman hukum yang terbatas, memiliki akses terhadap perangkat dan internet, serta memberikan informasi kasus secara benar. Kasus diasumsikan dapat dikategorikan berdasarkan kelompok atau jenis permasalahan hukum. Firma hukum yang tergabung diasumsikan memiliki kompetensi dan kewenangan untuk menangani kasus yang dipilih.

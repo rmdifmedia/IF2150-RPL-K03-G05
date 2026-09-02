@@ -4,20 +4,20 @@
 
 | Informasi | Keterangan |
 |---|---|
-| Kelas | *[Kelas]* |
-| Nomor Kelompok | *[Nomor Kelompok]* |
-| Nama Kelompok | *[Nama Kelompok]* |
-| Nama Perangkat Lunak | *[Nama P/L]* |
+| Kelas | K-03 |
+| Nomor Kelompok | G-05 |
+| Nama Kelompok | HEYSRIUSLAH |
+| Nama Perangkat Lunak | LawHub |
 
 **Anggota Kelompok:**
 
 | NIM | Nama |
 |---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| 13525057 | Raya Medina Farrelin |
+| 13525003 | Cherinette Corsane Khassyah Purceria |
+| 13525108 | Khasya Nurul Amini |
+| 13525150 | Livy Chandra|
+| 13525138 | Cathrine Angel Siburian |
 
 ---
 
@@ -52,8 +52,8 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 
 | Tanda Tangan | Nama Anggota |
 | :---: | :--- |
-| <img src="./assets/ttd-anggota1.png" width="100"> | **[NIM - Nama Anggota 1]** |
-| <img src="./assets/ttd-anggota2.png" width="100"> | **[NIM - Nama Anggota 2]** |
-| <img src="./assets/ttd-anggota3.png" width="100"> | **[NIM - Nama Anggota 3]** |
-| <img src="./assets/ttd-anggota4.png" width="100"> | **[NIM - Nama Anggota 4]** |
-| <img src="./assets/ttd-anggota5.png" width="100"> | **[NIM - Nama Anggota 5]** |
+| <img src="./assets/TTD_13525057.png" width="100"> | **13525057 - Raya Medina Farrelin** |
+| <img src="./assets/TTD_13525003.jpeg" width="100"> | **13525003 - Cherinette Corsane Khassyah Purceria** |
+| <img src="./assets/TTD_13525150.jpg.jpeg" width="100"> | **13525150 - Livy Chandra** |
+| <img src="./assets/TTD_13525138.jpeg" width="100"> | **13525138 - Cathrine Angel Siburian** |
+| <img src="./assets/ttd-anggota5.png" width="100"> | **13525108 - Khasya Nurul Amini** |

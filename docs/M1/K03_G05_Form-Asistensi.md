@@ -10,7 +10,7 @@
 | **Nomor Kelompok** | 5 |
 | **Nama Kelompok** | HEYSRIUSLAH  |
 | **Nama Perangkat Lunak** | LawHub |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Dokumen** | K03_G05_Template1_TB.md  |
 
 ### Anggota Kelompok
 
