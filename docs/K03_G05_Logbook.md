@@ -44,6 +44,7 @@
 | 02-09-2026 | Livy | Menambahkan konten Bab 3.3 dan 3.4 | 1 jam | Done | - | 
 | 02-09-2026 | Cherinette | Revisi karakteristik dan user story | 1 jam | Done | - | 
 | 02-09-2026 | Cathrine| Menambahkan konten Bab 2.2 dan merevisi kapabilitas user dengan layanan hukum yang tersedia | 1 jam | Done | - | 
+| 02-09-2026 | Ami| Revisi 1.1 dan 1.2 | 1 jam | Done | - | 
 | | | | | | | |
 
 **Catatan/Evaluasi Milestone 1:**
