@@ -54,7 +54,9 @@ Inovasi inti sekaligus nilai unik dari LawHub terletak pada dua fitur utamanya y
 (Main idea) Membuat perangkat lunak sebagai wadah konsultasi hukum. Konsultasi tersebut dibagi menjadi dua, yaitu konsultasi hukum secara langsung bersama pengacara dan konsultasi melalui search engine.
 
 ## 2.2 Asumsi dan Batasan
-Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang menjadi dasar pengembangan. Tuliskan batasan seperti regulasi/hukum, keterbatasan sumber daya, dan ruang lingkup solusi.
+Asumsi: Sistem ditujukan kepada masyarakat yang membutuhkan bantuan hukum dan firma hukum yang bersedia menangani kasus masyarakat. Pengguna masyarakat diasumsikan memiliki pemahaman hukum yang terbatas, memiliki akses terhadap perangkat dan internet, serta memberikan informasi kasus secara benar. Kasus diasumsikan dapat dikategorikan berdasarkan kelompok atau jenis permasalahan hukum. Firma hukum yang tergabung diasumsikan memiliki kompetensi dan kewenangan untuk menangani kasus yang dipilih.
+
+Batasan: Sistem hanya berperan sebagai media pengaduan, penyedia informasi, konsultasi awal, dan penghubung antara masyarakat dengan firma hukum. Informasi hukum yang diberikan bukan merupakan pengganti nasihat atau pendampingan hukum secara menyeluruh. Sistem tidak menentukan hasil perkara, menjamin kasus akan ditangani oleh firma hukum, maupun menjamin keberhasilan kasus. Penggunaan sistem juga dibatasi oleh regulasi yang berlaku termasuk ketentuan terkait praktik hukum dan perlindungan data pribadi. Pengguna yang tidak memiliki perangkat atau akses internet tidak dapat menggunakan sistem secara langsung.
 
 ---
 
