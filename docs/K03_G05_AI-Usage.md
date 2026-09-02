@@ -57,4 +57,4 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 | <img src="./assets/TTD_13525003.jpeg" width="100"> | **13525003 - Cherinette Corsane Khassyah Purceria** |
 | <img src="./assets/TTD_13525150.jpg.jpeg" width="100"> | **13525150 - Livy Chandra** |
 | <img src="./assets/TTD_13525138.jpeg" width="100"> | **13525138 - Cathrine Angel Siburian** |
-| <img src="./assets/ttd-anggota5.png" width="100"> | **13525108 - Khasya Nurul Amini** |
+| <img src="./assets/TTD_13525108.png" width="100"> | **13525108 - Khasya Nurul Amini** |
