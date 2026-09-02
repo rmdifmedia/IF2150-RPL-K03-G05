@@ -37,10 +37,13 @@
 | 28-08-2026 | Ami, Cathrine, Cherinette, Raya, Livy | Melakukan brainstorming fitur software dan pembagian tugas | 1 jam | Done | - | 
 | 30-08-2026 | Raya | Menambahkan konten Bab 2.1 | 1 jam | Done | - | 
 | 30-08-2026 | Ami | Menambahkan konten Bab 1.1 dan 1.2 | 2 jam | Done | - | 
+| 30-08-2026 | Cathrine | Mengidentifikasi asumsi dan batasan | 1 jam | Done | - | 
+| 30-08-2026 | Cherinette | Mengidentifikasi aktor dan kebutuhan aktor | 1 jam | Done | - | 
 | 31-08-2026 | Cherinette | Menambahkan konten Bab 3.1 dan 3.2 | 2 jam | Done | - | 
 | 01-09-2026 | Ami, Cathrine, Cherinette, Raya, Livy  | Asistensi 1 | 1 jam | Done | - | 
 | 02-09-2026 | Livy | Menambahkan konten Bab 3.3 dan 3.4 | 1 jam | Done | - | 
-| 02-09-2026 | Catherine| Menambahkan konten Bab 2.2 | 1 jam | Done | - | 
+| 02-09-2026 | Cherinette | Revisi karakteristik dan user story | 1 jam | Done | - | 
+| 02-09-2026 | Cathrine| Menambahkan konten Bab 2.2 dan merevisi kapabilitas user dengan layanan hukum yang tersedia | 1 jam | Done | - | 
 | | | | | | | |
 
 **Catatan/Evaluasi Milestone 1:**
