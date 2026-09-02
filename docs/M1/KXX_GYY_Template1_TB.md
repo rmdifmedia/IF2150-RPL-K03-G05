@@ -88,10 +88,61 @@ Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang men
 
 
 
-## 3.3 Model Proses Bisnis
-Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja proses bisnis dari sistem solusi. Diagram ini harus memvisualisasikan bagaimana alur operasional di dunia nyata berjalan lebih efisien dengan adanya interaksi antara aktor (yang didefinisikan pada poin 3.1) dan sistem perangkat lunak. Perhatikan notasi yang digunakan dalam pembuatannya.
-<br>
+## 3.3 Deskripsi Aktivitas
+| ID | Aktivitas | Penjelasan | ID User Story |
+| :--- | :--- | :--- | :--- |
+| A01 | Pembuatan Akun Biasa | Membuat akun pribadi untuk digunakan dalam website | US-01 |
+| A02 | Pembuatan Akun Mitra | Membuat akun mitra untuk digunakan dalam website | US-07 |
+| A03 | Verifikasi Akun MItra | Admin memverifikasi dokumen legalitas atau lisensi praktik mitra pengacara yang mendaftar | US-10 |
+| A04 | Akun Terdaftar | Sistem menyimpan informasi akun ke dalam database | US-14 |
+| A05 | Gagal Membuat Akun Mitra | Saat data dan dokumen esensial milik akun calon mitra tidak memenuhi kriteria, akun mitra gagal dibuat | US-10 |
+| A06 | Login ke Akun Terdaftar | Masuk ke akun yang sudah dibuat dan diverifikasi | US-02 |
+| A07 | Mencari Pasal Sesuai | Pengguna mencari pasal atau dasar hukum dengan memasukkan kata kunci kasus yang dialami | US-03 |
+| A08 | Menampilkan Pasal yang Relevan | Sistem memfilter data yang ada agar sesuai dengan kata kunci dan menampilkan hasil pencarian yang sudah di filter | US-15 |
+| A09 | Menampilkan Daftar Mitra | Sistem menampilkan daftar seluruh mitra yang terdaftar | US-17 |
+| A10 | Mencari Konsultan | Pengguna mencari konsultan yang sesuai dan cocok secara manual berdasarkan deskripsi masing-masing konsultan | US-04 |
+| A11 | Konsultasi Diterima | Mitra terpilih menerima konsultasi yang diajukan pengguna | US-08 |
+| A12 | Pelaksanaan Konsultasi | Konsultasi dilakukan secara live, baik melalui telepon atau chat dalam platform | US-05 |
+| A13 | Feedback Konsultasi | Pengguna memberikan ulasan, feedback, dan/atau rating kepada konsultan setelah sesi konsultasi | US-06 |
+| A14 | Pengiriman Laporan | Pengguna atau Mitra melaporkan pelanggaran yang terjadi saat/setelah konsultasi berlangsung | US-06 |
+| A15 | Laporan Diproses | Admin meninjau laporan yang diajukan pengguna terhadap akun lain, baik akun masyarakat maupun mitra pengacara | US-12 |
+| A16 | Tindak Lanjut Laporan | Admin melakukan suspend atau ban terhadap akun yang terbukti melanggar ketentuan platform, baik akun masyarakat maupun mitra pengacara | US-13 |
+| A17 | Menyimpan Riwayat Konsultasi dan Feedback | Sistem menyimpan data proses dan hasil konsultasi serta feedback pengguna | US-16 |
+| A18 | Lihat History Konsultasi | Mitra dapat melihat riwayat dan ringkasan seluruh sesi konsultasi yang pernah ditangani | US-09 |
+| A19 | Feedback Ditampilkan | Feedback yang diberikan pengguna akan muncul pada profil Mitra sebagai informasi tambahan | US-04 |
+| A20 | Live Chat Admin | Pengguna dapat mengkonsultasikan masalah teknis dan/atau non-teknis yang dialami selama menggunakan LawHub | US-11 |
 
+## 3.4 Model Proses Bisnis
+<p align="center">
+<img alt="Gambar Diagram Pembuatan Akun" src="./assets/diagram/Diagram Pembuatan Akun.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 1. Gambar Diagram Pembuatan Akun</i>
+
+<p align="center">
+<img alt="Gambar Diagram Fitur SearchLaw" src="./assets/diagram/Diagram SearchLaw.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Gambar Diagram Fitur SearchLaw</i>
+
+<p align="center">
+<img alt="Gambar Diagram Fitur HaloLaw" src="./assets/diagram/Diagram HaloLaw.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3. Gambar Diagram Fitur HaloLaw</i>
+
+<p align="center">
+<img alt="Gambar Diagram Pengiriman Laporan" src="./assets/diagram/Diagram Pengiriman Laporan.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 4. Gambar Diagram Pengiriman Laporan</i>
+
+<p align="center">
+<img alt="Gambar Diagram Live Chat" src="./assets/diagram/Diagram LiveChat.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 5. Gambar Diagram Live Chat</i>
+  
 <p align="center">
 <img alt="Contoh Activity Diagram" src="./assets/diagram/diagram-act-1.avif" width="70%">
 </p>
