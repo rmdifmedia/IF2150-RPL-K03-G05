@@ -32,10 +32,14 @@ Dipersiapkan oleh:
 # BAB 1: Analisis Permasalahan
 
 ## 1.1 Latar Belakang Masalah
-Keadilan merupakan hal yang penting untuk melindungi hak individu, menyelesaikan sengketa, dan memastikan bahwa kelompok rentan tidak terpinggirkan. Oleh karena itu, setiap warga berhak mendapatkan perlakuan yang adil dan merata termasuk dalam bidang hukum. Dalam SDG, tujuan nomor 16 mempromosikan perdamaian dan inklusivitas pada masyarakat. Salah satu hal yang dapat dilakukan adalah menyediakan akses keadilan bagi semua. Hal tersebut bertujuan untuk  membantu orang-orang di mana pun untuk hidup bebas tanpa rasa takut pada kekerasan.
+Bayangkan dirimu sedang bersantai di rumah menikmati hari, tapi tiba-tiba datang seseorang yang menuntutmu untuk meninggalkan rumahmu dan berkata bahwa rumah yang telah engkau tinggali adalah miliknya. Kejadian tersebut merupakan konflik sengketa tanah yang bukannya tidak mungkin terjadi di sekitar kita. Dari BPHN, hingga tahun 2024 tercatat ada 11.083 sengketa, 506 konflik, dan 24.120 perkara tanah di seluruh Indonesia. Namun, hanya 46,88 persen yang berhasil diselesaikan. Hal tersebut merupakan suatu kekhawatiran tersendiri karena adanya konflik yang belum terselesaikan.
+
+Akses kebutuhan hukum pun menjadi krusial bagi masyarakat Indonesia. Tidak hanya konflik sengketa tanah yang perlu diselesaikan, konflik sosial lainnya pun menjadi masalah yang perlu diselesaikan. Dalam kurun waktu 2019 hingga 2025, jumlah peristiwa konflik sosial di Indonesia menunjukkan kecenderungan yang terus meningkat berdasarkan Kemenko PMK. Sumber permasalahan konlfik tersebut meliputi permasalahan politik, ekonomi, dan sosial budaya.
+
+Saat ini, sudah banyak akses penyuluhan hukum yang dapat digunakan oleh masyarakat. Contohnya adalah laman bantuan hukum dan akses bantuan hukum bagi masyarakat tidak mampu. Hal tersebut sejalan dengan tujuan SDG nomor 16, yaitu mempromosikan perdamaian dan inklusivitas pada masyarakat.
 
 ## 1.2 Analisis Kondisi Saat Ini
-Sayangnya, literasi hukum masyarakat Indonesia masih relatif rendah. Saat ini, sudah terdapat laman untuk membantu masyarakat di bidang hukum seperti bantuanhukum.bphn.go.id. Laman tersebut dapat membantu masyarakat terhadap akses informasi, layanan bantuan hukum, sistem informasi database bantuan hukum, dan kanal informasi dan konsultasi hukum. Namun, beberapa bagian halaman tersebut tidak bekerja dengan seharusnya sehingga menimbulkan kebingungan bagi pengguna. Hal krusial seperti konsultasi seharusnya dapat dijangkau dengan mudah, tetapi warga yang ingin mendapatkan layanan hukum malah kesusahan untuk mendapatkannya. 
+Laman bantuan hukum merupakan salah satu bentuk aktualisasi dari SDG 16 karena aksesnya yang mudah bagi masyarakat. Oleh karena itu, kami ingin mengembangkan laman tersebut. Saat ini, sudah terdapat laman untuk membantu masyarakat di bidang hukum seperti bantuanhukum.bphn.go.id. Laman bantuan hukum saat ini berfokus untuk tanya jawab di forum terbuka. Laman tersebut dapat membantu masyarakat terhadap akses informasi, layanan bantuan hukum, sistem informasi database bantuan hukum, dan kanal informasi dan konsultasi hukum. 
 
 ---
 
