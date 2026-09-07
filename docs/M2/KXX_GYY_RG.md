@@ -7,25 +7,23 @@ REQUIREMENT GATHERING
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## LawHub
 
-### Untuk: *[Nama Asisten]*
+### Untuk: Mikhael Andrian Yonatan
 
 Dipersiapkan oleh:
-
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]* |
+| Kelas | K03 |
+| Kelompok | G05  |
 
 | NIM | Nama |
-| --- | --- |
-| *\[NIM 1\]* | *\[Nama Anggota 1\]* |
-| *\[NIM 2\]* | *\[Nama Anggota 2\]* |
-| *\[NIM 3\]* | *\[Nama Anggota 3\]* |
-| *\[NIM 4\]* | *\[Nama Anggota 4\]* |
-| *\[NIM 5\]* | *\[Nama Anggota 5\]* |
-
+|---|---|
+| 13525057 | Raya Medina Farrelin |
+| 13525003 | Cherinette Corsane Khassyah Purceria |
+| 13525108 | Khasya Nurul Amini |
+| 13525150 | Livy Chandra |
+| 13525138 | Cathrine Angel Siburian |
 ---
 
 ## Daftar Perubahan
