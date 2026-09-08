@@ -4,23 +4,23 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
-| **Kelas** | *\[Kelas\]* |
-| **Nomor Kelompok** | *\[Nomor Kelompok\]*  |
-| **Nama Kelompok** | *\[Nama Kelompok\]*  |
-| **Nama Perangkat Lunak** | *\[Nama P/L\]*  |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Hari** | Senin |
+| **Tanggal** | 07/09/2026 |
+| **Kelas** | K03 |
+| **Nomor Kelompok** | 5  |
+| **Nama Kelompok** | HEYSRIUSLAH  |
+| **Nama Perangkat Lunak** | LawHub  |
+| **Dokumen** | K03_G05_RG  |
 
 ### Anggota Kelompok
 
 | NIM | Nama |
 | --- | --- |
-| *\[NIM 1\]* | *\[Nama Anggota 1\]* |
-| *\[NIM 2\]* | *\[Nama Anggota 2\]* |
-| *\[NIM 3\]* | *\[Nama Anggota 3\]* |
-| *\[NIM 4\]* | *\[Nama Anggota 4\]* |
-| *\[NIM 5\]* | *\[Nama Anggota 5\]* |
+| 13525003 | Cherinette Corsane Khassyah Purceria |
+| 13525057 | Raya Medina Farrelin |
+| 13525108 | Khasya Nurul Amini |
+| 13525138 | Cathrine Angel Siburian |
+| 13525150 | Livy Chandra |
 
 ### Catatan
 
