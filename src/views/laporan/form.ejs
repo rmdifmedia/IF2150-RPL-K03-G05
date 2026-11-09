@@ -1,151 +1,111 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= mode === 'ulasan' ? 'Laporkan Ulasan' : 'Laporkan Akun' %> - LawHub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/laporan.css" />
-</head>
-<body>
-  <header class="navbar">
-    <a href="/<%= user.peran %>" class="brand" aria-label="Beranda LawHub">
-      <!-- Ikon palu sidang -->
-      <svg class="brand-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 11l9 9-6 6-9-9 6-6z" />
-        <path d="M15 8l3 3M24 23l11 11" />
-        <path d="M12 17l-3 3M27 20l3-3" />
-        <rect x="7" y="36" width="16" height="4" rx="1" />
-        <path d="M5 40h20" />
-      </svg>
-      <span class="brand-text">LawHub</span>
-    </a>
+<%- include('../partials/header', {
+  judulHalaman: mode === 'ulasan' ? 'Laporkan Ulasan' : 'Laporkan Akun'
+}) %>
+<link rel="stylesheet" href="/css/laporan.css" />
 
-    <div class="nav-actions">
-      <button type="button" class="nav-icon-btn" title="Notifikasi" aria-label="Notifikasi">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+<div class="laporan-wrapper">
+  <section class="report-card">
+    <h1 class="report-title">
+      <%= mode === 'ulasan' ? 'Laporkan Ulasan' : 'Laporkan Akun' %>
+    </h1>
+
+    <div id="clientError" class="alert-error" style="display: none;" role="alert"></div>
+
+    <div class="target-header <%= mode === 'ulasan' ? 'is-review' : '' %>">
+      <div class="avatar-box" aria-hidden="true">
+        <svg viewBox="0 0 80 80" fill="none">
+          <rect width="80" height="80" fill="#E6E7EA" />
+          <circle cx="40" cy="29" r="14" fill="#BCC0C6" />
+          <path d="M14 72c0-13.255 11.64-24 26-24s26 10.745 26 24" fill="#BCC0C6" />
         </svg>
-      </button>
-      <a href="/<%= user.peran %>" class="nav-icon-btn" title="Profil (<%= user.nama %>)" aria-label="Profil">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <circle cx="12" cy="9" r="3" />
-          <path d="M6.5 19a6.5 6.5 0 0 1 11 0" />
-        </svg>
-      </a>
-    </div>
-  </header>
-
-  <main class="page-wrapper">
-    <section class="report-card">
-      <h1 class="report-title">
-        <%= mode === 'ulasan' ? 'Laporkan Ulasan' : 'Laporkan Akun' %>
-      </h1>
-
-      <% if (error && error.length > 0) { %>
-        <div class="alert-error" role="alert"><%= error.join(', ') %></div>
-      <% } %>
-      <div id="clientError" class="alert-error" style="display: none;" role="alert"></div>
-
-      <div class="target-header <%= mode === 'ulasan' ? 'is-review' : '' %>">
-        <div class="avatar-box" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none">
-            <rect width="80" height="80" fill="#E6E7EA" />
-            <circle cx="40" cy="29" r="14" fill="#BCC0C6" />
-            <path d="M14 72c0-13.255 11.64-24 26-24s26 10.745 26 24" fill="#BCC0C6" />
-          </svg>
-        </div>
-
-        <div class="target-info">
-          <p class="target-name"><%= target.nama %></p>
-          <% if (mode === 'ulasan' && ulasan) { %>
-            <p class="review-preview">
-              [Ulasan] . <%= ulasan.teksUlasan || 'Tidak ada teks ulasan.' %>
-            </p>
-          <% } %>
-        </div>
       </div>
 
-      <%
-        const kategoriList = mode === 'ulasan'
-          ? [
-              'Ujaran Kebencian / SARA',
-              'Spam atau Iklan',
-              'Informasi Palsu / Fitnah',
-              'Kata-kata Kasar / Tidak Pantas',
-              'Tidak Relevan dengan Konsultasi',
-              'Pelanggaran Privasi'
-            ]
-          : [
-              'Penipuan / Transaksi di Luar Platform',
-              'Pelecehan atau Ancaman',
-              'Identitas Palsu / Kredensial Tidak Valid',
-              'Penyebaran Data Pribadi',
-              'Perilaku Tidak Profesional',
-              'Pelanggaran Etika / Lainnya'
-            ];
-      %>
-
-      <form id="reportForm" action="/laporan/buat" method="POST" novalidate>
+      <div class="target-info">
+        <p class="target-name"><%= target.nama %></p>
         <% if (mode === 'ulasan' && ulasan) { %>
-          <input type="hidden" name="idUlasan" value="<%= ulasan.idUlasan %>" />
-        <% } else { %>
-          <input type="hidden" name="idTerlapor" value="<%= target.id %>" />
-          <input type="hidden" name="peranTerlapor" value="<%= target.peran %>" />
+          <p class="review-preview">
+            [Ulasan] . <%= ulasan.teksUlasan || 'Tidak ada teks ulasan.' %>
+          </p>
         <% } %>
+      </div>
+    </div>
 
-        <p class="category-prompt">Please select the report category</p>
+    <%
+      const kategoriList = mode === 'ulasan'
+        ? [
+            'Ujaran Kebencian / SARA',
+            'Spam atau Iklan',
+            'Informasi Palsu / Fitnah',
+            'Kata-kata Kasar / Tidak Pantas',
+            'Tidak Relevan dengan Konsultasi',
+            'Pelanggaran Privasi'
+          ]
+        : [
+            'Penipuan / Transaksi di Luar Platform',
+            'Pelecehan atau Ancaman',
+            'Identitas Palsu / Kredensial Tidak Valid',
+            'Penyebaran Data Pribadi',
+            'Perilaku Tidak Profesional',
+            'Pelanggaran Etika / Lainnya'
+          ];
+    %>
 
-        <div class="category-grid">
-          <% kategoriList.forEach(function(kat) { %>
-            <label class="category-item">
-              <input type="checkbox" name="jenisPelanggaran" value="<%= kat %>" />
-              <span><%= kat %></span>
-            </label>
-          <% }) %>
+    <form id="reportForm" action="/laporan/buat" method="POST" novalidate>
+      <% if (mode === 'ulasan' && ulasan) { %>
+        <input type="hidden" name="idUlasan" value="<%= ulasan.idUlasan %>" />
+      <% } else { %>
+        <input type="hidden" name="idTerlapor" value="<%= target.id %>" />
+        <input type="hidden" name="peranTerlapor" value="<%= target.peran %>" />
+      <% } %>
+
+      <p class="category-prompt">Please select the report category</p>
+
+      <div class="category-grid">
+        <% kategoriList.forEach(function(kat) { %>
+          <label class="category-item">
+            <input type="checkbox" name="jenisPelanggaran" value="<%= kat %>" />
+            <span><%= kat %></span>
+          </label>
+        <% }) %>
+      </div>
+
+      <div class="form-footer">
+        <textarea
+          id="deskripsi"
+          name="deskripsi"
+          class="note-input"
+          rows="1"
+          placeholder="Tulis catatan..."
+        ></textarea>
+
+        <div class="btn-group">
+          <button type="submit" class="btn-laporan btn-kirim">Kirim</button>
+          <a href="/<%= locals.user.peran %>" class="btn-laporan btn-batal">Batal</a>
         </div>
+      </div>
+    </form>
+  </section>
+</div>
 
-        <div class="form-footer">
-          <textarea
-            id="deskripsi"
-            name="deskripsi"
-            class="note-input"
-            rows="1"
-            placeholder="Tulis catatan..."
-          ></textarea>
+<script>
+  (function () {
+    var form = document.getElementById('reportForm');
+    var errBox = document.getElementById('clientError');
+    var noteEl = document.getElementById('deskripsi');
 
-          <div class="btn-group">
-            <button type="submit" class="btn btn-kirim">Kirim</button>
-            <a href="/<%= user.peran %>" class="btn btn-batal">Batal</a>
-          </div>
-        </div>
-      </form>
-    </section>
-  </main>
+    form.addEventListener('submit', function (e) {
+      var checked = form.querySelectorAll('input[name="jenisPelanggaran"]:checked');
+      var note = noteEl.value.trim();
 
-  <script>
-    (function () {
-      var form = document.getElementById('reportForm');
-      var errBox = document.getElementById('clientError');
-      var noteEl = document.getElementById('deskripsi');
+      if (checked.length === 0 || !note) {
+        e.preventDefault();
+        errBox.textContent = 'Pilih minimal satu kategori pelanggaran dan tulis catatan laporan.';
+        errBox.style.display = 'block';
+      } else {
+        errBox.style.display = 'none';
+      }
+    });
+  })();
+</script>
 
-      form.addEventListener('submit', function (e) {
-        var checked = form.querySelectorAll('input[name="jenisPelanggaran"]:checked');
-        var note = noteEl.value.trim();
-
-        if (checked.length === 0 || !note) {
-          e.preventDefault();
-          errBox.textContent = 'Pilih minimal satu kategori pelanggaran dan tulis catatan laporan.';
-          errBox.style.display = 'block';
-        } else {
-          errBox.style.display = 'none';
-        }
-      });
-    })();
-  </script>
-</body>
-</html>
+<%- include('../partials/footer', { tanpaFooter: true }) %>
