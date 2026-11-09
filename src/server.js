@@ -34,6 +34,7 @@ app.use('/mitra', require('./routes/mitra'));
 app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
+app.use('/halolaw', require('./routes/halolaw'));
 
 app.use((req, res) =>
   res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' }));
