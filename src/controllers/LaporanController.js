@@ -2,14 +2,21 @@ const Laporan = require('../models/Laporan');
 
 // menampilkan halaman form lapor akun atau lapor ulasan
 exports.tampilFormLaporan = (req, res) => {
+  const idPelapor = req.session.user.id;
+  const peranPelapor = req.session.user.peran;
   const { peranTerlapor, idTerlapor, idUlasan } = req.query;
 
   // Laporan ulasan (mitra melaporkan ulasan masyarakat)
   if (idUlasan) {
+    if (peranPelapor !== 'mitra') {
+      req.flash('error', 'Hanya mitra pengacara yang dapat melaporkan ulasan');
+      return res.redirect('/' + peranPelapor);
+    }
+
     const ulasan = Laporan.cariUlasanById(Number(idUlasan));
-    if (!ulasan) {
-      req.flash('error', 'Ulasan tidak ditemukan');
-      return res.redirect('/' + req.session.user.peran);
+    if (!ulasan || !ulasan.idMasyarakat || ulasan.idMitra !== idPelapor) {
+      req.flash('error', 'Ulasan tidak ditemukan atau bukan milik profil Anda');
+      return res.redirect('/' + peranPelapor);
     }
 
     return res.render('laporan/form', {
@@ -17,17 +24,25 @@ exports.tampilFormLaporan = (req, res) => {
       ulasan,
       target: {
         id: ulasan.idMasyarakat,
-        nama: ulasan.namaMasyarakat,
+        nama: ulasan.namaMasyarakat || 'Pengguna Masyarakat',
         peran: 'masyarakat'
       }
     });
   }
 
-  // Laporan akun (Masyarakat dan Mitra bisa melaporkan akun lain))
-  const target = Laporan.cariTargetAkun(peranTerlapor, Number(idTerlapor));
+  // Laporan akun (Masyarakat dan Mitra bisa melaporkan akun lain)
+  const peranTargetSah = peranPelapor === 'masyarakat' ? 'mitra' : 'masyarakat';
+  const targetId = Number(idTerlapor);
+
+  if (peranTerlapor !== peranTargetSah || !targetId) {
+    req.flash('error', `Akun ${peranPelapor} hanya dapat melaporkan akun ${peranTargetSah}`);
+    return res.redirect('/' + peranPelapor);
+  }
+
+  const target = Laporan.cariTargetAkun(peranTerlapor, targetId);
   if (!target) {
     req.flash('error', 'Akun yang ingin dilaporkan tidak ditemukan');
-    return res.redirect('back');
+    return res.redirect('/' + peranPelapor);
   }
 
   res.render('laporan/form', {
@@ -43,47 +58,50 @@ exports.prosesBuatLaporan = (req, res) => {
   const peranPelapor = req.session.user.peran;
   let { idTerlapor, peranTerlapor, idUlasan, jenisPelanggaran, deskripsi } = req.body;
 
-  // kalo checkbox dipilih lebih dari 1, express.urlencoded berubah menjadi array (string[])
   if (Array.isArray(jenisPelanggaran)) {
     jenisPelanggaran = jenisPelanggaran.join(', ');
   }
 
+  const ulasanId = idUlasan ? Number(idUlasan) : null;
+  const redirectFormUrl = ulasanId
+    ? `/laporan/buat?idUlasan=${ulasanId}`
+    : `/laporan/buat?peranTerlapor=${encodeURIComponent(peranTerlapor || '')}&idTerlapor=${encodeURIComponent(idTerlapor || '')}`;
+
   if (!jenisPelanggaran || !deskripsi || !deskripsi.trim()) {
     req.flash('error', 'Kategori pelanggaran dan deskripsi wajib diisi');
-    return res.redirect(req.get('Referrer') || '/' + peranPelapor);
+    return res.redirect(redirectFormUrl);
   }
 
-  const parsedIdUlasan = idUlasan ? Number(idUlasan) : null;
-  let parsedIdTerlapor = Number(idTerlapor);
+  let targetId = Number(idTerlapor);
 
-  // validasi dan ambil data terlapor jika melaporkan ulasan
-  if (parsedIdUlasan) {
-    const ulasan = Laporan.cariUlasanById(parsedIdUlasan);
-    if (!ulasan) {
-      req.flash('error', 'Ulasan tidak ditemukan');
-      return res.redirect('/' + peranPelapor);;
+  if (ulasanId) {
+    const ulasan = Laporan.cariUlasanById(ulasanId);
+    if (peranPelapor !== 'mitra' || !ulasan || !ulasan.idMasyarakat || ulasan.idMitra !== idPelapor) {
+      req.flash('error', 'Ulasan tidak ditemukan atau Anda tidak memiliki akses');
+      return res.redirect('/' + peranPelapor);
     }
-    parsedIdTerlapor = ulasan.idMasyarakat;
+    targetId = ulasan.idMasyarakat;
     peranTerlapor = 'masyarakat';
   } else {
-    const target = Laporan.cariTargetAkun(peranTerlapor, parsedIdTerlapor);
+    const peranTargetSah = peranPelapor === 'masyarakat' ? 'mitra' : 'masyarakat';
+    if (peranTerlapor !== peranTargetSah || !targetId) {
+      req.flash('error', `Target akun terlapor harus berupa ${peranTargetSah}`);
+      return res.redirect('/' + peranPelapor);
+    }
+
+    const target = Laporan.cariTargetAkun(peranTerlapor, targetId);
     if (!target) {
       req.flash('error', 'Akun terlapor tidak ditemukan');
-      return res.redirect('/' + peranPelapor);;
+      return res.redirect('/' + peranPelapor);
     }
-  }
-
-  if (parsedIdTerlapor === idPelapor && peranTerlapor === peranPelapor) {
-    req.flash('error', 'Tidak dapat melaporkan akun sendiri');
-    return res.redirect('back');
   }
 
   Laporan.buatLaporan({
     idPelapor,
     peranPelapor,
-    idTerlapor: parsedIdTerlapor,
+    idTerlapor: targetId,
     peranTerlapor,
-    idUlasan: parsedIdUlasan,
+    idUlasan: ulasanId,
     jenisPelanggaran,
     deskripsi: deskripsi.trim()
   });
