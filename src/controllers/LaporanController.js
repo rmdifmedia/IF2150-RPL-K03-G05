@@ -9,7 +9,7 @@ exports.tampilFormLaporan = (req, res) => {
     const ulasan = Laporan.cariUlasanById(Number(idUlasan));
     if (!ulasan) {
       req.flash('error', 'Ulasan tidak ditemukan');
-      return res.redirect('back');
+      return res.redirect('/' + req.session.user.peran);
     }
 
     return res.render('laporan/form', {
@@ -50,7 +50,7 @@ exports.prosesBuatLaporan = (req, res) => {
 
   if (!jenisPelanggaran || !deskripsi || !deskripsi.trim()) {
     req.flash('error', 'Kategori pelanggaran dan deskripsi wajib diisi');
-    return res.redirect('back');
+    return res.redirect(req.get('Referrer') || '/' + peranPelapor);
   }
 
   const parsedIdUlasan = idUlasan ? Number(idUlasan) : null;
@@ -61,7 +61,7 @@ exports.prosesBuatLaporan = (req, res) => {
     const ulasan = Laporan.cariUlasanById(parsedIdUlasan);
     if (!ulasan) {
       req.flash('error', 'Ulasan tidak ditemukan');
-      return res.redirect('back');
+      return res.redirect('/' + peranPelapor);;
     }
     parsedIdTerlapor = ulasan.idMasyarakat;
     peranTerlapor = 'masyarakat';
@@ -69,7 +69,7 @@ exports.prosesBuatLaporan = (req, res) => {
     const target = Laporan.cariTargetAkun(peranTerlapor, parsedIdTerlapor);
     if (!target) {
       req.flash('error', 'Akun terlapor tidak ditemukan');
-      return res.redirect('back');
+      return res.redirect('/' + peranPelapor);;
     }
   }
 
