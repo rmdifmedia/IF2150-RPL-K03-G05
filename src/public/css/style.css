@@ -247,3 +247,78 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--cokelat-tua
 /* ---------- Registrasi mitra ---------- */
 .judul-seksi { font-size: 24px; margin: 22px 0 12px; }
 input[type="file"] { width: 100%; font-size: 18px; margin-bottom: 8px; }
+
+
+/* -------- SearchLaw -------- */
+
+.searchlaw-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 5px;
+  background: white;
+}
+
+.searchlaw-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  background: transparent;
+}
+
+.searchlaw-tombol-cari {
+  border: none;
+  border-radius: 9px;
+  padding: 9px 20px;
+  cursor: pointer;
+}
+
+.searchlaw-filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.searchlaw-tombol-filter {
+  padding: 5px 12px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: white;
+  cursor: not-allowed;
+}
+
+.searchlaw-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.searchlaw-kartu {
+  padding: 16px 8px;
+}
+
+.searchlaw-kartu + .searchlaw-kartu {
+  border-top: 1px solid #eee;
+}
+
+.searchlaw-kartu h3 {
+  margin: 8px 0;
+}
+
+.searchlaw-kartu-bawah {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.searchlaw-kosong {
+  padding: 20px 8px;
+  text-align: center;
+}
