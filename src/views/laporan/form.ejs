@@ -31,23 +31,37 @@
     </div>
 
     <%
-      const kategoriList = mode === 'ulasan'
-        ? [
-            'Ujaran Kebencian / SARA',
-            'Spam atau Iklan',
-            'Informasi Palsu / Fitnah',
-            'Kata-kata Kasar / Tidak Pantas',
-            'Tidak Relevan dengan Konsultasi',
-            'Pelanggaran Privasi'
-          ]
-        : [
-            'Penipuan / Transaksi di Luar Platform',
-            'Pelecehan atau Ancaman',
-            'Identitas Palsu / Kredensial Tidak Valid',
-            'Penyebaran Data Pribadi',
-            'Perilaku Tidak Profesional',
-            'Pelanggaran Etika / Lainnya'
-          ];
+      let kategoriList;
+      if (mode === 'ulasan') {
+        kategoriList = [
+          'Ujaran Kebencian / SARA',
+          'Spam atau Iklan',
+          'Informasi Palsu / Fitnah',
+          'Kata-kata Kasar / Tidak Pantas',
+          'Tidak Relevan dengan Konsultasi',
+          'Pelanggaran Privasi'
+        ];
+      } else if (target.peran === 'masyarakat') {
+        // UC 15: Mitra melaporkan akun Masyarakat
+        kategoriList = [
+          'Pelecehan atau Ancaman',
+          'Penipuan / Transaksi di Luar Platform',
+          'Spam atau Konsultasi Fiktif',
+          'Identitas atau Informasi Palsu',
+          'Penyebaran Data Pribadi',
+          'Pelanggaran Etika / Lainnya'
+        ];
+      } else {
+        // UC 14: Masyarakat melaporkan akun Mitra
+        kategoriList = [
+          'Penipuan / Transaksi di Luar Platform',
+          'Pelecehan atau Ancaman',
+          'Identitas Palsu / Kredensial Tidak Valid',
+          'Penyebaran Data Pribadi',
+          'Perilaku Tidak Profesional',
+          'Pelanggaran Etika / Lainnya'
+        ];
+      }
     %>
 
     <form id="reportForm" action="/laporan/buat" method="POST" novalidate>
