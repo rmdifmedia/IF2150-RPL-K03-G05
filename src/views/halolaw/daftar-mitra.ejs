@@ -1,0 +1,63 @@
+<%- include('../partials/header', { judulHalaman: 'Daftar Mitra', judul: 'HaloLaw', ikonJudul: 'telepon' }) %>
+<div class="sempit">
+
+  <form class="form-filter" method="GET" action="/halolaw/mitra">
+    <input class="isian" type="search" name="q" placeholder="Cari nama atau firma mitra"
+           value="<%= q %>">
+
+    <div class="baris-chip">
+      <% Object.keys(TAG).forEach(function (k) { %>
+        <label class="chip-pilih">
+          <input type="checkbox" name="tag" value="<%= k %>" <%= tags.includes(k) ? 'checked' : '' %>>
+          <%= TAG[k] %>
+        </label>
+      <% }); %>
+    </div>
+
+    <div class="aksi-filter">
+      <select class="isian isian-kecil" name="rating">
+        <option value="0"   <%= ratingMin === 0   ? 'selected' : '' %>>Semua rating</option>
+        <option value="3"   <%= ratingMin === 3   ? 'selected' : '' %>>Rating 3+</option>
+        <option value="4"   <%= ratingMin === 4   ? 'selected' : '' %>>Rating 4+</option>
+        <option value="4.5" <%= ratingMin === 4.5 ? 'selected' : '' %>>Rating 4.5+</option>
+      </select>
+      <button type="submit" class="tombol">Terapkan</button>
+      <% if (adaFilter) { %><a href="/halolaw/mitra">Reset filter</a><% } %>
+    </div>
+  </form>
+
+  <% if (daftar.length === 0) { %>
+    <!-- UI-07: daftar kosong -->
+    <div class="kotak kosong-pasal">
+      <p><strong>Tidak ada mitra pengacara yang sesuai.</strong></p>
+      <p class="bantuan-form">Coba ubah atau hapus filter, atau gunakan kata kunci lain.</p>
+      <% if (adaFilter) { %><a class="tombol tombol-garis" href="/halolaw/mitra">Hapus semua filter</a><% } %>
+    </div>
+  <% } else { %>
+    <!-- UI-06: daftar mitra -->
+    <div class="daftar-mitra">
+      <% daftar.forEach(function (m) { %>
+        <article class="kartu-mitra">
+          <div class="foto" role="img" aria-label="Foto <%= m.nama %>"></div>
+          <div>
+            <h3><%= m.nama %></h3>
+            <p class="deskripsi"><%= m.deskripsi || 'Belum ada deskripsi.' %></p>
+            <div class="baris-chip">
+              <% (m.tagKeahlian || '').split(',').filter(Boolean).forEach(function (t) { %>
+                <span class="chip"><%= TAG[t] || t %></span>
+              <% }); %>
+            </div>
+            <p class="deskripsi">
+              <% if (m.jumlahUlasan > 0) { %>★ <%= m.rating.toFixed(1) %> (<%= m.jumlahUlasan %> ulasan)
+              <% } else { %>Belum ada ulasan<% } %>
+              · <%= m.statusKetersediaan === 'tersedia' ? 'Tersedia' : 'Tidak tersedia' %>
+            </p>
+          </div>
+          <a class="tombol" href="/konsultasi/jadwal/<%= m.idMitra %>">Atur Jadwal Konsultasi</a>
+        </article>
+      <% }); %>
+    </div>
+  <% } %>
+
+</div>
+<%- include('../partials/footer') %>
