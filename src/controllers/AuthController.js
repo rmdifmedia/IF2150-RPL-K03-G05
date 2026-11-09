@@ -11,40 +11,51 @@ exports.tampilLoginMasyarakat = (req, res) => {
   res.render('auth/login-masyarakat');
 }
 
+const PESAN_KOSONG    = 'Email dan password wajib diisi.';
+const PESAN_MASYARAKAT = 'Email/password salah atau akun tidak ditemukan.';
+const PESAN_MITRA      = 'Email/password salah atau akun mitra belum terverifikasi oleh Admin.';
+
+// private: bandingkan sandi yang diketik dengan hash di database
+function verifikasiSandi(sandiInput, sandiHash) {
+  return bcrypt.compareSync(sandiInput, sandiHash);
+}
+
+// mengembalikan pesan error, atau null bila berhasil
+function autentikasiMasyarakat(akun, sandi) {
+  if (!akun || akun.statusAkun === 'diblokir' || !verifikasiSandi(sandi, akun.sandi)) {
+    return PESAN_MASYARAKAT;
+  }
+  return null;
+}
+
+function autentikasiMitra(akun, sandi) {
+  if (!akun || akun.statusAkun === 'diblokir' ||
+      akun.statusVerifikasi !== 'terverifikasi' ||
+      !verifikasiSandi(sandi, akun.sandi)) {
+    return PESAN_MITRA;
+  }
+  return null;
+}
+
 exports.prosesLogin = (req, res) => {
-  const { email, kataSandi } = req.body;
-  const akun = Akun.cariByEmail((email || '').trim());
+  const email = (req.body.email || '').trim();
+  const sandi = req.body.kataSandi || '';
 
-  // 1) akun tidak ada
-  if (!akun) {
-    req.flash('error', 'Akun tidak ditemukan');
+  if (!email || !sandi) {
+    req.flash('error', PESAN_KOSONG);
     return res.redirect('/login');
   }
 
-  // 2) kata sandi salah
-  if (!bcrypt.compareSync(kataSandi || '', akun.sandi)) {
-    req.flash('error', 'Kombinasi username/password salah');
+  const akun = Akun.cariByEmail(email);
+  const pesan = (akun && akun.peran === 'mitra')
+    ? autentikasiMitra(akun, sandi)
+    : autentikasiMasyarakat(akun, sandi);
+
+  if (pesan) {
+    req.flash('error', pesan);
     return res.redirect('/login');
   }
 
-  // 3) akun diblokir
-  if (akun.statusAkun === 'diblokir') {
-    req.flash('error', 'Akun Anda diblokir');
-    return res.redirect('/login');
-  }
-
-  // 4) mitra belum terverifikasi
-  if (akun.peran === 'mitra' && akun.statusVerifikasi !== 'terverifikasi') {
-    const pesan = {
-      'menunggu': 'Akun Anda belum diverifikasi oleh admin',
-      'ditolak': 'Pendaftaran akun Anda ditolak',
-      'wajib revisi': 'Akun Anda perlu revisi dokumen'
-    };
-    req.flash('error', pesan[akun.statusVerifikasi] || 'Akun Anda belum terverifikasi');
-    return res.redirect('/login');
-  }
-
-  // 5) berhasil
   req.session.user = { id: akun.id, nama: akun.nama, peran: akun.peran };
   res.redirect('/' + akun.peran);
 };
