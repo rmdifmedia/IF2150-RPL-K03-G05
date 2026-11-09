@@ -33,4 +33,21 @@ if (jumlahPasal === 0) {
   tambahPasal.run('Peraturan Contoh B', 'Pasal 10', 'Isi pasal contoh tentang kontrak (data uji).');
 }
 
+// dummy data awal search law
+const tambahPeraturan = db.prepare(`
+  INSERT OR IGNORE INTO Peraturan
+  (jenisPeraturan, nomor, tahun, judul, deskripsi, status, linkPDF)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`);
+
+tambahPeraturan.run(
+  'Permenkominfo',
+  '4',
+  2024,
+  'Penyelenggaraan Urusan Pemerintahan Konkuren Bidang Komunikasi dan Informatika',
+  'Pedoman bagi Pemerintah Daerah dalam menyelenggarakan urusan pemerintahan bidang komunikasi dan informatika.',
+  'Berlaku',
+  'https://peraturan.go.id/files/permenkominfo-no-04-tahun-2024.pdf'
+);
+
 console.log('Database siap.');
