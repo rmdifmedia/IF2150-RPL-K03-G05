@@ -247,3 +247,13 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--cokelat-tua
 /* ---------- Registrasi mitra ---------- */
 .judul-seksi { font-size: 24px; margin: 22px 0 12px; }
 input[type="file"] { width: 100%; font-size: 18px; margin-bottom: 8px; }
+
+/* ---------- Filter daftar mitra ---------- */
+.form-filter { margin: 28px 0; display: grid; gap: 14px; }
+.chip-pilih {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 4px 14px; font-size: 18px; background: var(--putih);
+  border: 1px solid var(--cokelat); border-radius: var(--lengkung);
+}
+.aksi-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.isian-kecil { width: auto; }
