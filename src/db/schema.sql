@@ -28,15 +28,6 @@ CREATE TABLE IF NOT EXISTS MitraPengacara (      -- C41
   statusAkun        TEXT NOT NULL DEFAULT 'aktif' CHECK (statusAkun IN ('aktif', 'diblokir'))  
 );
 
-CREATE TABLE IF NOT EXISTS DokumenLegalitas (
-  idDokumen     INTEGER PRIMARY KEY AUTOINCREMENT,
-  idMitra       INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),
-  jenisDokumen  TEXT NOT NULL, -- ijazah, KTA, SIPA, dsb
-  validitas     INTEGER NOT NULL DEFAULT 0 CHECK (validitas IN (0, 1)),
-  namaBerkas    TEXT,
-  lokasiBerkas  TEXT
-);
-
 CREATE TABLE IF NOT EXISTS Admin (               -- C42
   idAdmin       INTEGER PRIMARY KEY AUTOINCREMENT,
   nama          TEXT NOT NULL,                 
@@ -65,8 +56,10 @@ CREATE TABLE IF NOT EXISTS DokumenLegalitas (    -- C45
   idDokumen    INTEGER PRIMARY KEY AUTOINCREMENT,
   idMitra      INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),
   validitas    INTEGER NOT NULL DEFAULT 0 CHECK (validitas IN (0, 1)),
+  jenisDokumen TEXT NOT NULL, -- ijazah, KTA, SIPA, dsb
   namaBerkas   TEXT,                        
-  lokasiBerkas TEXT                            
+  lokasiBerkas TEXT,
+  waktuUnggah  TEXT DEFAULT (datetime('now'))                            
 );
 
 CREATE TABLE IF NOT EXISTS SesiKonsultasi (      -- C46
