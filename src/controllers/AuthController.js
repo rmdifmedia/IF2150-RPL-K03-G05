@@ -7,7 +7,7 @@ exports.tampilLogin = (req, res) => {
 };
 
 exports.tampilLoginMasyarakat = (req, res) => {
-  if (req.session.user) return res.redirec('/' + req.session.user.peran);
+  if (req.session.user) return res.redirect('/' + req.session.user.peran);
   res.render('auth/login-masyarakat');
 }
 

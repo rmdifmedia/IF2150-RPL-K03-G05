@@ -1,0 +1,233 @@
+/* === POSISI KARTU DI DALAM .konten (style.css) === */
+.laporan-wrapper {
+  padding-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* === KARTU FORM LAPORAN === */
+.report-card {
+  width: 100%;
+  max-width: 620px;
+  background-color: var(--cokelat-tua);
+  color: var(--putih);
+  border-radius: 14px;
+  padding: 22px 26px 24px;
+  box-shadow: 0 8px 24px rgba(64, 40, 33, 0.16);
+}
+
+.report-title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--putih);
+}
+
+.report-card .alert-error {
+  background-color: var(--error-latar);
+  color: var(--error-teks);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+/* === TARGET AKUN / ULASAN === */
+.target-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.target-header.is-review {
+  align-items: flex-start;
+}
+
+.avatar-box {
+  width: 78px;
+  height: 78px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: #d8d9dc;
+}
+
+.avatar-box svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.target-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.target-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--putih);
+}
+
+.review-preview {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: #b89c8a;
+  word-break: break-word;
+}
+
+/* === GRID KATEGORI PELANGGARAN === */
+.category-prompt {
+  margin: 14px 0 10px;
+  font-size: 13.5px;
+  color: #b89c8a;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  margin-bottom: 18px;
+}
+
+/* Override aturan global tag label di style.css */
+.report-card .category-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--putih);
+  cursor: pointer;
+  user-select: none;
+}
+
+.report-card .category-item input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  margin: 2px 0 0;
+  border: 1.5px solid var(--putih);
+  border-radius: 2px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.report-card .category-item input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--kuning);
+  outline-offset: 2px;
+}
+
+.report-card .category-item input[type='checkbox']:checked {
+  background-color: #10b954;
+  border-color: #10b954;
+}
+
+.report-card .category-item input[type='checkbox']:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--putih);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* === CATATAN & TOMBOL === */
+.form-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Override aturan global tag textarea di style.css */
+.report-card .note-input {
+  width: auto;
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  min-height: 42px;
+  max-height: 130px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--cokelat);
+  color: var(--putih);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  resize: vertical;
+}
+
+.report-card .note-input::placeholder {
+  color: #e6dcd4;
+}
+
+.report-card .note-input:focus {
+  outline: 2px solid var(--kuning);
+  outline-offset: 0;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.report-card .btn-laporan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 26px;
+  border: none;
+  border-radius: var(--lengkung);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--putih);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.report-card .btn-laporan:hover {
+  opacity: 0.9;
+}
+
+.report-card .btn-kirim {
+  background-color: #10b954;
+}
+
+.report-card .btn-batal {
+  background-color: #c80d0d;
+}
+
+@media (max-width: 580px) {
+  .laporan-wrapper {
+    padding-top: 8px;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-group {
+    justify-content: flex-end;
+  }
+}
