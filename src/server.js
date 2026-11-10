@@ -45,4 +45,10 @@ app.use((req, res) =>
   res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' }));
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`LawHub berjalan di http://localhost:${port}`));
+const server = http.createServer(app);
+const io = new Server(server);
+app.set('io', io);
+require('./socket/livechat')(io, sessionMiddleware);
+server.listen(PORT, () => {
+  console.log(`LawHub berjalan di http://localhost:${PORT}`);
+});
