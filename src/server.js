@@ -10,6 +10,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -35,6 +38,7 @@ app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
 app.use('/halolaw', require('./routes/halolaw'));
+app.use('/laporan', require('./routes/laporan'));
 
 app.use((req, res) =>
   res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' }));

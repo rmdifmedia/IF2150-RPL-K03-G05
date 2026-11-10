@@ -1,0 +1,125 @@
+<%- include('../partials/header', {
+  judulHalaman: mode === 'ulasan' ? 'Laporkan Ulasan' : 'Laporkan Akun'
+}) %>
+<link rel="stylesheet" href="/css/laporan.css" />
+
+<div class="laporan-wrapper">
+  <section class="report-card">
+    <h1 class="report-title">
+      <%= mode === 'ulasan' ? 'Laporkan Ulasan' : 'Laporkan Akun' %>
+    </h1>
+
+    <div id="clientError" class="alert-error" style="display: none;" role="alert"></div>
+
+    <div class="target-header <%= mode === 'ulasan' ? 'is-review' : '' %>">
+      <div class="avatar-box" aria-hidden="true">
+        <svg viewBox="0 0 80 80" fill="none">
+          <rect width="80" height="80" fill="#E6E7EA" />
+          <circle cx="40" cy="29" r="14" fill="#BCC0C6" />
+          <path d="M14 72c0-13.255 11.64-24 26-24s26 10.745 26 24" fill="#BCC0C6" />
+        </svg>
+      </div>
+
+      <div class="target-info">
+        <p class="target-name"><%= target.nama %></p>
+        <% if (mode === 'ulasan' && ulasan) { %>
+          <p class="review-preview">
+            [Ulasan] . <%= ulasan.teksUlasan || 'Tidak ada teks ulasan.' %>
+          </p>
+        <% } %>
+      </div>
+    </div>
+
+    <%
+      let kategoriList;
+      if (mode === 'ulasan') {
+        kategoriList = [
+          'Ujaran Kebencian / SARA',
+          'Spam atau Iklan',
+          'Informasi Palsu / Fitnah',
+          'Kata-kata Kasar / Tidak Pantas',
+          'Tidak Relevan dengan Konsultasi',
+          'Pelanggaran Privasi'
+        ];
+      } else if (target.peran === 'masyarakat') {
+        // UC 15: Mitra melaporkan akun Masyarakat
+        kategoriList = [
+          'Pelecehan atau Ancaman',
+          'Penipuan / Transaksi di Luar Platform',
+          'Spam atau Konsultasi Fiktif',
+          'Identitas atau Informasi Palsu',
+          'Penyebaran Data Pribadi',
+          'Pelanggaran Etika / Lainnya'
+        ];
+      } else {
+        // UC 14: Masyarakat melaporkan akun Mitra
+        kategoriList = [
+          'Penipuan / Transaksi di Luar Platform',
+          'Pelecehan atau Ancaman',
+          'Identitas Palsu / Kredensial Tidak Valid',
+          'Penyebaran Data Pribadi',
+          'Perilaku Tidak Profesional',
+          'Pelanggaran Etika / Lainnya'
+        ];
+      }
+    %>
+
+    <form id="reportForm" action="/laporan/buat" method="POST" novalidate>
+      <% if (mode === 'ulasan' && ulasan) { %>
+        <input type="hidden" name="idUlasan" value="<%= ulasan.idUlasan %>" />
+      <% } else { %>
+        <input type="hidden" name="idTerlapor" value="<%= target.id %>" />
+        <input type="hidden" name="peranTerlapor" value="<%= target.peran %>" />
+      <% } %>
+
+      <p class="category-prompt">Please select the report category</p>
+
+      <div class="category-grid">
+        <% kategoriList.forEach(function(kat) { %>
+          <label class="category-item">
+            <input type="checkbox" name="jenisPelanggaran" value="<%= kat %>" />
+            <span><%= kat %></span>
+          </label>
+        <% }) %>
+      </div>
+
+      <div class="form-footer">
+        <textarea
+          id="deskripsi"
+          name="deskripsi"
+          class="note-input"
+          rows="1"
+          placeholder="Tulis catatan..."
+        ></textarea>
+
+        <div class="btn-group">
+          <button type="submit" class="btn-laporan btn-kirim">Kirim</button>
+          <a href="/<%= locals.user.peran %>" class="btn-laporan btn-batal">Batal</a>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+
+<script>
+  (function () {
+    var form = document.getElementById('reportForm');
+    var errBox = document.getElementById('clientError');
+    var noteEl = document.getElementById('deskripsi');
+
+    form.addEventListener('submit', function (e) {
+      var checked = form.querySelectorAll('input[name="jenisPelanggaran"]:checked');
+      var note = noteEl.value.trim();
+
+      if (checked.length === 0 || !note) {
+        e.preventDefault();
+        errBox.textContent = 'Pilih minimal satu kategori pelanggaran dan tulis catatan laporan.';
+        errBox.style.display = 'block';
+      } else {
+        errBox.style.display = 'none';
+      }
+    });
+  })();
+</script>
+
+<%- include('../partials/footer', { tanpaFooter: true }) %>
