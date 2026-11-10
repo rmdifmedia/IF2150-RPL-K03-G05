@@ -22,6 +22,21 @@ db.prepare(
 ).run('Ami Pengacara', 'ami', 'Firma Ami', 'ami@lawhub.test', hash('ami657'),
       'pidana,perdata', 'Hukum Pidana', 'BCA 1234567890');
 
+//dummy mitra pengacara
+const tambahMitra = db.prepare(
+  `INSERT OR IGNORE INTO MitraPengacara
+   (nama, username, namaFirma, email, sandiMitra, validitas, statusVerifikasi,
+    tagKeahlian, spesialisasi, deskripsi, rating, statusKetersediaan, rekeningPencairan)
+   VALUES (?, ?, ?, ?, ?, 1, 'terverifikasi', ?, ?, ?, ?, ?, 'BCA 1234567890')`
+);
+
+tambahMitra.run('Budi Santoso, S.H.', 'budi', 'Santoso & Rekan', 'budi@lawhub.test', hash('budi123'),
+  'pidana', 'Hukum Pidana', 'Pengalaman 8 tahun menangani perkara pidana umum.', 4.8, 'tersedia');
+tambahMitra.run('Citra Lestari, S.H., M.H.', 'citra', 'Lestari Law Office', 'citra@lawhub.test', hash('citra123'),
+  'perdata,administrasi', 'Hukum Perdata', 'Berfokus pada sengketa kontrak dan hukum keluarga.', 4.2, 'tersedia');
+tambahMitra.run('Dimas Prakoso, S.H.', 'dimas', 'Prakoso Advokat', 'dimas@lawhub.test', hash('dimas123'),
+  'pidana,perdata', 'Hukum Pidana', 'Menangani kasus pidana dan perdata sejak 2015.', 3.9, 'tidak tersedia');
+
 // dummy SearchLaw
 const jumlahPasal = db.prepare('SELECT COUNT(*) AS n FROM DasarHukum').get().n;
 if (jumlahPasal === 0) {

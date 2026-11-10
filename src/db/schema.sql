@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS MitraPengacara (      -- C41
   nama              TEXT NOT NULL,
   email             TEXT NOT NULL UNIQUE,  
   username          TEXT NOT NULL UNIQUE,  
-  namaFirma         TEXT,   
+  namaFirma         TEXT,
+  deskripsi         TEXT,   
   sandiMitra        TEXT NOT NULL,              
   validitas         INTEGER NOT NULL DEFAULT 0 CHECK (validitas IN (0, 1)),
   statusVerifikasi  TEXT NOT NULL DEFAULT 'menunggu'
