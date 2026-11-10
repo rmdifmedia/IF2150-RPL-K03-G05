@@ -69,3 +69,14 @@
 <main class="konten">
 <% daftarSukses.forEach(function (p) { %><div class="alert alert-sukses"><%= p %></div><% }) %>
 <% daftarError.forEach(function (p) { %><div class="alert alert-error"><%= p %></div><% }) %>
+
+      <% if (locals.navAktif) { %>
+        <nav class="nav-utama" aria-label="Navigasi utama">
+          <a href="/masyarakat"            <%- locals.navAktif === 'beranda'  ? 'aria-current="page"' : '' %>>Beranda</a>
+          <a href="/masyarakat/history"    <%- locals.navAktif === 'history'  ? 'aria-current="page"' : '' %>>History</a>
+          <a href="/masyarakat/live-chat"  <%- locals.navAktif === 'livechat' ? 'aria-current="page"' : '' %>>Live Chat</a>
+        </nav>
+      <% } else { %>
+      <h1 class="judul-header">
+      </h1>
+      <% } %>
