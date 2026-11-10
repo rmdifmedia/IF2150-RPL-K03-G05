@@ -1,4 +1,4 @@
-// layout halaman livechat
+/* layout halaman livechat */ 
 body.halaman-livechat {
   height: 100vh;
   min-height: 100vh;
@@ -95,7 +95,7 @@ body.halaman-livechat {
   flex-shrink: 0;
 }
 
-// Override aturan global select di style.css 
+/* Override aturan global select di style.css */
 .chat-subheader .antrean-select {
   width: auto;
   min-width: 210px;
@@ -134,7 +134,7 @@ body.halaman-livechat {
   color: var(--putih);
 }
 
-// tampilan roomchat
+/* tampilan roomchat */
 .chat-container {
   flex: 1;
   min-height: 0;
@@ -198,21 +198,21 @@ body.halaman-livechat {
   white-space: pre-wrap;
 }
 
-// tampilan masyarakat
+/* tampilan masyarakat */
 .msg-bubble.sender-masyarakat {
   background-color: var(--putih);
   color: var(--cokelat-tua);
   border: 1px solid var(--cokelat-tua);
 }
 
-// tampilan admin
+/* tampilan admin */
 .msg-bubble.sender-admin {
   background-color: var(--cokelat);
   color: var(--kuning);
   border: 1px solid var(--cokelat-tua);
 }
 
-// menginput bar bagian bawah
+/* menginput bar bagian bawah */
 .chat-input-bar {
   padding: 12px 36px 24px;
   flex-shrink: 0;
@@ -232,7 +232,7 @@ body.halaman-livechat {
   opacity: 0.6;
 }
 
-// Override aturan global input[type="text"] di style.css 
+/* Override aturan global input[type="text"] di style.css */
 .chat-input-pill input[type='text'] {
   flex: 1;
   width: auto;
