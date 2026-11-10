@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveChat Masyarakat - LawHub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/livechat.css" />
+</head>
+<body class="halaman-livechat">
+  <header class="header">
+    <div class="header-isi livechat-header-isi">
+      <a class="logo" href="/masyarakat" aria-label="LawHub - beranda">
+        <img src="/img/logo.png" alt="LawHub" />
+      </a>
+
+      <nav class="header-nav" aria-label="Navigasi Masyarakat">
+        <a href="/masyarakat" class="nav-link">Beranda</a>
+        <a href="/masyarakat" class="nav-link">History</a>
+        <a href="/masyarakat/livechat" class="nav-link is-active">LiveChat</a>
+      </nav>
+
+      <div class="header-kanan">
+        <a class="ikon-tombol" href="#" title="Notifikasi" aria-label="Notifikasi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </a>
+        <details class="profil">
+          <summary class="ikon-tombol" title="Profil" aria-label="Menu profil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M6.17 18.5a7 7 0 0 1 11.66 0"/>
+            </svg>
+          </summary>
+          <div class="profil-menu">
+            <strong><%= user.nama %></strong>
+            <small><%= user.peran %></small>
+            <a href="/logout">Keluar</a>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <section class="chat-subheader">
+    <div class="subheader-kiri">
+      <div class="chat-avatar" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="32" fill="#D8D9DC" />
+          <circle cx="32" cy="24" r="11" fill="#A9ACB3" />
+          <path d="M12 56c0-11 9-20 20-20s20 9 20 20" fill="#A9ACB3" />
+        </svg>
+      </div>
+      <div class="subheader-title-wrap">
+        <h2 class="subheader-title">
+          <%= chatAktif && chatAktif.namaAdmin ? 'Admin (' + chatAktif.namaAdmin + ')' : 'Admin' %>
+        </h2>
+        <span id="statusLabel" class="subheader-status">
+          <% if (chatAktif) { %>
+            <%= chatAktif.statusChat === 'menunggu' ? 'Menunggu respons Admin...' : 'Terhubung dengan Admin' %>
+          <% } else if (adaAdminStandby) { %>
+            Siap membantu kendala teknis Anda
+          <% } else { %>
+            Belum ada Admin standby
+          <% } %>
+        </span>
+      </div>
+    </div>
+
+    <div class="subheader-kanan">
+      <% if (chatAktif) { %>
+        <form id="endChatForm" action="/masyarakat/livechat/selesai" method="POST">
+          <button type="submit" class="btn-subheader btn-akhiri">Akhiri Chat</button>
+        </form>
+      <% } %>
+    </div>
+  </section>
+
+  <div
+    id="chatApp"
+    class="chat-container"
+    data-peran="masyarakat"
+    data-chat-id="<%= chatAktif ? chatAktif.idChat : '' %>"
+    data-chat-status="<%= chatAktif ? chatAktif.statusChat : '' %>"
+  >
+    <% (sukses || []).forEach(function (p) { %>
+      <div class="chat-alert alert-sukses"><%= p %></div>
+    <% }) %>
+    <% (error || []).forEach(function (p) { %>
+      <div class="chat-alert alert-error"><%= p %></div>
+    <% }) %>
+    <div id="socketError" class="chat-alert alert-error" style="display: none;"></div>
+
+    <% if (!chatAktif && !adaAdminStandby) { %>
+      <div class="chat-notice">
+        Saat ini belum ada Admin yang standby. Silakan kembali beberapa saat lagi.
+      </div>
+    <% } %>
+
+    <div id="chatMessages" class="chat-messages">
+      <% daftarPesan.forEach(function(p) { %>
+        <div class="msg-row <%= p.peranPengirim === 'masyarakat' ? 'is-self' : 'is-other' %>" data-id-pesan="<%= p.idPesan %>">
+          <div class="msg-bubble <%= p.peranPengirim === 'masyarakat' ? 'sender-masyarakat' : 'sender-admin' %>">
+            <%= p.isiPesan %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <form id="chatForm" class="chat-input-bar">
+      <div class="chat-input-pill <%= (!chatAktif && !adaAdminStandby) ? 'is-disabled' : '' %>">
+        <input
+          type="text"
+          id="isiPesan"
+          placeholder="TanyaAdmin!"
+          autocomplete="off"
+          maxlength="2000"
+          <%= (!chatAktif && !adaAdminStandby) ? 'disabled' : '' %>
+        />
+        <button
+          type="submit"
+          class="btn-kirim-chat"
+          aria-label="Kirim pesan"
+          <%= (!chatAktif && !adaAdminStandby) ? 'disabled' : '' %>
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/livechat.js"></script>
+</body>
+</html>
