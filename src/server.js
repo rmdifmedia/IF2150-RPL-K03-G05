@@ -7,23 +7,26 @@ const http = require('http');
 const { Server } = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('io', io);
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'lawhub-dev-secret',
   resave: false,
   saveUninitialized: false
 });
+
 app.use(sessionMiddleware);
+app.use(flash());
 
 // variabel yang otomatis di semua halaman
 app.use((req, res, next) => {
@@ -32,6 +35,8 @@ app.use((req, res, next) => {
   res.locals.error = req.flash('error');
   next();
 });
+
+require('./socket/livechat')(io, sessionMiddleware);
 
 app.use('/', require('./routes/auth'));
 app.use('/masyarakat', require('./routes/masyarakat'));
@@ -42,13 +47,16 @@ app.use('/admin', require('./routes/admin'));
 app.use('/laporan', require('./routes/laporan'));
 
 app.use((req, res) =>
-  res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' }));
+  res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' })
+);
 
-const port = process.env.PORT || 3000;
-const server = http.createServer(app);
-const io = new Server(server);
-app.set('io', io);
-require('./socket/livechat')(io, sessionMiddleware);
+app.use((err, req, res, next) => {
+  console.error(err);
+  if (res.headersSent) return next(err);
+  res.status(500).render('error', { pesan: 'Terjadi kesalahan pada server' });
+});
+
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`LawHub berjalan di http://localhost:${PORT}`);
 });
