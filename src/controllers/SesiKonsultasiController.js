@@ -2,7 +2,7 @@
 const Sesi = require('../models/SesiKonsultasi');
 
 const LABEL_STATUS = {
-  menunggu: 'Menunggu tanggapan mitra',
+  'menunggu tanggapan mitra': 'Menunggu tanggapan mitra',
   terjadwal: 'Terjadwal',
   berlangsung: 'Sedang berlangsung',
   selesai: 'Selesai',
@@ -19,18 +19,18 @@ const pisah = (iso) => {
   };
 };
 
-// untuk UC11: Menanggapi Sesi Konsultasi (mitra)
+// ---------- UC11: Menanggapi Sesi Konsultasi (mitra) ----------
 
 // GET /konsultasi/pengajuan  -> daftar permintaan masuk
 exports.daftarPengajuan = (req, res) => {
   Sesi.batalkanKedaluwarsa();
   const daftar = Sesi.daftarPengajuanMitra(req.session.user.id);
   res.render('konsultasi/pengajuan', {
-    judulHalaman: 'List Pengajuan', css: '/css/konsultasi.css', navMitra: 'pengajuan', daftar, LABEL_STATUS, pisah,
+    judulHalaman: 'List Pengajuan', navMitra: 'pengajuan', daftar, LABEL_STATUS, pisah,
   });
 };
 
-// GET /konsultasi/pengajuan/:idSesi -> tampilkanPermintaanJadwal() (UI Konfirmasi Konsultasi)
+// GET /konsultasi/konfirmasi/:idSesi -> tampilkanPermintaanJadwal() (UI Konfirmasi Konsultasi)
 exports.tampilKonfirmasi = (req, res) => {
   Sesi.batalkanKedaluwarsa();
   const sesi = Sesi.cariById(Number(req.params.idSesi));
@@ -38,13 +38,13 @@ exports.tampilKonfirmasi = (req, res) => {
     return res.status(404).render('error', { pesan: 'Permintaan konsultasi tidak ditemukan' });
   }
   res.render('konsultasi/konfirmasi', {
-    judulHalaman: 'Konfirmasi Konsultasi', css: '/css/konsultasi.css', navMitra: 'konfirmasi',
+    judulHalaman: 'Konfirmasi Konsultasi', navMitra: 'konfirmasi',
     sesi, LABEL_STATUS, pisah, labelSlot: Sesi.labelSlot,
-    sisaDetik: sesi.statusSesi === 'menunggu' ? Sesi.sisaDetikRespon(sesi) : 0,
+    sisaDetik: sesi.statusSesi === Sesi.MENUNGGU ? Sesi.sisaDetikRespon(sesi) : 0,
   });
 };
 
-// POST /konsultasi/pengajuan/:idSesi  body: aksi=terima|tolak, catatan  -> prosesKonfirmasiJadwal()
+// POST /konsultasi/konfirmasi/:idSesi  body: aksi=terima|tolak, catatan  -> prosesKonfirmasiJadwal()
 exports.prosesKonfirmasi = (req, res) => {
   const idSesi = Number(req.params.idSesi);
   const { aksi } = req.body;
@@ -53,7 +53,11 @@ exports.prosesKonfirmasi = (req, res) => {
 
   if (!['terima', 'tolak'].includes(aksi)) {
     req.flash('error', 'Pilihan tanggapan tidak valid.');
-    return res.redirect(`/konsultasi/pengajuan/${idSesi}`);
+    return res.redirect(`/konsultasi/konfirmasi/${idSesi}`);
+  }
+  if (aksi === 'tolak' && !catatan) {
+    req.flash('error', 'Isi catatan penolakan terlebih dahulu.');
+    return res.redirect(`/konsultasi/konfirmasi/${idSesi}`);
   }
   const berhasil = Sesi.tanggapi(idSesi, req.session.user.id, aksi === 'terima' ? 'terjadwal' : 'dibatalkan', catatan);
   if (!berhasil) {
@@ -64,16 +68,16 @@ exports.prosesKonfirmasi = (req, res) => {
   res.redirect('/konsultasi/pengajuan');
 };
 
-// daftar sesi milik masyarakat (pintu masuk ke chat)
+// ---------- daftar sesi milik masyarakat (pintu masuk ke chat) ----------
 
 // GET /konsultasi/saya
 exports.daftarSaya = (req, res) => {
   Sesi.batalkanKedaluwarsa();
   const daftar = Sesi.daftarMasyarakat(req.session.user.id);
-  res.render('konsultasi/saya', { judulHalaman: 'Sesi Konsultasi Saya', css: '/css/konsultasi.css', judul: 'HaloLaw', ikonJudul: 'telepon', daftar, LABEL_STATUS, labelSlot: Sesi.labelSlot, Sesi });
+  res.render('konsultasi/saya', { judulHalaman: 'Sesi Konsultasi Saya', judul: 'HaloLaw', ikonJudul: 'telepon', daftar, LABEL_STATUS, labelSlot: Sesi.labelSlot, Sesi });
 };
 
-// untuk UC12: Melakukan Sesi Konsultasi (chat)
+// ---------- UC12: Melakukan Sesi Konsultasi (chat) ----------
 
 function sesiMilik(req) {
   const sesi = Sesi.cariById(Number(req.params.idSesi));
@@ -95,10 +99,10 @@ exports.tampilChat = (req, res) => {
   const lawan = peran === 'masyarakat' ? sesi.namaMitra : sesi.namaMasyarakat;
 
   res.render('konsultasi/chat', {
-    judulHalaman: 'Chat Konsultasi', css: '/css/konsultasi.css', judul: peran === 'masyarakat' ? 'HaloLaw' : '', ikonJudul: peran === 'masyarakat' ? 'telepon' : '', navMitra: peran === 'mitra' ? 'chat' : undefined,
+    judulHalaman: 'Chat Konsultasi', judul: 'HaloLaw', ikonJudul: 'telepon',
     tanpaFooter: true, bodyClass: 'halaman-konsul-chat',
     sesi, izin, lawan, peran,
-    // sesi selesai tetap boleh dibaca (riwayat), tapi gak bisa mengirim
+    // sesi selesai tetap boleh dibaca (riwayat), tetapi tidak bisa mengirim
     daftarPesan: Sesi.ambilPesan(sesi.idSesi),
     kasusAwal: sesi.deskripsiKasus || null,
   });

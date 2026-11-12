@@ -1,6 +1,9 @@
 <%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<link rel="stylesheet" href="/css/konsultasi.css">
 <!-- Konfirmasi Konsultasi (UC11, mitra) -->
-<% var w = pisah(sesi.waktuPengajuan); var bisaTanggapi = sesi.statusSesi === 'menunggu' && sisaDetik > 0; %>
+<% var w = pisah(sesi.waktuPengajuan); var bisaTanggapi = sesi.statusSesi === 'menunggu tanggapan mitra' && sisaDetik > 0; %>
 <section class="info-klien">
   <div class="klien-atas">
     <div class="foto-klien" role="img" aria-label="Foto klien"></div>
@@ -24,7 +27,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/></svg>
             Sisa Waktu Respon</span>
           <span class="meta-nilai" id="sisaWaktu" data-sisa="<%= sisaDetik %>">
-            <%= sesi.statusSesi === 'menunggu' ? '--:--' : '-' %></span>
+            <%= sesi.statusSesi === 'menunggu tanggapan mitra' ? '--:--' : '-' %></span>
         </div>
       </div>
     </div>
@@ -36,14 +39,14 @@
   <div class="isi-kasus"><%= sesi.deskripsiKasus || 'Klien belum melampirkan ringkasan masalah.' %></div>
 
   <% if (bisaTanggapi) { %>
-    <form method="POST" action="/konsultasi/pengajuan/<%= sesi.idSesi %>" class="aksi-tanggapan">
+    <form method="POST" action="/konsultasi/konfirmasi/<%= sesi.idSesi %>" class="aksi-tanggapan">
       <input type="text" name="catatan" maxlength="500" placeholder="Tulis catatan..." aria-label="Catatan untuk klien">
       <button type="submit" name="aksi" value="terima" class="status-pil status-terima">Terima</button>
       <button type="submit" name="aksi" value="tolak" class="status-pil status-tolak">Tolak</button>
     </form>
   <% } else { %>
     <div class="aksi-tanggapan sudah">
-      <span class="pil pil-<%= sesi.statusSesi %>"><%= LABEL_STATUS[sesi.statusSesi] || sesi.statusSesi %></span>
+      <span class="pil pil-<%= sesi.statusSesi.split(' ')[0] %>"><%= LABEL_STATUS[sesi.statusSesi] || sesi.statusSesi %></span>
       <% if (sesi.catatanKonsul) { %><span class="catatan-lama">Catatan: <%= sesi.catatanKonsul %></span><% } %>
       <% if (['terjadwal', 'berlangsung'].includes(sesi.statusSesi)) { %>
         <a class="tombol tombol-kecil" href="/konsultasi/chat/<%= sesi.idSesi %>">Buka Chat</a>

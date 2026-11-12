@@ -1,4 +1,9 @@
 <%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<script>document.body.classList.add('halaman-konsul-chat');</script>
+<link rel="stylesheet" href="/css/konsultasi.css">
+<script>document.body.classList.add('halaman-konsul-chat');</script>
 <!-- UI-10 (masyarakat) / UI-11 (mitra): Chat Konsultasi (UC12) -->
 <section class="konsul-subheader">
   <div class="konsul-profil">
@@ -7,12 +12,10 @@
     </div>
     <div>
       <h2><%= lawan %></h2>
-      <span id="statusSesi" class="konsul-status">
-        <%= izin.ok ? 'Menghubungkan...' : izin.pesan %>
-      </span>
+
     </div>
   </div>
-  <% if (['terjadwal', 'berlangsung'].includes(sesi.statusSesi)) { %>
+  <% if (peran === 'masyarakat' && ['terjadwal', 'berlangsung'].includes(sesi.statusSesi)) { %>
     <form method="POST" action="/konsultasi/chat/<%= sesi.idSesi %>/akhiri" id="formAkhiri">
       <button type="submit" class="tombol-sudahi"><%= peran === 'masyarakat' ? 'Sudahi Sesi' : 'Akhiri Sesi' %></button>
     </form>
@@ -43,12 +46,13 @@
     <% }); %>
   </div>
 
+        <span id="statusSesi" class="konsul-status" role="status">
+        <%= izin.ok ? 'Menghubungkan...' : '' %>
+      </span>
   <form id="formPesan" class="konsul-input" autocomplete="off">
     <input type="text" id="isiPesan" maxlength="2000" placeholder="..." aria-label="Tulis pesan"
            <%= izin.ok ? '' : 'disabled' %>>
-    <button type="submit" class="btn-kirim" aria-label="Kirim pesan" <%= izin.ok ? '' : 'disabled' %>>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+
   </form>
 </div>
 

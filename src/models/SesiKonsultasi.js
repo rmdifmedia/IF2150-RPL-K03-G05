@@ -7,7 +7,9 @@ const SLOT = ['14:00', '15:00', '16:00', '17:00', '18:00'];
 const DURASI_MENIT = 60;
 const BATAS_RESPON_MENIT = Number(process.env.BATAS_RESPON_MENIT) || 30;     // UC11 alt 2
 const BATAS_IDLE_MENIT = Number(process.env.BATAS_IDLE_MENIT) || 15;         // UC12 alt 1
-const STATUS_AKTIF = ['menunggu', 'terjadwal', 'berlangsung'];               // slot dianggap terisi
+const MENUNGGU = 'menunggu tanggapan mitra';                                 // nilai sesuai SKPL/DPPL
+const STATUS_AKTIF = [MENUNGGU, 'terjadwal', 'berlangsung'];                 // slot dianggap terisi
+exports.MENUNGGU = MENUNGGU;
 
 // kolom waktuPengajuan tidak ada di schema awal -> tambahkan sekali bila belum ada
 const kolom = db.prepare('PRAGMA table_info(SesiKonsultasi)').all().map((k) => k.name);
@@ -42,7 +44,7 @@ exports.batalkanKedaluwarsa = () => {
   return db.prepare(
     `UPDATE SesiKonsultasi
         SET statusSesi = 'dibatalkan', catatanKonsul = 'Tidak ditanggapi mitra dalam batas waktu'
-      WHERE statusSesi = 'menunggu' AND waktuPengajuan IS NOT NULL AND waktuPengajuan < ?`
+      WHERE statusSesi = '${MENUNGGU}' AND waktuPengajuan IS NOT NULL AND waktuPengajuan < ?`
   ).run(batas).changes;
 };
 
@@ -91,7 +93,7 @@ const buat = db.transaction(({ idMasyarakat, idMitra, idKasus, tanggal, waktu })
   const info = db.prepare(
     `INSERT INTO SesiKonsultasi
        (idMasyarakat, idMitra, idKasus, tanggalJadwal, waktuJadwal, statusSesi, waktuPengajuan)
-     VALUES (?, ?, ?, ?, ?, 'menunggu', ?)`
+     VALUES (?, ?, ?, ?, ?, '${MENUNGGU}', ?)`
   ).run(idMasyarakat, idMitra, idKasus || null, tanggal, waktu, sekarangIso());
   return info.lastInsertRowid;
 });
@@ -110,7 +112,7 @@ const SELECT_DETAIL = `
 exports.cariById = (idSesi) => db.prepare(`${SELECT_DETAIL} WHERE s.idSesi = ?`).get(idSesi);
 
 exports.daftarPengajuanMitra = (idMitra) =>
-  db.prepare(`${SELECT_DETAIL} WHERE s.idMitra = ? ORDER BY (s.statusSesi = 'menunggu') DESC, s.idSesi DESC`).all(idMitra);
+  db.prepare(`${SELECT_DETAIL} WHERE s.idMitra = ? ORDER BY (s.statusSesi = '${MENUNGGU}') DESC, s.idSesi DESC`).all(idMitra);
 
 exports.daftarMasyarakat = (idMasyarakat) =>
   db.prepare(`${SELECT_DETAIL} WHERE s.idMasyarakat = ? ORDER BY s.idSesi DESC`).all(idMasyarakat);
@@ -119,7 +121,7 @@ exports.daftarMasyarakat = (idMasyarakat) =>
 exports.tanggapi = (idSesi, idMitra, statusBaru, catatan) =>
   db.prepare(
     `UPDATE SesiKonsultasi SET statusSesi = ?, catatanKonsul = ?
-      WHERE idSesi = ? AND idMitra = ? AND statusSesi = 'menunggu'`
+      WHERE idSesi = ? AND idMitra = ? AND statusSesi = '${MENUNGGU}'`
   ).run(statusBaru, catatan || null, idSesi, idMitra).changes > 0;
 
 // sisa waktu respon dalam detik (0 bila lewat)
@@ -131,31 +133,73 @@ exports.sisaDetikRespon = (sesi) => {
 
 // UC12
 
-exports.sudahLunas = (sesi) => ['lunas', 'berhasil'].includes(String(sesi.statusPembayaran).toLowerCase());
+// C49 cekStatusPembayaran: mengembalikan 'Lunas' atau 'Belum Lunas' (nilai 'berhasil' dari modul pembayaran dianggap lunas)
+exports.cekStatusPembayaran = (sesi) =>
+  ['lunas', 'berhasil'].includes(String(sesi.statusPembayaran).toLowerCase()) ? 'Lunas' : 'Belum Lunas';
+exports.cekStatusLunas = exports.cekStatusPembayaran;              // nama lain di SKPL
+exports.sudahLunas = (sesi) => exports.cekStatusPembayaran(sesi) === 'Lunas';
 
-exports.mulai = (idSesi) =>
-  db.prepare(
-    `UPDATE SesiKonsultasi SET statusSesi = 'berlangsung', waktuMulai = ?
-      WHERE idSesi = ? AND statusSesi = 'terjadwal'`
-  ).run(sekarangIso(), idSesi);
+// catatWaktuMulaiSelesai(jenis): 'mulai' | 'selesai'  (Algo-046-5/7)
+exports.catatWaktuMulaiSelesai = (idSesi, jenis) => {
+  const kolom = jenis === 'mulai' ? 'waktuMulai' : 'waktuSelesai';
+  db.prepare(`UPDATE SesiKonsultasi SET ${kolom} = ? WHERE idSesi = ?`).run(sekarangIso(), idSesi);
+};
 
-exports.akhiri = (idSesi) =>
-  db.prepare(
-    `UPDATE SesiKonsultasi SET statusSesi = 'selesai', waktuSelesai = ?
+// mulaiSesi(): dipanggil pada PESAN PERTAMA, hanya bila lunas -> statusKonsul & statusSesi = 'berlangsung'
+exports.mulai = (idSesi) => {
+  const sesi = exports.cariById(idSesi);
+  if (!sesi || sesi.statusSesi !== 'terjadwal') return false;
+  if (process.env.BYPASS_PEMBAYARAN !== 'true' && !exports.sudahLunas(sesi)) return false;
+  exports.catatWaktuMulaiSelesai(idSesi, 'mulai');
+  db.prepare(`UPDATE SesiKonsultasi SET statusSesi = 'berlangsung', statusKonsul = 'berlangsung' WHERE idSesi = ?`).run(idSesi);
+  return true;
+};
+
+// akhiriSesi(): statusKonsul & statusSesi = 'selesai'
+exports.akhiri = (idSesi) => {
+  const info = db.prepare(
+    `UPDATE SesiKonsultasi SET statusSesi = 'selesai', statusKonsul = 'selesai'
       WHERE idSesi = ? AND statusSesi IN ('terjadwal', 'berlangsung')`
-  ).run(sekarangIso(), idSesi).changes > 0;
+  ).run(idSesi);
+  if (info.changes > 0) exports.catatWaktuMulaiSelesai(idSesi, 'selesai');
+  return info.changes > 0;
+};
+
+// ---- KNF10: payload pesan dienkripsi sebelum disimpan (AES-256-GCM, kunci dari CHAT_KEY/SESSION_SECRET) ----
+const crypto = require('crypto');
+let kunci;
+const ambilKunci = () => kunci || (kunci = crypto.scryptSync(process.env.CHAT_KEY || process.env.SESSION_SECRET || 'lawhub-dev', 'lawhub-chat', 32));
+const PREFIX = 'enc:v1:';
+const enkripsi = (teks) => {
+  const iv = crypto.randomBytes(12);
+  const c = crypto.createCipheriv('aes-256-gcm', ambilKunci(), iv);
+  const isi = Buffer.concat([c.update(teks, 'utf8'), c.final()]);
+  return PREFIX + [iv, c.getAuthTag(), isi].map((b) => b.toString('base64')).join(':');
+};
+const dekripsi = (teks) => {
+  if (typeof teks !== 'string' || !teks.startsWith(PREFIX)) return teks;       // pesan lama / bukan terenkripsi
+  try {
+    const [iv, tag, isi] = teks.slice(PREFIX.length).split(':').map((x) => Buffer.from(x, 'base64'));
+    const d = crypto.createDecipheriv('aes-256-gcm', ambilKunci(), iv);
+    d.setAuthTag(tag);
+    return Buffer.concat([d.update(isi), d.final()]).toString('utf8');
+  } catch (e) { return '[pesan tidak dapat dibaca]'; }
+};
+exports.enkripsi = enkripsi;
+exports.dekripsi = dekripsi;
 
 exports.ambilPesan = (idSesi) =>
   db.prepare(
     `SELECT idPesan, peranPengirim, idPengirim, isiPesan, waktuKirim
        FROM PesanChat WHERE idSesi = ? ORDER BY idPesan ASC`
-  ).all(idSesi);
+  ).all(idSesi).map((p) => ({ ...p, isiPesan: dekripsi(p.isiPesan) }));
 
 exports.simpanPesan = (idSesi, peran, idPengirim, isi) => {
   const info = db.prepare(
     `INSERT INTO PesanChat (idSesi, peranPengirim, idPengirim, isiPesan) VALUES (?, ?, ?, ?)`
-  ).run(idSesi, peran, idPengirim, isi);
-  return db.prepare('SELECT * FROM PesanChat WHERE idPesan = ?').get(info.lastInsertRowid);
+  ).run(idSesi, peran, idPengirim, enkripsi(isi));
+  const p = db.prepare('SELECT * FROM PesanChat WHERE idPesan = ?').get(info.lastInsertRowid);
+  return { ...p, isiPesan: isi };                                             // ke klien dikirim plaintext lewat socket
 };
 
 exports.waktuAktivitasTerakhir = (sesi) => {
@@ -197,4 +241,10 @@ exports.izinChat = (sesi) => {
     if (lewat) return { ok: false, pesan: 'Waktu sesi konsultasi sudah terlewat.' };
   }
   return { ok: true };
+};
+
+// UC12 alt 1 (otomatis di server): tutup semua sesi berlangsung yang idle; kembalikan id yang ditutup
+exports.tutupIdleSemua = () => {
+  const ids = db.prepare("SELECT idSesi FROM SesiKonsultasi WHERE statusSesi = 'berlangsung'").all();
+  return ids.map((r) => r.idSesi).filter((id) => exports.tutupJikaIdle(exports.cariById(id)));
 };
