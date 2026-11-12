@@ -37,6 +37,7 @@ app.use((req, res, next) => {
 });
 
 require('./socket/livechat')(io, sessionMiddleware);
+require('./socket/konsultasi')(io, sessionMiddleware);
 
 app.use('/', require('./routes/auth'));
 app.use('/masyarakat', require('./routes/masyarakat'));
