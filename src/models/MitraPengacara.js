@@ -46,3 +46,26 @@ exports.cari = ({ q = '', tags = [], ratingMin = 0} = {}) => {
     ORDER BY (statusKetersediaan = 'tersedia') DESC, rating DESC, nama ASC
   `).all(...param);
 };
+
+// DPPL C41 infoProfil(idMitra) - Q-412.
+exports.infoProfil = (idMitra) => {
+  return db.prepare(
+    `SELECT idMitra, nama, username, email, namaFirma, deskripsi, tagKeahlian, statusVerifikasi
+     FROM MitraPengacara WHERE idMitra = ?`
+  ).get(idMitra) || null;
+};
+
+// DPPL C41 cekKetersediaanJadwal(idMitra, tanggal, waktu) - Q-411.
+exports.cekKetersediaanJadwal = (idMitra, tanggal, waktu) => {
+  const bentrok = db.prepare(
+    `SELECT idSesi FROM SesiKonsultasi
+     WHERE idMitra = ? AND tanggalJadwal = ? AND waktuJadwal = ? AND statusSesi != 'dibatalkan'`
+  ).get(idMitra, tanggal, waktu);
+  return !bentrok;
+};
+
+exports.ubahProfil = (idMitra, data) =>
+  db.prepare(`UPDATE MitraPengacara
+              SET namaFirma = ?, deskripsi = ?, tagKeahlian = ?
+              WHERE idMitra = ?`)
+    .run(data.namaFirma, data.deskripsi, data.tagKeahlian, idMitra);

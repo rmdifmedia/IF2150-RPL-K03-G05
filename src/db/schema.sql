@@ -141,6 +141,15 @@ CREATE TABLE IF NOT EXISTS PesanChat (
   CHECK ((idSesi IS NOT NULL) + (idChat IS NOT NULL) = 1)
 );
 
+CREATE TABLE IF NOT EXISTS JadwalKetersediaan (   -- [+] tabel bantu implementasi
+  idJadwal     INTEGER PRIMARY KEY AUTOINCREMENT,
+  idMitra      INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),
+  tanggal      TEXT NOT NULL,                   -- YYYY-MM-DD
+  waktuMulai   TEXT NOT NULL,                   -- HH:MM
+  waktuSelesai TEXT NOT NULL,                   -- HH:MM
+  UNIQUE (idMitra, tanggal, waktuMulai)
+);
+
 CREATE INDEX IF NOT EXISTS idx_pesan_sesi ON PesanChat(idSesi, idPesan);
 CREATE INDEX IF NOT EXISTS idx_pesan_chat ON PesanChat(idChat, idPesan);
 CREATE INDEX IF NOT EXISTS idx_sesi_mitra ON SesiKonsultasi(idMitra);

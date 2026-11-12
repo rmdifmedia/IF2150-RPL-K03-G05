@@ -1,0 +1,30 @@
+<%- include('../partials/header', { judulHalaman: 'Edit Profil Mitra' }) %>
+
+<div class="halaman-form">
+  <h1>Edit Profil Mitra</h1>
+  <form class="kotak" method="POST" action="/mitra/profil/edit">
+    <label for="namaFirma">Nama Firma</label>
+    <input class="isian" id="namaFirma" name="namaFirma" type="text" value="<%= profil.namaFirma || '' %>">
+
+    <label for="deskripsiProfil">Deskripsi Profil</label>
+    <textarea id="deskripsiProfil" name="deskripsi" required><%= profil.deskripsi || '' %></textarea>
+
+    <label>Tag Keahlian</label>
+    <% var terpilih = (profil.tagKeahlian || '').split(','); %>
+    <div class="baris-chip">
+      <% Object.keys(TAG).forEach(function (k) { %>
+        <label class="chip-pilih">
+          <input type="checkbox" name="tagKeahlian" value="<%= k %>" <%= terpilih.includes(k) ? 'checked' : '' %>>
+          <%= TAG[k] %>
+        </label>
+      <% }); %>
+    </div>
+
+    <div class="aksi-form">
+      <button class="tombol" type="submit">Simpan</button>
+      <a class="tombol tombol-garis" href="/mitra/profil">Batal</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

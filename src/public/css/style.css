@@ -300,3 +300,48 @@ input[type="file"] { width: 100%; font-size: 18px; margin-bottom: 8px; }
   .kartu-fitur h2 { font-size: 48px; }
   .nav-utama a { padding: 6px 12px; font-size: 18px; }
 }
+
+/* ---------- Menu header mitra ---------- */
+.menu-header { display: flex; gap: 40px; align-items: center; }
+.menu-header a { color: var(--cokelat-tua); font-size: 24px; font-weight: 500; text-decoration: none; }
+.menu-header a:hover { text-decoration: underline; }
+
+/* ---------- Halaman profil mitra dan jadwal (UI-28) ---------- */
+.kartu-mitra.tanpa-tombol { grid-template-columns: 162px 1fr; }
+.baris-jadwal { display: flex; justify-content: space-between; align-items: center; margin: 28px 0 24px; }
+.baris-jadwal h2 { margin: 0; font-size: 34px; }
+.aksi-baris { display: flex; gap: 16px; }
+.jadwal-grid { display: grid; grid-template-columns: 530px 1fr; gap: 90px; align-items: start; }
+
+.kalender { border: 1px solid var(--cokelat); border-radius: 24px; padding: 24px 28px; }
+.kalender-atas { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.kalender-atas select { width: auto; padding: 8px 12px; border-radius: 12px; font-size: 22px; color: var(--cokelat); }
+.panah { font-size: 36px; line-height: 1; color: var(--cokelat); text-decoration: none; padding: 0 12px; }
+.kalender table { width: 100%; border-collapse: collapse; text-align: center; }
+.kalender th { color: var(--cokelat); font-weight: 400; font-size: 18px; padding-bottom: 10px; }
+.kalender td { padding: 4px 0; }
+.hari { position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: 12px; font-size: 24px; color: var(--cokelat); text-decoration: none; }
+a.hari:hover { background: rgba(64, 40, 33, .08); }
+.hari.dipilih { background: var(--cokelat-tua); color: var(--putih); }
+.hari.pudar { opacity: .45; }
+.hari.ada-slot::after { content: ""; position: absolute; bottom: 5px; width: 6px; height: 6px;
+  border-radius: 50%; background: currentColor; }
+
+.waktu h2 { margin-bottom: 4px; }
+.judul-tengah { text-align: center; }
+.petunjuk { color: var(--cokelat); font-size: 20px; }
+.slot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  background: var(--putih); border: 1px solid var(--cokelat); border-radius: 36px;
+  padding: 18px 20px 18px 30px; margin-bottom: 22px; font-size: 34px; }
+.slot .tombol { min-height: 52px; padding: 8px 32px; font-size: 22px; }
+.slot input[type="time"] { width: 150px; padding: 8px 10px; font-size: 22px; border-radius: 12px; }
+.slot-ubah, .slot-baru { font-size: 24px; }
+.slot-baru { border-style: dashed; background: transparent; }
+.aksi-slot { display: flex; gap: 10px; }
+.aksi-slot .tombol { min-height: 44px; padding: 8px 20px; font-size: 18px; }
+
+/* ---------- Halaman form sempit (edit profil, edit dokumen) ---------- */
+.halaman-form { max-width: 636px; margin: 0 auto; }
+.halaman-form h1 { font-size: 36px; margin: 0 0 18px; }
+.halaman-form .kotak h3 { font-size: 26px; font-weight: 400; margin-bottom: 20px; }
