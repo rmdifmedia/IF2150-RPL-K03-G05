@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+<!-- Konfirmasi Konsultasi (UC11, mitra) -->
+<% var w = pisah(sesi.waktuPengajuan); var bisaTanggapi = sesi.statusSesi === 'menunggu' && sisaDetik > 0; %>
+<section class="info-klien">
+  <div class="klien-atas">
+    <div class="foto-klien" role="img" aria-label="Foto klien"></div>
+    <div class="klien-meta">
+      <h3><%= sesi.namaMasyarakat %></h3>
+      <div class="meta-baris">
+        <div>
+          <span class="meta-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Waktu Pengajuan</span>
+          <span class="meta-nilai"><%= w.jam %>, <%= w.tanggal %></span>
+        </div>
+        <div>
+          <span class="meta-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Permintaan Durasi</span>
+          <span class="meta-nilai">01:00</span>
+        </div>
+        <div>
+          <span class="meta-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/></svg>
+            Sisa Waktu Respon</span>
+          <span class="meta-nilai" id="sisaWaktu" data-sisa="<%= sisaDetik %>">
+            <%= sesi.statusSesi === 'menunggu' ? '--:--' : '-' %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="jadwal-konsul">Jadwal konsultasi: <strong><%= sesi.tanggalJadwal %>, <%= labelSlot(sesi.waktuJadwal) %> WIB</strong></p>
+  <% if (sesi.kategoriMasalah) { %><div class="baris-chip"><span class="chip-tag"><%= sesi.kategoriMasalah %></span></div><% } %>
+  <% if (sesi.judulKasus) { %><h4 class="judul-kasus"><%= sesi.judulKasus %></h4><% } %>
+  <div class="isi-kasus"><%= sesi.deskripsiKasus || 'Klien belum melampirkan ringkasan masalah.' %></div>
+
+  <% if (bisaTanggapi) { %>
+    <form method="POST" action="/konsultasi/pengajuan/<%= sesi.idSesi %>" class="aksi-tanggapan">
+      <input type="text" name="catatan" maxlength="500" placeholder="Tulis catatan..." aria-label="Catatan untuk klien">
+      <button type="submit" name="aksi" value="terima" class="status-pil status-terima">Terima</button>
+      <button type="submit" name="aksi" value="tolak" class="status-pil status-tolak">Tolak</button>
+    </form>
+  <% } else { %>
+    <div class="aksi-tanggapan sudah">
+      <span class="pil pil-<%= sesi.statusSesi %>"><%= LABEL_STATUS[sesi.statusSesi] || sesi.statusSesi %></span>
+      <% if (sesi.catatanKonsul) { %><span class="catatan-lama">Catatan: <%= sesi.catatanKonsul %></span><% } %>
+      <% if (['terjadwal', 'berlangsung'].includes(sesi.statusSesi)) { %>
+        <a class="tombol tombol-kecil" href="/konsultasi/chat/<%= sesi.idSesi %>">Buka Chat</a>
+      <% } %>
+    </div>
+  <% } %>
+</section>
+
+<script>
+  (function () {
+    var el = document.getElementById('sisaWaktu');
+    var sisa = Number(el.dataset.sisa);
+    if (!sisa) return;
+    (function tick() {
+      var m = String(Math.floor(sisa / 60)).padStart(2, '0'), s = String(sisa % 60).padStart(2, '0');
+      el.textContent = m + ':' + s;
+      if (sisa-- > 0) setTimeout(tick, 1000); else location.reload();   // lewat batas -> batal otomatis
+    })();
+  })();
+</script>
+<%- include('../partials/footer') %>

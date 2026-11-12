@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+<!-- List Pengajuan konsultasi (UC11, mitra) -->
+<div class="sempit">
+  <h2>List Pengajuan</h2>
+
+  <% if (daftar.length === 0) { %>
+    <div class="kotak"><p><strong>Belum ada permintaan konsultasi.</strong></p></div>
+  <% } %>
+
+  <% daftar.forEach(function (s) { var w = pisah(s.waktuPengajuan); %>
+    <a class="kartu-sesi kartu-link" href="/konsultasi/pengajuan/<%= s.idSesi %>">
+      <div>
+        <h3><%= s.namaMasyarakat %></h3>
+        <p class="deskripsi">
+          Jadwal: <%= s.tanggalJadwal %> &middot; <%= s.waktuJadwal.replace(':', '.') %> WIB
+          &middot; Diajukan <%= w.jam %>, <%= w.tanggal %>
+        </p>
+        <% if (s.kategoriMasalah) { %><span class="chip-tag"><%= s.kategoriMasalah %></span><% } %>
+      </div>
+      <div class="aksi-sesi">
+        <span class="pil pil-<%= s.statusSesi %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
+        <% if (['terjadwal', 'berlangsung'].includes(s.statusSesi)) { %>
+          <span class="tombol tombol-kecil tombol-garis" data-href="/konsultasi/chat/<%= s.idSesi %>">Chat</span>
+        <% } %>
+      </div>
+    </a>
+  <% }); %>
+</div>
+<script>
+  // tombol "Chat" di dalam kartu tautan
+  document.querySelectorAll('[data-href]').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); location.href = el.dataset.href; });
+  });
+</script>
+<%- include('../partials/footer') %>

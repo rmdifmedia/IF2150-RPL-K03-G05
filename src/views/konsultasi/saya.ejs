@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+<div class="sempit">
+  <h2>Sesi Konsultasi Saya</h2>
+
+  <% if (daftar.length === 0) { %>
+    <div class="kotak"><p><strong>Belum ada sesi konsultasi.</strong></p>
+      <a class="tombol" href="/halolaw/mitra">Cari Mitra Pengacara</a></div>
+  <% } %>
+
+  <% daftar.forEach(function (s) {
+       var izin = Sesi.izinChat(s);
+       var lunas = Sesi.sudahLunas(s); %>
+    <article class="kartu-sesi">
+      <div>
+        <h3><%= s.namaMitra %></h3>
+        <p class="deskripsi">
+          <%= s.tanggalJadwal %> &middot; <%= labelSlot(s.waktuJadwal) %> WIB
+          <% if (s.judulKasus) { %> &middot; <%= s.judulKasus %><% } %>
+        </p>
+        <% if (s.statusSesi === 'dibatalkan' && s.catatanKonsul) { %>
+          <p class="deskripsi">Catatan: <%= s.catatanKonsul %></p>
+        <% } %>
+      </div>
+      <div class="aksi-sesi">
+        <span class="pil pil-<%= s.statusSesi %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
+        <% if (s.statusSesi === 'terjadwal' && !lunas) { %>
+          <a class="tombol tombol-kecil" href="/transaksi/bayar/<%= s.idSesi %>">Bayar</a>
+        <% } %>
+        <% if (['terjadwal', 'berlangsung'].includes(s.statusSesi) && (lunas || izin.ok)) { %>
+          <a class="tombol tombol-kecil" href="/konsultasi/chat/<%= s.idSesi %>">Buka Chat</a>
+        <% } else if (s.statusSesi === 'selesai') { %>
+          <a class="tombol tombol-kecil tombol-garis" href="/konsultasi/chat/<%= s.idSesi %>">Lihat Riwayat</a>
+        <% } %>
+      </div>
+    </article>
+  <% }); %>
+</div>
+<%- include('../partials/footer') %>
