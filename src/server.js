@@ -37,7 +37,17 @@ app.use((req, res, next) => {
 });
 
 require('./socket/livechat')(io, sessionMiddleware);
-require('./socket/konsultasi')(io, sessionMiddleware);
+require('./socket/konsultasi')(io, sessionMiddleware);   // UC12 chat konsultasi (namespace /konsultasi)
+
+// Tugas berkala UC11/UC12: batalkan permintaan yang tidak ditanggapi & tutup sesi chat yang idle (otomatis di DB)
+const SesiKonsultasi = require('./models/SesiKonsultasi');
+setInterval(() => {
+  try {
+    SesiKonsultasi.batalkanKedaluwarsa();
+    SesiKonsultasi.tutupIdleSemua().forEach((id) =>
+      io.of('/konsultasi').to(`sesi_${id}`).emit('sesi_selesai', { idSesi: id, oleh: 'sistem' }));
+  } catch (e) { console.error('Job konsultasi gagal:', e.message); }
+}, 60 * 1000).unref();
 
 app.use('/', require('./routes/auth'));
 app.use('/masyarakat', require('./routes/masyarakat'));
