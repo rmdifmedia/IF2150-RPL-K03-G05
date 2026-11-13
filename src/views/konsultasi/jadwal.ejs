@@ -1,0 +1,70 @@
+<%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<link rel="stylesheet" href="/css/konsultasi.css">
+<!-- UI-08: Pemilihan Jadwal Konsultasi (UC10) -->
+
+<!-- O-30: ringkasan mitra -->
+<section class="profil-mitra">
+  <div class="foto" role="img" aria-label="Foto <%= mitra.nama %>"></div>
+  <div>
+    <h2><%= mitra.nama %></h2>
+    <p class="deskripsi"><%= mitra.deskripsi || 'Belum ada deskripsi.' %></p>
+    <div class="baris-chip">
+      <% (mitra.tagKeahlian || '').split(',').filter(Boolean).forEach(function (t) { %>
+        <span class="chip"><%= TAG[t] || t %></span>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<h2 class="judul-jadwal">Jadwal</h2>
+
+<div class="jadwal-grid" id="jadwalApp"
+     data-id-mitra="<%= mitra.idMitra %>" data-hari-ini="<%= hariIni %>">
+
+  <!-- O-31: kalender -->
+  <div class="kalender" aria-label="Kalender pemilihan tanggal">
+    <div class="kalender-atas">
+      <button type="button" class="kal-panah" id="kalPrev" aria-label="Bulan sebelumnya">&#8249;</button>
+      <select id="kalBulan" class="kal-select" aria-label="Bulan"></select>
+      <select id="kalTahun" class="kal-select" aria-label="Tahun"></select>
+      <button type="button" class="kal-panah" id="kalNext" aria-label="Bulan berikutnya">&#8250;</button>
+    </div>
+    <div class="kal-hari" aria-hidden="true">
+      <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+    </div>
+    <div class="kal-tanggal" id="kalTanggal" role="grid"></div>
+  </div>
+
+  <!-- O-32: slot waktu -->
+  <div class="waktu-tersedia">
+    <h2>Waktu Tersedia</h2>
+    <p id="infoTanggal" class="info-tanggal" hidden></p>
+    <div id="daftarSlot" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- konfirmasi permintaan (setelah menekan "Pilih") -->
+<dialog id="dialogKonfirmasi" class="dialog-konsul">
+  <form method="POST" action="/konsultasi/jadwal/<%= mitra.idMitra %>">
+    <h3>Konfirmasi Permintaan Konsultasi</h3>
+    <p>Mitra: <strong><%= mitra.nama %></strong></p>
+    <p>Jadwal: <strong id="ringkasJadwal"></strong></p>
+    <% if (kasus) { %>
+      <p>Kasus: <strong><%= kasus.judulKasus %></strong></p>
+      <input type="hidden" name="idKasus" value="<%= kasus.idKasus %>">
+    <% } else { %>
+      <p class="bantuan-form">Belum ada kasus yang terhubung dengan permintaan ini.</p>
+    <% } %>
+    <input type="hidden" name="tanggal" id="inputTanggal">
+    <input type="hidden" name="waktu" id="inputWaktu">
+    <div class="aksi-dialog">
+      <button type="button" class="tombol tombol-garis tombol-kecil" id="batalKonfirmasi">Batal</button>
+      <button type="submit" class="tombol tombol-kecil">Kirim Permintaan</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="/js/konsultasi-jadwal.js"></script>
+<%- include('../partials/footer') %>

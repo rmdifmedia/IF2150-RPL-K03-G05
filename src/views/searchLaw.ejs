@@ -1,0 +1,77 @@
+<%- include('partials/header', { varian: 'penuh', judul: 'searchLaw', ikonJudul: 'buku', judulHalaman: 'SearchLaw'})%>
+
+<section class="searchlaw">
+
+<!-- Search Bar -->
+<form action="/searchlaw" method="GET" class="searchlaw-form">
+  <div class="searchlaw-input">
+    <input
+      type="search"
+      name="q"
+      placeholder="Cari peraturan, nomor, atau tahun..."
+      value="<%= keyword || '' %>"
+    >
+    <button type="submit" class="searchlaw-tombol-cari">
+      Cari
+    </button>
+  </div>
+</form>
+
+<!-- Filter -->
+<div class="searchlaw-filter">
+  <button type="button" class="searchlaw-tombol-filter" disabled>
+    Filter
+  </button>
+</div>
+
+<!-- Hasil Pencarian -->
+<section class="searchlaw-hasil">
+  <h2>Hasil Pencarian</h2>
+
+  <div class="searchlaw-container">
+
+    <% if (hasil.length > 0) { %>
+
+      <% hasil.forEach(function (peraturan) { %>
+        <article class="searchlaw-kartu">
+
+          <span class="searchlaw-jenis">
+            <%= peraturan.jenisPeraturan %>
+          </span>
+
+          <h3><%= peraturan.judul %></h3>
+
+          <p class="searchlaw-nomor">
+            Nomor <%= peraturan.nomor %> Tahun <%= peraturan.tahun %>
+          </p>
+
+          <p class="searchlaw-deskripsi">
+            <%= peraturan.deskripsi || 'Deskripsi belum tersedia.' %>
+          </p>
+
+          <div class="searchlaw-kartu-bawah">
+            <span><%= peraturan.status || 'Status belum diketahui' %></span>
+
+            <a href="<%= peraturan.linkPDF %>"
+               target="_blank"
+               rel="noopener noreferrer">
+              Selebihnya...
+            </a>
+          </div>
+
+        </article>
+      <% }) %>
+
+    <% } else { %>
+
+      <p class="searchlaw-kosong">
+        Belum ada peraturan yang cocok dengan pencarianmu.
+      </p>
+
+    <% } %>
+
+  </div>
+</section>
+</section>
+
+<%- include('partials/footer') %>

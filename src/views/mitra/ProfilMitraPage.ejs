@@ -1,0 +1,103 @@
+<%- include('../partials/header', { judulHalaman: 'Profil Mitra' }) %>
+
+<article class="kartu-mitra tanpa-tombol">
+  <img class="foto" src="/img/avatar.svg" alt="Foto <%= profil.nama %>">
+  <div>
+    <h3><%= profil.nama %></h3>
+    <p class="deskripsi"><%= profil.deskripsi || 'Belum ada deskripsi profil.' %></p>
+    <div class="baris-chip">
+      <% (profil.tagKeahlian || '').split(',').filter(function (t) { return t.trim(); }).forEach(function (t) { %>
+        <span class="chip"><%= TAG[t.trim()] || t.trim() %></span>
+      <% }) %>
+    </div>
+  </div>
+</article>
+
+<div class="baris-jadwal">
+  <h2>Jadwal</h2>
+  <div class="aksi-baris">
+    <a class="tombol tombol-garis tombol-kecil" href="/mitra/profil/edit">Edit Profil</a>
+    <a class="tombol tombol-kecil" href="/mitra/dokumen">Edit Dokumen</a>
+  </div>
+</div>
+
+<div class="jadwal-grid">
+  <section class="kalender">
+    <form class="kalender-atas" method="GET" action="/mitra/profil">
+      <a class="panah" href="/mitra/profil?tanggal=<%= tanggalSebelumnya %>" aria-label="Bulan sebelumnya">&#8249;</a>
+      <select name="bulan" onchange="this.form.submit()" aria-label="Bulan">
+        <% namaBulan.forEach(function (n, i) { %>
+          <option value="<%= i + 1 %>" <%= (i + 1) === bulan ? 'selected' : '' %>><%= n %></option>
+        <% }) %>
+      </select>
+      <select name="tahun" onchange="this.form.submit()" aria-label="Tahun">
+        <% daftarTahun.forEach(function (t) { %>
+          <option value="<%= t %>" <%= t === tahun ? 'selected' : '' %>><%= t %></option>
+        <% }) %>
+      </select>
+      <a class="panah" href="/mitra/profil?tanggal=<%= tanggalBerikutnya %>" aria-label="Bulan berikutnya">&#8250;</a>
+    </form>
+
+    <table>
+      <tr><% ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].forEach(function (h) { %><th><%= h %></th><% }) %></tr>
+      <% minggu.forEach(function (pekan) { %>
+        <tr>
+          <% pekan.forEach(function (sel) { %>
+            <td>
+              <% if (sel && sel.pudar) { %>
+                <span class="hari pudar"><%= sel.hari %></span>
+              <% } else if (sel) { %>
+                <a class="hari<%= sel.dipilih ? ' dipilih' : '' %><%= sel.adaSlot ? ' ada-slot' : '' %>"
+                   href="/mitra/profil?tanggal=<%= sel.iso %>"><%= sel.hari %></a>
+              <% } %>
+            </td>
+          <% }) %>
+        </tr>
+      <% }) %>
+    </table>
+  </section>
+
+  <section class="waktu">
+    <h2 class="judul-tengah">Waktu Tersedia</h2>
+    <p class="judul-tengah petunjuk"><%= tanggal %></p>
+
+    <% if (slot.length === 0) { %>
+      <p class="judul-tengah">Belum ada slot pada tanggal ini.</p>
+    <% } %>
+
+    <% slot.forEach(function (s) { %>
+      <% if (s.idJadwal === idUbah) { %>
+        <form class="slot slot-ubah" method="POST" action="/mitra/jadwal/<%= s.idJadwal %>/ubah">
+          <span>
+            <input type="time" name="waktuMulai" value="<%= s.waktuMulai %>" required> -
+            <input type="time" name="waktuSelesai" value="<%= s.waktuSelesai %>" required>
+          </span>
+          <span class="aksi-slot">
+            <button class="tombol" type="submit">Simpan</button>
+            <button class="tombol tombol-garis" type="submit"
+                    formaction="/mitra/jadwal/<%= s.idJadwal %>/hapus" formnovalidate>Hapus</button>
+            <a class="tombol tombol-garis" href="/mitra/profil?tanggal=<%= tanggal %>">Batal</a>
+          </span>
+        </form>
+      <% } else { %>
+        <div class="slot">
+          <span><%= s.waktuMulai.replace(':', '.') %> - <%= s.waktuSelesai.replace(':', '.') %></span>
+          <a class="tombol" href="/mitra/profil?tanggal=<%= tanggal %>&ubah=<%= s.idJadwal %>">Edit</a>
+        </div>
+      <% } %>
+    <% }) %>
+
+    <% if (tanggal >= tanggalHariIni) { %>
+      <form class="slot slot-baru" method="POST" action="/mitra/jadwal">
+        <input type="hidden" name="tanggal" value="<%= tanggal %>">
+        <span>
+          <input type="time" name="waktuMulai" required> -
+          <input type="time" name="waktuSelesai" required>
+        </span>
+        <button class="tombol" type="submit">Tambah</button>
+      </form>
+    <% } %>
+  </section>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveChat Admin - LawHub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/livechat.css" />
+</head>
+<body class="halaman-livechat">
+  <header class="header">
+    <div class="header-isi livechat-header-isi">
+      <a class="logo" href="/admin" aria-label="LawHub - beranda admin">
+        <img src="/img/logo.png" alt="LawHub" />
+      </a>
+
+      <nav class="header-nav" aria-label="Navigasi Admin">
+        <a href="/admin" class="nav-link">Verifikasi Mitra</a>
+        <a href="/admin" class="nav-link">Tinjau Laporan</a>
+        <a href="/admin/livechat" class="nav-link is-active">LiveChat</a>
+      </nav>
+
+      <div class="header-kanan">
+        <a class="ikon-tombol" href="#" title="Notifikasi" aria-label="Notifikasi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </a>
+        <details class="profil">
+          <summary class="ikon-tombol" title="Profil" aria-label="Menu profil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M6.17 18.5a7 7 0 0 1 11.66 0"/>
+            </svg>
+          </summary>
+          <div class="profil-menu">
+            <strong><%= user.nama %></strong>
+            <small><%= user.peran %></small>
+            <a href="/logout">Keluar</a>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <section class="chat-subheader">
+    <div class="subheader-kiri">
+      <div class="chat-avatar" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="32" fill="#D8D9DC" />
+          <circle cx="32" cy="24" r="11" fill="#A9ACB3" />
+          <path d="M12 56c0-11 9-20 20-20s20 9 20 20" fill="#A9ACB3" />
+        </svg>
+      </div>
+      <div class="subheader-title-wrap">
+        <h2 class="subheader-title">
+          <%= chatAktif ? 'Masyarakat (' + chatAktif.namaMasyarakat + ')' : 'Masyarakat' %>
+        </h2>
+        <span id="statusLabel" class="subheader-status">
+          <% if (chatAktif) { %>
+            Sesi #<%= chatAktif.idChat %> — <%= chatAktif.statusChat %>
+          <% } else { %>
+            Tidak ada sesi aktif dipilih
+          <% } %>
+        </span>
+      </div>
+    </div>
+
+    <div class="subheader-kanan">
+      <select
+        id="antreanSelect"
+        class="antrean-select"
+        aria-label="Pilih antrean chat"
+        onchange="if (this.value) window.location.href = '/admin/livechat?idChat=' + this.value;"
+      >
+        <% if (daftarAntrean.length === 0) { %>
+          <option value="">Antrean kosong (0)</option>
+        <% } else { %>
+          <% daftarAntrean.forEach(function(item) { %>
+            <option value="<%= item.idChat %>" <%= chatAktif && chatAktif.idChat === item.idChat ? 'selected' : '' %>>
+              #<%= item.idChat %> - <%= item.namaMasyarakat %> (<%= item.statusChat %>)
+            </option>
+          <% }) %>
+        <% } %>
+      </select>
+
+      <form action="/admin/livechat/standby" method="POST">
+        <button
+          type="submit"
+          class="btn-subheader <%= admin && admin.statusStandby === 1 ? 'btn-standby-on' : 'btn-standby-off' %>"
+        >
+          <%= admin && admin.statusStandby === 1 ? 'Standby: Aktif' : 'Standby: Off' %>
+        </button>
+      </form>
+
+      <% if (chatAktif && chatAktif.statusChat !== 'selesai') { %>
+        <form action="/admin/livechat/<%= chatAktif.idChat %>/selesai" method="POST">
+          <button type="submit" class="btn-subheader btn-akhiri">Selesaikan</button>
+        </form>
+      <% } %>
+    </div>
+  </section>
+
+  <div
+    id="chatApp"
+    class="chat-container"
+    data-peran="admin"
+    data-chat-id="<%= chatAktif ? chatAktif.idChat : '' %>"
+    data-chat-status="<%= chatAktif ? chatAktif.statusChat : '' %>"
+  >
+    <% (sukses || []).forEach(function (p) { %>
+      <div class="chat-alert alert-sukses"><%= p %></div>
+    <% }) %>
+    <% (error || []).forEach(function (p) { %>
+      <div class="chat-alert alert-error"><%= p %></div>
+    <% }) %>
+    <div id="socketError" class="chat-alert alert-error" style="display: none;"></div>
+    <div id="newQueueToast" class="chat-notice" style="display: none;"></div>
+
+    <% if (!chatAktif) { %>
+      <div class="chat-notice">
+        Belum ada pertanyaan masuk dari Masyarakat saat ini. Halaman akan memantau antrean baru secara otomatis.
+      </div>
+    <% } %>
+
+    <div id="chatMessages" class="chat-messages">
+      <% daftarPesan.forEach(function(p) { %>
+        <div class="msg-row <%= p.peranPengirim === 'admin' ? 'is-self' : 'is-other' %>" data-id-pesan="<%= p.idPesan %>">
+          <div class="msg-bubble <%= p.peranPengirim === 'masyarakat' ? 'sender-masyarakat' : 'sender-admin' %>">
+            <%= p.isiPesan %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <form id="chatForm" class="chat-input-bar">
+      <div class="chat-input-pill <%= (!chatAktif || chatAktif.statusChat === 'selesai') ? 'is-disabled' : '' %>">
+        <input
+          type="text"
+          id="isiPesan"
+          placeholder="JawabAdmin"
+          autocomplete="off"
+          maxlength="2000"
+          <%= (!chatAktif || chatAktif.statusChat === 'selesai') ? 'disabled' : '' %>
+        />
+        <button
+          type="submit"
+          class="btn-kirim-chat"
+          aria-label="Kirim balasan"
+          <%= (!chatAktif || chatAktif.statusChat === 'selesai') ? 'disabled' : '' %>
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/livechat.js"></script>
+</body>
+</html>
