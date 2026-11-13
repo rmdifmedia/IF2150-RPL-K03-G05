@@ -1,0 +1,33 @@
+<%- include('../partials/header', { varian: 'polos', judulHalaman: 'Form Ulasan' }) %>
+<div class="sempit">
+  <% if (locals.error) { %><% error.forEach(e => { %><div class="alert alert-error"><%= e %></div><% }) %><% } %>
+
+  <section class="kartu kartu-lebar">
+    <h3><%= sesi.namaMitra %></h3>
+    <% if (sesi.tagKeahlian) { %>
+      <div class="baris-chip">
+        <% sesi.tagKeahlian.split(',').forEach(t => { %><span class="chip"><%= t.trim() %></span><% }) %>
+      </div>
+    <% } %>
+  </section>
+
+  <form class="kartu kartu-lebar" method="POST" action="/transaksi/ulasan/<%= sesi.idSesi %>">
+    <h3 class="judul-tengah">Tulis Ulasan</h3>
+    <p>Berikan Nilai</p>
+    <div class="baris-chip">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <label class="centang bintang">
+          <input type="radio" name="skor" value="<%= i %>" <%= String(lama.skor) === String(i) ? 'checked' : '' %> required>
+          <%= '★'.repeat(i) %>
+        </label>
+      <% } %>
+    </div>
+    <label for="teks">Tulis Ulasan</label>
+    <textarea id="teks" name="teks" maxlength="1000" placeholder="Ceritakan pengalaman konsultasimu"><%= lama.teks || '' %></textarea>
+    <div class="aksi-form baris-chip">
+      <button type="submit" class="tombol">Kirim</button>
+      <a class="tombol tombol-garis" href="/transaksi/riwayat">Batal</a>
+    </div>
+  </form>
+</div>
+<%- include('../partials/footer') %>

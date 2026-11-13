@@ -1,0 +1,58 @@
+<%- include('../partials/header', { varian: 'polos', judulHalaman: 'Keuangan' }) %>
+<div class="sempit">
+  <h2>Keuangan</h2>
+
+  <section class="kotak">
+    <p>Total Saldo</p>
+    <h2 class="saldo"><%= rupiah(saldo) %></h2>
+    <p class="bantuan-form">Pencairan dilakukan manual, tidak otomatis setelah pembayaran diterima.</p>
+
+    <% if (rekening) { %>
+      <form method="POST" action="/transaksi/keuangan/cairkan" class="baris-chip">
+        <input class="input-nominal" type="number" name="nominal" min="1" max="<%= saldo %>" step="1" placeholder="Nominal pencairan" required>
+        <button type="submit" class="tombol tombol-kecil">Cairkan Dana</button>
+      </form>
+    <% } else { %>
+      <p class="bantuan-form">Isi rekening tujuan di bawah sebelum mencairkan dana.</p>
+    <% } %>
+  </section>
+
+  <section class="kotak jarak-atas">
+    <h3>Rekening Tujuan</h3>
+    <% if (rekening) { %>
+      <p><strong><%= rekening.bank %></strong><br><%= rekening.tersamar %><br><%= rekening.pemilik %></p>
+      <details><summary>Ubah rekening</summary>
+    <% } %>
+    <form class="form-rekening" method="POST" action="/transaksi/keuangan/rekening">
+      <input type="text" name="bank" placeholder="Nama Bank/E-Wallet" required>
+      <input type="text" name="nomor" inputmode="numeric" placeholder="Nomor Rekening" required>
+      <input type="text" name="pemilik" placeholder="Nama Pemilik" required>
+      <div class="aksi-form"><button class="tombol tombol-kecil" type="submit">Simpan Rekening</button></div>
+    </form>
+    <% if (rekening) { %></details><% } %>
+  </section>
+
+  <section class="kotak jarak-atas">
+    <h3>Informasi Transaksi</h3>
+    <% if (!transaksi.length) { %><p>Belum ada transaksi.</p><% } %>
+    <% transaksi.forEach(t => { %>
+      <div class="baris-transaksi">
+        <strong>Pembayaran <%= t.klien %></strong><br>
+        <span class="nominal"><%= rupiah(t.nominal) %></span>
+        · <%= tanggal(t.waktuTransaksi) %> · <%= t.metodeBayar %>
+        <span class="alert badge <%= t.statusPembayaran === 'berhasil' ? 'alert-sukses' : 'alert-error' %>"><%= LABEL[t.statusPembayaran] || t.statusPembayaran %></span>
+      </div>
+    <% }) %>
+  </section>
+
+  <section class="kotak jarak-atas">
+    <h3>Riwayat Pencairan</h3>
+    <% if (!pencairan.length) { %><p>Belum ada pencairan.</p><% } %>
+    <table class="tabel">
+      <% pencairan.forEach(p => { %>
+        <tr><td><%= tanggal(p.tanggalPengajuan) %></td><td><%= rupiah(p.totalPencairan) %></td><td><%= p.statusPencairan %></td></tr>
+      <% }) %>
+    </table>
+  </section>
+</div>
+<%- include('../partials/footer') %>

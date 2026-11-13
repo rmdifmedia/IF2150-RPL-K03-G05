@@ -2,6 +2,13 @@
 <div class="sempit">
 
   <section class="kotak login-panel">
+    
+    <% if (error && error.length > 0) { %>
+      <div class="alert alert-error">
+          <%= error[0] %>
+      </div>
+    <% } %>
+
     <form id="form-login" class="login-form" method="POST" action="/login">
       <p class="login-judul">Login Sebagai Mitra Pengacara/Admin</p>
       <input id="username" class="isian" type="text" name="email" placeholder="Username" autocomplete="username" required>
@@ -16,7 +23,7 @@
     <div class="login-samping">
       <a class="lupa" href="#">Lupa username atau password?</a>
       <p>Kamu bisa menggunakan fitur SearchLaw tanpa login!</p>
-      <a class="tombol tombol-garis" href="/pencarian/pasal">Log In Sebagai Tamu</a>
+      <a class="tombol tombol-garis" href="/searchlaw">Log In Sebagai Tamu</a>
     </div>
   </section>
 

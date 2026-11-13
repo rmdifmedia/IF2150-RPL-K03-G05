@@ -247,3 +247,249 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--cokelat-tua
 /* ---------- Registrasi mitra ---------- */
 .judul-seksi { font-size: 24px; margin: 22px 0 12px; }
 input[type="file"] { width: 100%; font-size: 18px; margin-bottom: 8px; }
+
+/* ---------- Beranda mitra (UI-31) ---------- */
+.dashboard-mitra { max-width: 780px; margin: 0 auto; padding: 36px 16px 56px; }
+.sapaan { font-size: 30px; margin: 0 0 22px; }
+.judul-bagian { font-size: 17px; font-weight: 400; margin: 20px 0 8px; }
+.judul-baris { display: flex; justify-content: space-between; align-items: baseline; }
+.judul-baris a { font-size: 16px; }
+
+.baris-statistik, .baris-kartu {
+  display: grid; gap: 8px; padding: 8px;
+  background: var(--putih); border-radius: 6px;
+}
+.baris-statistik { grid-template-columns: 1.15fr 1.15fr .8fr 1.35fr; }
+.baris-kartu { grid-template-columns: repeat(3, 1fr); }
+
+.kartu-stat, .kartu-mini {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 12px 14px; border-radius: 14px;
+  background: var(--cokelat); color: var(--kuning);
+}
+.kartu-stat strong, .kartu-mini strong { font-size: 22px; font-weight: 500; line-height: 1.15; }
+.kartu-stat span, .kartu-mini span { font-size: 14px; color: var(--putih); }
+.kartu-stat strong svg { width: 1em; height: 1em; margin-right: 6px; vertical-align: -.12em; }
+
+.kolom-sesi { display: flex; flex-direction: column; gap: 8px; }
+.kosong-dashboard { margin: 0; padding: 18px; background: var(--putih); border-radius: 6px; }
+
+@media (max-width: 720px) {
+  .baris-statistik { grid-template-columns: 1fr 1fr; }
+  .baris-kartu { grid-template-columns: 1fr; }
+}
+
+/* -------- SearchLaw -------- */
+
+.searchlaw-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 5px;
+  background: white;
+}
+
+.searchlaw-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  background: transparent;
+}
+
+.searchlaw-tombol-cari {
+  border: none;
+  border-radius: 9px;
+  padding: 9px 20px;
+  cursor: pointer;
+}
+
+.searchlaw-filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.searchlaw-tombol-filter {
+  padding: 5px 12px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: white;
+  cursor: not-allowed;
+}
+
+.searchlaw-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.searchlaw-kartu {
+  padding: 16px 8px;
+}
+
+.searchlaw-kartu + .searchlaw-kartu {
+  border-top: 1px solid #eee;
+}
+
+.searchlaw-kartu h3 {
+  margin: 8px 0;
+}
+
+.searchlaw-kartu-bawah {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.searchlaw-kosong {
+  padding: 20px 8px;
+  text-align: center;
+}
+
+.judul-tengah { text-align: center; }
+.jarak-atas { margin-top: 24px; }
+.centang.bintang { margin: 0; }
+
+/* ---------- Riwayat ---------- */
+.kartu-riwayat { grid-template-columns: 1fr auto; border-radius: 40px; padding: 24px 40px; }
+.kartu-mitra .deskripsi.kecil { font-size: 18px; }
+.aksi-riwayat { display: grid; gap: 10px; }
+.tombol-terang { color: var(--kuning); border-color: var(--kuning); }
+
+.kartu-header-chat { grid-template-columns: 1fr; border-radius: 40px; padding: 18px 40px; margin-bottom: 24px; }
+
+.bubble-baris { display: flex; margin-bottom: 12px; }
+.bubble-baris.saya { justify-content: flex-end; }
+.bubble-baris.lawan { justify-content: flex-start; }
+.bubble {
+  max-width: 70%; padding: 10px 18px; border-radius: 18px;
+  border: 1px solid var(--cokelat);
+}
+.bubble.saya { background: var(--cokelat); color: var(--kuning); }
+.bubble.lawan { background: var(--putih); color: var(--cokelat-tua); }
+.bubble small { display: block; font-size: 13px; opacity: .7; }
+
+/* ---------- Pencairan dana ---------- */
+.saldo { color: var(--sukses-teks); }
+.input-nominal { max-width: 280px; }
+.form-rekening input + input { margin-top: 10px; }
+.baris-transaksi { padding: 12px 0; border-bottom: 1px solid var(--biru-muda-2); }
+.nominal { color: var(--sukses-teks); }
+.badge { display: inline-block; padding: 2px 12px; margin: 0 0 0 8px; }
+/* ---------- Filter daftar mitra ---------- */
+.form-filter { margin: 28px 0; display: grid; gap: 14px; }
+.chip-pilih {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 4px 14px; font-size: 18px; background: var(--putih);
+  border: 1px solid var(--cokelat); border-radius: var(--lengkung);
+}
+.aksi-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.isian-kecil { width: auto; }
+
+/* ---------- Menu utama header (UI-03) ---------- */
+.nav-utama { display: flex; align-items: center; gap: 14px; }
+.nav-utama a {
+  padding: 8px 22px; border-radius: 40px;
+  font-size: 22px; color: var(--cokelat-tua); text-decoration: none;
+}
+.nav-utama a:hover { background: rgba(64, 40, 33, .08); }
+.nav-utama a[aria-current="page"] { background: rgba(255, 255, 255, .45); }
+
+/* ---------- Beranda masyarakat: dua kartu fitur ---------- */
+.beranda-fitur {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+  max-width: 1150px; margin: 56px auto 40px;
+}
+.kartu-fitur {
+  display: flex; flex-direction: column; justify-content: center; gap: 30px;
+  min-height: 320px; padding: 48px 56px;
+  background: var(--cokelat); color: var(--kuning);
+  border-radius: 56px; text-decoration: none;
+  box-shadow: 0 8px 14px rgba(64, 40, 33, .35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.kartu-fitur:hover, .kartu-fitur:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 20px rgba(64, 40, 33, .4);
+}
+.kartu-fitur h2 {
+  display: flex; align-items: center; margin: 0;
+  font-size: 72px; font-weight: 700; line-height: 1;
+}
+.kartu-fitur p { margin: 0; max-width: 420px; font-size: 24px; line-height: 1.3; }
+
+/* ikon: lup menimpa huruf "S" (sesuai desain), telepon di kanan judul */
+.ikon-lup { width: 1.15em; height: 1.15em; margin-right: -.9em; transform: translateY(.06em); flex: none; }
+.ikon-telepon { width: .8em; height: .8em; margin-left: 8px; flex: none; }
+
+@media (max-width: 900px) {
+  .beranda-fitur { grid-template-columns: 1fr; gap: 32px; margin-top: 24px; }
+  .kartu-fitur { min-height: 0; padding: 36px 32px; border-radius: 40px; }
+  .kartu-fitur h2 { font-size: 48px; }
+  .nav-utama a { padding: 6px 12px; font-size: 18px; }
+}
+
+/* ---------- Menu header mitra ---------- */
+.menu-header { display: flex; gap: 40px; align-items: center; }
+.menu-header a { color: var(--cokelat-tua); font-size: 24px; font-weight: 500; text-decoration: none; }
+.menu-header a:hover { text-decoration: underline; }
+
+/* ---------- Halaman profil mitra dan jadwal (UI-28) ---------- */
+.kartu-mitra.tanpa-tombol { grid-template-columns: 162px 1fr; }
+.baris-jadwal { display: flex; justify-content: space-between; align-items: center; margin: 28px 0 24px; }
+.baris-jadwal h2 { margin: 0; font-size: 34px; }
+.aksi-baris { display: flex; gap: 16px; }
+.jadwal-grid { display: grid; grid-template-columns: 530px 1fr; gap: 90px; align-items: start; }
+
+.kalender { border: 1px solid var(--cokelat); border-radius: 24px; padding: 24px 28px; }
+.kalender-atas { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.kalender-atas select { width: auto; padding: 8px 12px; border-radius: 12px; font-size: 22px; color: var(--cokelat); }
+.panah { font-size: 36px; line-height: 1; color: var(--cokelat); text-decoration: none; padding: 0 12px; }
+.kalender table { width: 100%; border-collapse: collapse; text-align: center; }
+.kalender th { color: var(--cokelat); font-weight: 400; font-size: 18px; padding-bottom: 10px; }
+.kalender td { padding: 4px 0; }
+.hari { position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: 12px; font-size: 24px; color: var(--cokelat); text-decoration: none; }
+a.hari:hover { background: rgba(64, 40, 33, .08); }
+.hari.dipilih { background: var(--cokelat-tua); color: var(--putih); }
+.hari.pudar { opacity: .45; }
+.hari.ada-slot::after { content: ""; position: absolute; bottom: 5px; width: 6px; height: 6px;
+  border-radius: 50%; background: currentColor; }
+
+.waktu h2 { margin-bottom: 4px; }
+.judul-tengah { text-align: center; }
+.petunjuk { color: var(--cokelat); font-size: 20px; }
+.slot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  background: var(--putih); border: 1px solid var(--cokelat); border-radius: 36px;
+  padding: 18px 20px 18px 30px; margin-bottom: 22px; font-size: 34px; }
+.slot .tombol { min-height: 52px; padding: 8px 32px; font-size: 22px; }
+.slot input[type="time"] { width: 150px; padding: 8px 10px; font-size: 22px; border-radius: 12px; }
+.slot-ubah, .slot-baru { font-size: 24px; }
+.slot-baru { border-style: dashed; background: transparent; }
+.aksi-slot { display: flex; gap: 10px; }
+.aksi-slot .tombol { min-height: 44px; padding: 8px 20px; font-size: 18px; }
+
+/* ---------- Halaman form sempit (edit profil, edit dokumen) ---------- */
+.halaman-form { max-width: 636px; margin: 0 auto; }
+.halaman-form h1 { font-size: 36px; margin: 0 0 18px; }
+.halaman-form .kotak h3 { font-size: 26px; font-weight: 400; margin-bottom: 20px; }
+
+/* ---------- Edit dokumen legalitas ---------- */
+.field-baca { border: 1px solid var(--cokelat); padding: 12px 18px; margin-bottom: 16px;
+  max-width: 528px; font-size: 20px; }
+.field-baca small { display: block; color: var(--cokelat); font-size: 20px; }
+.baris-dokumen { margin-bottom: 18px; }
+.label-dok { display: block; font-size: 20px; margin-bottom: 6px; }
+.wajib { color: #8F0000; font-weight: 700; margin-left: 4px; }
+.tombol-unggah { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 3px 10px;
+  font-size: 18px; color: var(--cokelat); border: 2px solid var(--cokelat); border-radius: 8px; cursor: pointer; }
+.tombol-unggah input { display: none; }
+.tombol-unggah svg { width: 20px; height: 20px; }
+.nama-berkas { margin-left: 12px; color: var(--cokelat); font-size: 16px; }

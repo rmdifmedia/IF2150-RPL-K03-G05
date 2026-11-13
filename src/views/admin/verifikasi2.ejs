@@ -1,0 +1,247 @@
+<%- include('../partials/header') %>
+
+<style>
+  .admin-wrap {
+    max-width: 820px;
+    margin: 28px auto 56px;
+    padding: 0 20px;
+    color: #432c19;
+  }
+  .admin-wrap .top-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .admin-wrap .back-link {
+    text-decoration: none;
+    color: #5c4028;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .admin-wrap .back-link:hover { text-decoration: underline; }
+  .admin-wrap .page-title {
+    text-align: center;
+    margin: 0 0 20px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .detail-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 24px 28px 28px;
+    box-shadow: 0 2px 6px rgba(67, 44, 25, 0.05);
+    margin-bottom: 18px;
+  }
+  .admin-wrap .profile-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .admin-wrap .avatar-box {
+    width: 68px;
+    height: 68px;
+    border-radius: 6px;
+    background-color: #d3d5d7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .admin-wrap .mitra-heading {
+    margin: 2px 0 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .section-heading {
+    margin: 18px 0 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .field-group {
+    margin-bottom: 12px;
+  }
+  .admin-wrap .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5c4028;
+    margin-bottom: 5px;
+  }
+  .admin-wrap .readonly-input {
+    width: 100%;
+    background-color: #f6f4f0;
+    border: 1px solid #b89f86;
+    border-radius: 4px;
+    padding: 9px 14px;
+    font-size: 13.5px;
+    color: #6b523b;
+    outline: none;
+  }
+  .admin-wrap .doc-group {
+    margin-bottom: 12px;
+  }
+  .admin-wrap .btn-doc {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f6f4f0;
+    border: 1px solid #b89f86;
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #6b523b;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+  .admin-wrap .btn-doc:hover {
+    background-color: #ece6dc;
+    color: #3d2817;
+  }
+  .admin-wrap .btn-doc.disabled {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .admin-wrap .action-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .admin-wrap .catatan-input {
+    flex: 1;
+    background-color: #ffffff;
+    border: 1px solid #e6dfd5;
+    border-radius: 8px;
+    padding: 11px 16px;
+    font-size: 13.5px;
+    color: #432c19;
+    outline: none;
+  }
+  .admin-wrap .catatan-input::placeholder { color: #9c8671; }
+  .admin-wrap .catatan-input:focus { border-color: #b89f86; }
+  .admin-wrap .btn-pill {
+    border: none;
+    border-radius: 999px;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    min-width: 130px;
+    text-align: center;
+    transition: opacity 0.15s ease;
+  }
+  .admin-wrap .btn-pill:hover { opacity: 0.92; }
+  .admin-wrap .btn-verifikasi { background-color: #169c43; }
+  .admin-wrap .btn-tolak { background-color: #c81010; }
+  @media (max-width: 680px) {
+    .admin-wrap .action-bar { flex-wrap: wrap; }
+    .admin-wrap .catatan-input { width: 100%; flex: 1 1 100%; }
+    .admin-wrap .btn-pill { flex: 1; }
+  }
+</style>
+
+<div class="admin-wrap">
+  <div class="top-nav-row">
+    <a href="/admin/verifikasi" class="back-link">&larr; Kembali ke List Mitra</a>
+  </div>
+
+  <h1 class="page-title">Verifikasi Mitra Pengacara</h1>
+
+  <div class="detail-card">
+    <div class="profile-header">
+      <div class="avatar-box" aria-hidden="true">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="#a8acb0">
+          <circle cx="12" cy="8" r="4.2"/>
+          <path d="M4 20c0-3.8 3.6-6.5 8-6.5s8 2.7 8 6.5"/>
+        </svg>
+      </div>
+      <h2 class="mitra-heading"><%= mitra.nama %></h2>
+    </div>
+
+    <h3 class="section-heading">Data Akun</h3>
+
+    <div class="field-group">
+      <label class="field-label">Nama Lengkap/Nama Firma</label>
+      <input type="text" class="readonly-input" value="<%= mitra.nama || '' %>" readonly />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Email</label>
+      <input type="text" class="readonly-input" value="<%= mitra.email || '' %>" readonly />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Username</label>
+      <input type="text" class="readonly-input" value="<%= mitra.username || mitra.email || '-' %>" readonly />
+    </div>
+
+    <h3 class="section-heading">Verifikasi Dokumen</h3>
+
+    <div class="field-group">
+      <label class="field-label">Nama Firma</label>
+      <input type="text" class="readonly-input" value="<%= mitra.namaFirma || mitra.firma || '-' %>" readonly />
+    </div>
+
+    <% daftarDokumen.forEach((doc) => {
+      const hrefDokumen = doc.idDokumen
+        ? `/admin/verifikasi/dokumen/${doc.idDokumen}`
+        : `/admin/verifikasi/${mitra.idMitra}/dokumen/${doc.key}`;
+    %>
+      <div class="doc-group">
+        <span class="field-label"><%= doc.label %></span>
+        <a
+          href="<%= hrefDokumen %>"
+          target="_blank"
+          rel="noopener"
+          class="btn-doc <%= doc.adaBerkas ? '' : 'disabled' %>"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <polyline points="9 15 12 12 15 15"/>
+          </svg>
+          <span><%= doc.adaBerkas ? 'Lihat Dokumen' : 'Belum Diunggah' %></span>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+
+  <form method="POST" action="/admin/verifikasi/<%= mitra.idMitra %>" class="action-bar">
+    <input
+      type="text"
+      name="catatan"
+      class="catatan-input"
+      value="<%= mitra.catatanVerifikasi || '' %>"
+      placeholder="Tulis catatan..."
+    />
+
+    <button
+      type="submit"
+      name="keputusan"
+      value="verifikasi"
+      class="btn-pill btn-verifikasi"
+      onclick="return confirm('Verifikasi dan aktifkan akun mitra <%= mitra.nama %>?');"
+    >
+      Verifikasi
+    </button>
+
+    <button
+      type="submit"
+      name="keputusan"
+      value="tolak"
+      class="btn-pill btn-tolak"
+      onclick="return confirm('Tolak pengajuan mitra <%= mitra.nama %>?');"
+    >
+      Tolak
+    </button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

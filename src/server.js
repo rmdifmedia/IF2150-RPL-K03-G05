@@ -28,7 +28,7 @@ const sessionMiddleware = session({
 app.use(sessionMiddleware);
 app.use(flash());
 
-// variabel yang otomatis di semua halaman
+// Variabel global yang otomatis tersedia di seluruh halaman EJS
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.sukses = req.flash('sukses');

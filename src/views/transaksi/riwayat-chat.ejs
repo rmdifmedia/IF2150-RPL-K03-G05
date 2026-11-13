@@ -1,0 +1,21 @@
+<%- include('../partials/header', { varian: 'polos', judulHalaman: 'History Chat' }) %>
+<div class="sempit">
+  <section class="kartu-mitra kartu-header-chat">
+    <h3><%= lawan %></h3>
+    <p class="deskripsi kecil">Kasus : <%= sesi.judulKasus || sesi.deskripsiKasus || '-' %> · <%= tanggal(sesi.tanggalJadwal) %></p>
+  </section>
+
+  <% if (!pesan.length) { %><div class="alert alert-sukses">Belum ada pesan pada sesi ini.</div><% } %>
+
+  <% pesan.forEach(p => { const arah = p.peranPengirim === peranSaya ? 'saya' : 'lawan'; %>
+    <div class="bubble-baris <%= arah %>">
+      <div class="bubble <%= arah %>">
+        <%= p.isiPesan %>
+        <small><%= p.waktuKirim %></small>
+      </div>
+    </div>
+  <% }) %>
+
+  <a class="tombol tombol-garis" href="/transaksi/riwayat">Kembali</a>
+</div>
+<%- include('../partials/footer') %>
