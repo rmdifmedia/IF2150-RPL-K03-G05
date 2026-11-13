@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const { wajibLogin, wajibPeran } = require('../middleware/auth');
+const beranda = require('../controllers/BerandaMitraController');
 const ProfilMitraController = require('../controllers/ProfilMitraController');
 const { unggahDokumen } = require('../middleware/upload');
 
 router.use(wajibLogin, wajibPeran('mitra'));
-router.get('/', (req, res) => res.send('Dashboard mitra (placeholder)'));
+router.get('/', beranda.tampil);
 
 router.get('/profil', ProfilMitraController.lihatProfil);
 router.get('/profil/edit', ProfilMitraController.formEditProfil);

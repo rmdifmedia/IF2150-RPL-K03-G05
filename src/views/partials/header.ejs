@@ -41,6 +41,31 @@
     </a>
 
     <% if (varian === 'penuh') { %>
+      <% if (locals.navAktif) { %>
+        <nav class="nav-utama" aria-label="Navigasi utama">
+          <% var menu = (locals.user && locals.user.peran === 'mitra')
+               ? [['beranda', '/mitra', 'Beranda'],
+                  ['pengajuan', '/mitra/pengajuan', 'List Pengajuan'],
+                  ['konfirmasi', '/mitra/konfirmasi', 'Konfirmasi Konsultasi']]
+               : [['beranda', '/masyarakat', 'Beranda'],
+                  ['history', '/masyarakat/history', 'History'],
+                  ['livechat', '/masyarakat/live-chat', 'Live Chat']];
+             menu.forEach(function (m) { %>
+            <a href="<%= m[1] %>" <%- locals.navAktif === m[0] ? 'aria-current="page"' : '' %>><%= m[2] %></a>
+          <% }); %>
+        </nav>
+      <% } else { %>
+      <h1 class="judul-header">
+        <%= judul %>
+        <% if (ikonJudul === 'telepon') { %>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <% } else if (ikonJudul === 'buku') { %>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <% } %>
+      </h1>
+      <% } %>
+
+      <div class="header-kanan">
       <% if (locals.navMitra) { %>
         <!-- menu tengah untuk mitra pengacara (UC11) -->
         <nav class="nav-mitra" aria-label="Navigasi mitra">

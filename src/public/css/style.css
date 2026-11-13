@@ -248,6 +248,36 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--cokelat-tua
 .judul-seksi { font-size: 24px; margin: 22px 0 12px; }
 input[type="file"] { width: 100%; font-size: 18px; margin-bottom: 8px; }
 
+/* ---------- Beranda mitra (UI-31) ---------- */
+.dashboard-mitra { max-width: 780px; margin: 0 auto; padding: 36px 16px 56px; }
+.sapaan { font-size: 30px; margin: 0 0 22px; }
+.judul-bagian { font-size: 17px; font-weight: 400; margin: 20px 0 8px; }
+.judul-baris { display: flex; justify-content: space-between; align-items: baseline; }
+.judul-baris a { font-size: 16px; }
+
+.baris-statistik, .baris-kartu {
+  display: grid; gap: 8px; padding: 8px;
+  background: var(--putih); border-radius: 6px;
+}
+.baris-statistik { grid-template-columns: 1.15fr 1.15fr .8fr 1.35fr; }
+.baris-kartu { grid-template-columns: repeat(3, 1fr); }
+
+.kartu-stat, .kartu-mini {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 12px 14px; border-radius: 14px;
+  background: var(--cokelat); color: var(--kuning);
+}
+.kartu-stat strong, .kartu-mini strong { font-size: 22px; font-weight: 500; line-height: 1.15; }
+.kartu-stat span, .kartu-mini span { font-size: 14px; color: var(--putih); }
+.kartu-stat strong svg { width: 1em; height: 1em; margin-right: 6px; vertical-align: -.12em; }
+
+.kolom-sesi { display: flex; flex-direction: column; gap: 8px; }
+.kosong-dashboard { margin: 0; padding: 18px; background: var(--putih); border-radius: 6px; }
+
+@media (max-width: 720px) {
+  .baris-statistik { grid-template-columns: 1fr 1fr; }
+  .baris-kartu { grid-template-columns: 1fr; }
+}
 
 /* -------- SearchLaw -------- */
 
