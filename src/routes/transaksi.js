@@ -1,5 +1,4 @@
 const router = require('express').Router();
-module.exports = router;
 
 const { wajibLogin, wajibPeran } = require('../middleware/auth');
 const pembayaran = require('../controllers/PembayaranController');

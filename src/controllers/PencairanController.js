@@ -6,6 +6,7 @@ const { rupiah, tanggal } = require('../utils/Format');
 const urai = (teks) => {
   if (!teks) return null;
   const [bank, nomor, pemilik] = teks.split('|');
+  if (!nomor) return null;   // format lama / tidak lengkap: anggap belum ada rekening
   return { bank, nomor, pemilik, tersamar: nomor.slice(0, 3) + '*'.repeat(Math.max(nomor.length - 5, 3)) + nomor.slice(-2) };
 };
 
@@ -27,11 +28,11 @@ exports.simpanRekening = (req, res) => {
   const pemilik = (req.body.pemilik || '').trim().replace(/\|/g, '');
   if (!bank || !pemilik || !/^\d{6,20}$/.test(nomor)) {
     req.flash('error', 'Lengkapi bank/e-wallet, nomor rekening (6-20 digit), dan nama pemilik');
-    return res.redirect('/transaksi/pencairan');
+    return res.redirect('/transaksi/keuangan');
   }
   Pencairan.simpanRekening(req.session.user.id, [bank, nomor, pemilik].join('|'));
   req.flash('sukses', 'Rekening tujuan disimpan');
-  res.redirect('/transaksi/pencairan');
+  res.redirect('/transaksi/keuangan');
 };
 
 exports.cairkan = (req, res) => {
@@ -39,7 +40,7 @@ exports.cairkan = (req, res) => {
   const profil = Pencairan.profilKeuangan(idMitra);
   const nominal = Number(req.body.nominal);
 
-  const gagal = (pesan) => { req.flash('error', pesan); return res.redirect('/transaksi/pencairan'); };
+  const gagal = (pesan) => { req.flash('error', pesan); return res.redirect('/transaksi/keuangan'); };
 
   if (!profil.rekeningPencairan) return gagal('Isi rekening tujuan terlebih dahulu');
   if (!Number.isFinite(nominal) || nominal <= 0) return gagal('Nominal pencairan harus lebih dari 0');
@@ -54,5 +55,5 @@ exports.cairkan = (req, res) => {
   if (!hasil.berhasil) return gagal('Pencairan ditolak: ' + hasil.pesan);
 
   req.flash('sukses', 'Pencairan dana ' + rupiah(nominal) + ' berhasil diproses');
-  res.redirect('/transaksi/pencairan');
+  res.redirect('/transaksi/keuangan');
 };
