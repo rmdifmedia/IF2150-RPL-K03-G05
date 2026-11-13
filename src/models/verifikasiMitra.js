@@ -68,14 +68,9 @@ function ambilDaftarMitra({ q = '', status = 'semua', urutan = 'terbaru' } = {})
   const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
   const orderSql = urutan === 'terlama' ? 'ORDER BY m.idMitra ASC' : 'ORDER BY m.idMitra DESC';
 
-  const sql = `
-    SELECT m.*
-    FROM MitraPengacara m
-    ${whereSql}
-    ${orderSql}
-  `;
-
-  return db.prepare(sql).all(...params);
+  return db
+    .prepare(`SELECT m.* FROM MitraPengacara m ${whereSql} ${orderSql}`)
+    .all(...params);
 }
 
 function ambilDetailMitra(idMitra) {
@@ -99,7 +94,6 @@ function ambilDetailMitra(idMitra) {
       return jenis.includes(slot.key);
     });
 
-    // Fallback jika kolom file disimpan langsung pada tabel MitraPengacara
     const kolomLangsung = Object.keys(mitra).find((k) =>
       k.toLowerCase().includes(slot.key)
     );
@@ -162,7 +156,6 @@ const simpanKeputusanTransaksi = db.transaction((idMitra, keputusan, catatan = '
       'UPDATE MitraPengacara SET statusVerifikasi = ?, catatanVerifikasi = ? WHERE idMitra = ?'
     ).run(statusTarget, catatan || null, idMitra);
   } catch (err) {
-    // Fallback jika tabel menggunakan CHECK constraint ('approved'/'rejected')
     if (String(err.message).includes('CHECK')) {
       const statusFallback = keputusan === 'verifikasi' ? 'approved' : 'rejected';
       db.prepare(
