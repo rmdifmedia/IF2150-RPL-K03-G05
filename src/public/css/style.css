@@ -102,6 +102,7 @@ p  { margin: 0 0 14px; }
 .profil-menu small { display: block; color: var(--cokelat); margin-bottom: 10px; }
 .profil-menu a { color: var(--cokelat-tua); font-weight: 600; text-decoration: none; }
 .profil-menu a:hover { text-decoration: underline; }
+.profil-menu a { display: block; padding: 4px 0; white-space: nowrap; }
 
 /* ---------- Footer ---------- */
 .isian-telepon {
@@ -506,3 +507,14 @@ a.hari:hover { background: rgba(64, 40, 33, .08); }
 .tombol-unggah input { display: none; }
 .tombol-unggah svg { width: 20px; height: 20px; }
 .nama-berkas { margin-left: 12px; color: var(--cokelat); font-size: 16px; }
+
+/* ---------- Status Registrasi (UI Status Registrasi) ---------- */
+.langkah { list-style: none; margin: 0; padding: 0; }
+.langkah li { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+.langkah-nomor { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: #8E8E93; color: var(--putih); font-size: 22px; font-weight: 600; }
+.langkah-selesai .langkah-nomor { background: #17A558; }
+.langkah-berjalan .langkah-nomor { background: var(--cokelat); }
+.langkah-ditolak .langkah-nomor { background: var(--error-teks); }
+.langkah strong { display: block; font-size: 20px; }
+.langkah small { display: block; color: var(--cokelat); font-size: 16px; }

@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS MitraPengacara (      -- C41
   rating            REAL NOT NULL DEFAULT 0,
   saldo             REAL NOT NULL DEFAULT 0,
   rekeningPencairan TEXT,
-  statusAkun        TEXT NOT NULL DEFAULT 'aktif' CHECK (statusAkun IN ('aktif', 'diblokir'))  
+  statusAkun        TEXT NOT NULL DEFAULT 'aktif' CHECK (statusAkun IN ('aktif', 'diblokir')),
+  catatanVerifikasi TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Admin (               -- C42
@@ -87,7 +88,8 @@ CREATE TABLE IF NOT EXISTS SesiKonsultasi (      -- C46
   catatanKonsul    TEXT,
   statusPembayaran TEXT NOT NULL DEFAULT 'belum bayar',
   waktuMulai       TEXT,
-  waktuSelesai     TEXT
+  waktuSelesai     TEXT,
+  waktuPengajuan   TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Ulasan (              -- C47

@@ -24,8 +24,8 @@ exports.simpanHasil = db.transaction(({ idSesi, idMitra, nominal, penghasilanMit
 
   if (berhasil) {
     db.prepare(
-      `UPDATE SesiKonsultasi SET statusPembayaran = 'lunas', statusSesi = 'siap dimulai'
-       WHERE idSesi = ?`
++      `UPDATE SesiKonsultasi SET statusPembayaran = 'lunas'
++       WHERE idSesi = ?`
     ).run(idSesi);
     db.prepare('UPDATE MitraPengacara SET saldo = saldo + ? WHERE idMitra = ?')
       .run(penghasilanMitra, idMitra);

@@ -3,10 +3,11 @@ const { wajibLogin, wajibPeran } = require('../middleware/auth');
 const beranda = require('../controllers/BerandaMitraController');
 const ProfilMitraController = require('../controllers/ProfilMitraController');
 const { unggahDokumen } = require('../middleware/upload');
+const status = require('../controllers/StatusRegistrasiController');
 
 router.use(wajibLogin, wajibPeran('mitra'));
 router.get('/', beranda.tampil);
-
+router.get('/status-verifikasi', status.tampilMitra);
 router.get('/profil', ProfilMitraController.lihatProfil);
 router.get('/profil/edit', ProfilMitraController.formEditProfil);
 router.post('/profil/edit', ProfilMitraController.simpanProfil);

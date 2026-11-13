@@ -20,17 +20,6 @@ function ambilKolomTabel(namaTabel) {
   }
 }
 
-function pastikanKolomCatatanVerifikasi() {
-  try {
-    const kolom = ambilKolomTabel('MitraPengacara');
-    if (kolom.length > 0 && !kolom.includes('catatanVerifikasi')) {
-      db.exec('ALTER TABLE MitraPengacara ADD COLUMN catatanVerifikasi TEXT');
-    }
-  } catch (err) {
-    console.warn('Info skema MitraPengacara:', err.message);
-  }
-}
-pastikanKolomCatatanVerifikasi();
 
 function ambilDaftarMitra({ q = '', status = 'semua', urutan = 'terbaru' } = {}) {
   const kolomMitra = ambilKolomTabel('MitraPengacara');
@@ -121,14 +110,12 @@ function ambilDokumenById(idDokumen) {
 
 function ambilBerkasDariMitra(idMitra, jenisKey) {
   if (!URUTAN_DOKUMEN.some((u) => u.key === jenisKey)) return null;
-  const mitra = db
-    .prepare('SELECT * FROM MitraPengacara WHERE idMitra = ?')
-    .get(idMitra);
-  if (!mitra) return null;
-
-  const kolom = Object.keys(mitra).find((k) => k.toLowerCase().includes(jenisKey));
-  return kolom ? mitra[kolom] : null;
+  const dok = db
+    .prepare('SELECT lokasiBerkas FROM DokumenLegalitas WHERE idMitra = ? AND jenisDokumen = ?')
+    .get(idMitra, jenisKey);
+  return dok ? dok.lokasiBerkas : null;
 }
+
 
 const simpanKeputusanTransaksi = db.transaction((idMitra, keputusan, catatan = '') => {
   const mitra = db
@@ -143,10 +130,10 @@ const simpanKeputusanTransaksi = db.transaction((idMitra, keputusan, catatan = '
 
   if (keputusan === 'verifikasi') {
     statusTarget = 'terverifikasi';
-    validitasDokumen = 'valid';
+    validitasDokumen = 1;
   } else if (keputusan === 'tolak') {
     statusTarget = 'ditolak';
-    validitasDokumen = 'tidak_valid';
+    validitasDokumen = 0;
   } else {
     throw new Error('KEPUTUSAN_TIDAK_VALID');
   }

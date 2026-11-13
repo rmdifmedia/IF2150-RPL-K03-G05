@@ -25,6 +25,6 @@ exports.tampil = (req, res) => {
 
     const ratingMin = Math.min(5, Math.max(0, Number(req.query.rating) || 0));
 
-    res.render('halolaw/daftar-mitra', { daftar: Mitra.cari({ q, tags, ratingMin }), q, tags, ratingMin, TAG, adaFilter: Boolean(q || tags.length || ratingMin),
+    res.render('halolaw/daftar-mitra', { daftar: Mitra.cari({ q, tags, ratingMin }), q, tags, ratingMin, TAG, kasus, adaFilter: Boolean(q || tags.length || ratingMin),
     });
 };

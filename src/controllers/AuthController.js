@@ -1,3 +1,4 @@
+const MitraPengacara = require('../models/MitraPengacara');
 const bcrypt = require('bcryptjs');
 const Akun = require('../models/Akun');
 
@@ -20,9 +21,7 @@ exports.prosesLogin = (req, res) => {
     ? '/login-masyarakat'
     : '/login';
 
-  const actualPeran = isLoginMasyarakat
-    ? 'masyarakat'
-    : 'mitra';
+  const peranBoleh = isLoginMasyarakat ? ['masyarakat'] : ['mitra', 'admin'];
 
   const akun = Akun.cariByEmail(email);
 
@@ -37,14 +36,18 @@ exports.prosesLogin = (req, res) => {
   }
 
   // Validasi role
-  if(akun.peran !== actualPeran){
-    req.flash(
-      'error',
-      'Email sudah terdaftar pada peran lain. Silahkan login pada halaman yang sesuai peran.'
-    )
+  if (!peranBoleh.includes(akun.peran)) {
+    req.flash('error', 'Email terdaftar pada peran lain. Silakan login pada halaman yang sesuai peran.');
+    return res.redirect(halamanLogin);
   }
 
   req.session.user = { id: akun.id, nama: akun.nama, peran: akun.peran };
+
+  // mitra yang belum terverifikasi diarahkan ke halaman Status Registrasi
+  if (akun.peran === 'mitra') {
+    const profil = MitraPengacara.infoProfil(akun.id);
+    if (profil && profil.statusVerifikasi !== 'terverifikasi') return res.redirect('/mitra/status-verifikasi');
+  }
   res.redirect('/' + akun.peran);
 };
 

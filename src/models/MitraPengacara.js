@@ -75,3 +75,11 @@ exports.ubahStatusVerifikasi = (idMitra, status) =>
   db.prepare('UPDATE MitraPengacara SET statusVerifikasi = ? WHERE idMitra = ?')
     .run(status, idMitra).changes > 0;
 
+const SELECT_STATUS = `SELECT idMitra, username, namaFirma, statusVerifikasi, catatanVerifikasi,
+  (SELECT MIN(waktuUnggah) FROM DokumenLegalitas d WHERE d.idMitra = MitraPengacara.idMitra) AS tanggalKirim
+  FROM MitraPengacara`;
+exports.statusRegistrasiById = (idMitra) =>
+  db.prepare(`${SELECT_STATUS} WHERE idMitra = ?`).get(idMitra) || null;
+exports.statusRegistrasiByUsername = (username) =>
+  db.prepare(`${SELECT_STATUS} WHERE username = ?`).get(username) || null;
+
