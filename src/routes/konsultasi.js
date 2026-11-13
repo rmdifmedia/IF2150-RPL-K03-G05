@@ -1,4 +1,5 @@
 const router = require('express').Router();
+<<<<<<< HEAD
 const { wajibLogin, wajibPeran, wajibMitraTerverifikasi } = require('../middleware/auth');
 const jadwal = require('../controllers/PenjadwalanKonsultasiController');   // UC10
 const sesi = require('../controllers/SesiKonsultasiController');             // UC11, UC12
@@ -22,4 +23,6 @@ router.get('/pengajuan/:idSesi', (req, res) => res.redirect(`/konsultasi/konfirm
 router.get('/chat/:idSesi', wajibPeran('masyarakat', 'mitra'), sesi.tampilChat);
 router.post('/chat/:idSesi/akhiri', wajibPeran('masyarakat', 'mitra'), sesi.akhiriSesi);
 
+=======
+>>>>>>> parent of fd51505 (feat(uc10): add consultation scheduling routes)
 module.exports = router;
