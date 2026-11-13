@@ -1,0 +1,40 @@
+<%- include('../partials/header', { judulHalaman: 'Status Registrasi' }) %>
+
+<div class="halaman-form">
+  <h1>Rincian Registrasi Mitra Pengacara</h1>
+
+  <section class="kotak">
+    <h3>Status Registrasi</h3>
+    <ol class="langkah">
+      <% langkah.forEach(function (l) { %>
+        <li class="langkah-<%= l.status %>">
+          <span class="langkah-nomor"><%= l.nomor %></span>
+          <div><strong><%= l.judul %></strong><small><%= l.ket %></small></div>
+        </li>
+      <% }) %>
+    </ol>
+  </section>
+
+  <section class="kotak" style="margin-top:20px">
+    <h3>Data Akun</h3>
+    <div class="field-baca"><span>Username</span><small><%= mitra.username %></small></div>
+    <div class="field-baca"><span>Nama Firma</span><small><%= mitra.namaFirma || '-' %></small></div>
+  </section>
+
+  <% if (bolehUbah) { %>
+  <section class="kotak" style="margin-top:20px">
+    <h3>Informasi Dokumen</h3>
+    <p class="petunjuk">Unggah ulang dokumen apabila terdapat kesalahan.</p>
+    <% jenisDokumen.forEach(function (j) {
+         var ada = dokumen.find(function (d) { return d.jenisDokumen === j.kode; }); %>
+      <div class="baris-dokumen">
+        <span class="label-dok"><%= j.nama %><% if (j.wajib) { %><span class="wajib">*</span><% } %></span>
+        <small><%= ada ? 'Terunggah: ' + ada.namaBerkas : 'Belum diunggah' %></small>
+      </div>
+    <% }) %>
+    <a class="tombol tombol-garis" href="/mitra/dokumen">Ubah Dokumen</a>
+  </section>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

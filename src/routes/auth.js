@@ -4,6 +4,7 @@ const reg = require('../controllers/RegistrasiController');
 const v = require('../middleware/validasi');
 const multer = require('multer');
 const path = require('path');
+const status = require('../controllers/StatusRegistrasiController');
 
 const upload = multer({
     dest: path.join(__dirname, '..', 'uploads'),
@@ -31,6 +32,7 @@ router.post('/login', c.prosesLogin);
 router.get('/login-masyarakat', c.tampilLoginMasyarakat);
 router.post('/login-masyarakat', c.prosesLogin);
 router.get('/logout', c.logout);
+router.get('/status-verifikasi', status.cekPublik);   // cek publik: /status-verifikasi?username=...
 
 
 module.exports = router;
