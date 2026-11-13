@@ -1,0 +1,41 @@
+<%- include('../partials/header', { judulHalaman: 'Edit Dokumen Legalitas' }) %>
+
+<div class="halaman-form">
+  <h1>Edit Dokumen Mitra Pengacara</h1>
+
+  <section class="kotak">
+    <h3>Data Akun</h3>
+    <div class="field-baca"><span>Username</span><small><%= profil.username %></small></div>
+    <div class="field-baca"><span>Nama Firma</span><small><%= profil.namaFirma || '-' %></small></div>
+  </section>
+
+  <form class="kotak" style="margin-top:20px" method="POST" action="/mitra/dokumen" enctype="multipart/form-data">
+    <h3>Informasi Dokumen</h3>
+    <p class="petunjuk">Unggah ulang dokumen apabila terdapat kesalahan</p>
+    <p class="bantuan-form">
+      Status verifikasi: <%= profil.statusVerifikasi %>.
+      Format PDF, JPG, atau PNG, maksimal 5 MB.
+    </p>
+
+    <% jenisDokumen.forEach(function (j) {
+         var ada = dokumen.find(function (d) { return d.jenisDokumen === j.kode; }); %>
+      <div class="baris-dokumen">
+        <span class="label-dok"><%= j.nama %><% if (j.wajib) { %><span class="wajib">*</span><% } %></span>
+        <label class="tombol-unggah">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
+          Upload Dokumen
+          <input type="file" name="<%= j.kode %>" accept=".pdf,.jpg,.jpeg,.png"
+                 onchange="this.closest('.baris-dokumen').querySelector('.nama-berkas').textContent = this.files[0] ? this.files[0].name : ''">
+        </label>
+        <span class="nama-berkas"><%= ada ? 'Terunggah: ' + ada.namaBerkas : '' %></span>
+      </div>
+    <% }) %>
+
+    <div class="aksi-form">
+      <button class="tombol" type="submit">Simpan</button>
+      <a class="tombol tombol-garis" href="/mitra/profil">Batal</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,38 +1,88 @@
 <%- include('../partials/header') %>
 <!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
 <link rel="stylesheet" href="/css/konsultasi.css">
-<link rel="stylesheet" href="/css/konsultasi.css">
-<!-- List Pengajuan konsultasi (UC11, mitra) -->
-<div class="sempit">
-  <h2>List Pengajuan</h2>
+<!-- UI-30: List Pengajuan (UC11, mitra) -->
+<%
+  function urlUrut(u) {
+    var p = new URLSearchParams();
+    if (q) p.set('q', q); if (status) p.set('status', status); p.set('urut', u);
+    return '/konsultasi/pengajuan?' + p.toString();
+  }
+%>
+<div class="list-pengajuan">
+  <h2>List Konsultasi</h2>
+
+  <!-- O-197 pencarian -->
+  <form method="GET" action="/konsultasi/pengajuan" class="cari-pengajuan" role="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="search" name="q" value="<%= q %>" placeholder="Cari" aria-label="Cari pengajuan">
+    <% if (status) { %><input type="hidden" name="status" value="<%= status %>"><% } %>
+    <input type="hidden" name="urut" value="<%= urut %>">
+  </form>
+
+  <!-- O-198..O-201 filter -->
+  <div class="filter-baris">
+    <span class="filter-label">Filter</span>
+    <form method="GET" action="/konsultasi/pengajuan" class="filter-form">
+      <% if (q) { %><input type="hidden" name="q" value="<%= q %>"><% } %>
+      <input type="hidden" name="urut" value="<%= urut %>">
+      <label class="filter-chip">
+        <span aria-hidden="true">&#10003;</span>
+        <select name="status" onchange="this.form.submit()" aria-label="Filter status">
+          <option value="">Status</option>
+          <% STATUS_OPSI.forEach(function (k) { %>
+            <option value="<%= k %>" <%= status === k ? 'selected' : '' %>><%= LABEL_STATUS[k] %></option>
+          <% }); %>
+        </select>
+      </label>
+    </form>
+    <a class="filter-chip" href="<%= urlUrut('terdekat') %>" <%- urut === 'terdekat' ? 'aria-current="true"' : '' %>><span aria-hidden="true">&#10003;</span> Jadwal Terdekat</a>
+    <a class="filter-chip" href="<%= urlUrut('terbaru') %>" <%- urut === 'terbaru' ? 'aria-current="true"' : '' %>><span aria-hidden="true">&#10003;</span> Terbaru</a>
+  </div>
 
   <% if (daftar.length === 0) { %>
-    <div class="kotak"><p><strong>Belum ada permintaan konsultasi.</strong></p></div>
+    <div class="kotak"><p><strong><%= (q || status) ? 'Tidak ada pengajuan yang cocok.' : 'Belum ada permintaan konsultasi.' %></strong></p></div>
   <% } %>
 
+  <!-- O-202 kartu pengajuan -->
   <% daftar.forEach(function (s) { var w = pisah(s.waktuPengajuan); %>
-    <a class="kartu-sesi kartu-link" href="/konsultasi/konfirmasi/<%= s.idSesi %>">
-      <div>
+    <article class="kartu-pengajuan">
+      <div class="foto-klien" role="img" aria-label="Foto <%= s.namaMasyarakat %>"></div>
+      <div class="kp-isi">
         <h3><%= s.namaMasyarakat %></h3>
-        <p class="deskripsi">
-          Jadwal: <%= s.tanggalJadwal %> &middot; <%= s.waktuJadwal.replace(':', '.') %> WIB
-          &middot; Diajukan <%= w.jam %>, <%= w.tanggal %>
+        <p class="kp-info">
+          <%= s.judulKasus ? s.judulKasus + '. ' : '' %><%= s.deskripsiKasus || 'Klien belum melampirkan ringkasan masalah.' %>
         </p>
-        <% if (s.kategoriMasalah) { %><span class="chip-tag"><%= s.kategoriMasalah %></span><% } %>
+        <a class="kp-detail" href="/konsultasi/konfirmasi/<%= s.idSesi %>">Lihat Detail</a>
+        <div class="kp-meta">
+          <div>
+            <span class="meta-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Waktu Pengajuan</span>
+            <span class="meta-nilai"><%= w.jam %>, <%= w.tanggal %></span>
+          </div>
+          <div>
+            <span class="meta-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/></svg>
+              Sisa Waktu Respon</span>
+            <span class="meta-nilai sisa-respon" data-sisa="<%= s.sisaDetik %>"><%= s.statusSesi === 'menunggu tanggapan mitra' ? '--:--' : '-' %></span>
+          </div>
+          <span class="badge-status pil-<%= s.statusSesi.split(' ')[0] %>"><%= s.statusSesi === 'menunggu tanggapan mitra' ? 'Menunggu' : (LABEL_STATUS[s.statusSesi] || s.statusSesi) %></span>
+        </div>
       </div>
-      <div class="aksi-sesi">
-        <span class="pil pil-<%= s.statusSesi.split(' ')[0] %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
-        <% if (['terjadwal', 'berlangsung'].includes(s.statusSesi)) { %>
-          <span class="tombol tombol-kecil tombol-garis" data-href="/konsultasi/chat/<%= s.idSesi %>">Chat</span>
-        <% } %>
-      </div>
-    </a>
+    </article>
   <% }); %>
 </div>
+
 <script>
-  // tombol "Chat" di dalam kartu tautan
-  document.querySelectorAll('[data-href]').forEach(function (el) {
-    el.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); location.href = el.dataset.href; });
+  // hitung mundur sisa waktu respon (mm:ss)
+  document.querySelectorAll('.sisa-respon').forEach(function (el) {
+    var sisa = Number(el.dataset.sisa);
+    if (!sisa) return;
+    (function tick() {
+      el.textContent = String(Math.floor(sisa / 60)).padStart(2, '0') + ':' + String(sisa % 60).padStart(2, '0');
+      if (sisa-- > 0) setTimeout(tick, 1000); else { el.textContent = '00:00'; }
+    })();
   });
 </script>
 <%- include('../partials/footer') %>

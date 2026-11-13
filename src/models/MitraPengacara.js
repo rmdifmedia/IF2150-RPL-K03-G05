@@ -69,3 +69,9 @@ exports.ubahProfil = (idMitra, data) =>
               SET namaFirma = ?, deskripsi = ?, tagKeahlian = ?
               WHERE idMitra = ?`)
     .run(data.namaFirma, data.deskripsi, data.tagKeahlian, idMitra);
+
+// DPPL C28 Q-284: ubah status verifikasi mitra
+exports.ubahStatusVerifikasi = (idMitra, status) =>
+  db.prepare('UPDATE MitraPengacara SET statusVerifikasi = ? WHERE idMitra = ?')
+    .run(status, idMitra).changes > 0;
+
