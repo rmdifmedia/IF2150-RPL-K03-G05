@@ -143,10 +143,10 @@ const simpanKeputusanTransaksi = db.transaction((idMitra, keputusan, catatan = '
 
   if (keputusan === 'verifikasi') {
     statusTarget = 'terverifikasi';
-    validitasDokumen = 'valid';
+    validitasDokumen = 1;
   } else if (keputusan === 'tolak') {
     statusTarget = 'ditolak';
-    validitasDokumen = 'tidak_valid';
+    validitasDokumen = 0;
   } else {
     throw new Error('KEPUTUSAN_TIDAK_VALID');
   }
