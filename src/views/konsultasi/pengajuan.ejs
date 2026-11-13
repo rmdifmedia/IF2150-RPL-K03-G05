@@ -1,4 +1,7 @@
 <%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<link rel="stylesheet" href="/css/konsultasi.css">
 <!-- List Pengajuan konsultasi (UC11, mitra) -->
 <div class="sempit">
   <h2>List Pengajuan</h2>
@@ -8,7 +11,7 @@
   <% } %>
 
   <% daftar.forEach(function (s) { var w = pisah(s.waktuPengajuan); %>
-    <a class="kartu-sesi kartu-link" href="/konsultasi/pengajuan/<%= s.idSesi %>">
+    <a class="kartu-sesi kartu-link" href="/konsultasi/konfirmasi/<%= s.idSesi %>">
       <div>
         <h3><%= s.namaMasyarakat %></h3>
         <p class="deskripsi">
@@ -18,7 +21,7 @@
         <% if (s.kategoriMasalah) { %><span class="chip-tag"><%= s.kategoriMasalah %></span><% } %>
       </div>
       <div class="aksi-sesi">
-        <span class="pil pil-<%= s.statusSesi %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
+        <span class="pil pil-<%= s.statusSesi.split(' ')[0] %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
         <% if (['terjadwal', 'berlangsung'].includes(s.statusSesi)) { %>
           <span class="tombol tombol-kecil tombol-garis" data-href="/konsultasi/chat/<%= s.idSesi %>">Chat</span>
         <% } %>

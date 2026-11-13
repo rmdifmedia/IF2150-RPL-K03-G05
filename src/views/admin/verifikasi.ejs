@@ -1,0 +1,235 @@
+<%- include('../partials/header') %>
+
+<style>
+  .admin-wrap {
+    max-width: 900px;
+    margin: 28px auto 56px;
+    padding: 0 20px;
+    color: #432c19;
+  }
+  .admin-wrap .page-title {
+    margin: 0 0 18px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .search-box {
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .admin-wrap .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8c7056;
+    pointer-events: none;
+  }
+  .admin-wrap .search-input {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ebe6de;
+    border-radius: 999px;
+    padding: 10px 18px 10px 42px;
+    font-size: 13.5px;
+    color: #432c19;
+    outline: none;
+  }
+  .admin-wrap .search-input::placeholder { color: #9c8671; }
+  .admin-wrap .search-input:focus { border-color: #cbb89d; }
+  .admin-wrap .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .admin-wrap .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 1px solid #e6dfd5;
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #6b523b;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .admin-wrap .chip.active {
+    background-color: #f9f3cf;
+    border-color: #dfd086;
+    color: #3d2817;
+    font-weight: 600;
+  }
+  .admin-wrap .chip-select {
+    background-color: #ffffff;
+    border: 1px solid #e6dfd5;
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #6b523b;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  .admin-wrap .mitra-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    box-shadow: 0 2px 6px rgba(67, 44, 25, 0.05);
+  }
+  .admin-wrap .avatar-box {
+    width: 68px;
+    height: 68px;
+    border-radius: 6px;
+    background-color: #d3d5d7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .admin-wrap .card-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .admin-wrap .mitra-name {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .mitra-info {
+    margin: 0 0 6px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #7c5c3e;
+  }
+  .admin-wrap .detail-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d8cf8;
+    text-decoration: none;
+  }
+  .admin-wrap .detail-link:hover { text-decoration: underline; }
+  .admin-wrap .status-pill {
+    display: inline-block;
+    padding: 5px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  .admin-wrap .pill-terverifikasi { background-color: #169c43; }
+  .admin-wrap .pill-belum { background-color: #c81010; }
+  .admin-wrap .pill-tertunda { background-color: #df9b06; }
+  .admin-wrap .empty-state {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 36px 24px;
+    text-align: center;
+    color: #7c5c3e;
+    font-size: 14.5px;
+  }
+  @media (max-width: 680px) {
+    .admin-wrap .mitra-card { flex-direction: column; }
+  }
+</style>
+
+<div class="admin-wrap">
+  <h1 class="page-title">List Mitra</h1>
+
+  <form method="GET" action="/admin/verifikasi" id="filterForm">
+    <div class="search-box">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <input
+        type="text"
+        name="q"
+        class="search-input"
+        value="<%= filter.q %>"
+        placeholder="Cari"
+      />
+    </div>
+
+    <div class="filter-bar">
+      <a href="/admin/verifikasi" class="chip">Filter</a>
+
+      <select
+        name="status"
+        class="chip-select"
+        onchange="document.getElementById('filterForm').submit()"
+      >
+        <option value="semua" <%= filter.status === 'semua' ? 'selected' : '' %>>&#10003; Status: Semua</option>
+        <option value="tertunda" <%= filter.status === 'tertunda' ? 'selected' : '' %>>&#10003; Verifikasi Tertunda</option>
+        <option value="terverifikasi" <%= filter.status === 'terverifikasi' ? 'selected' : '' %>>&#10003; Terverifikasi</option>
+        <option value="ditolak" <%= filter.status === 'ditolak' ? 'selected' : '' %>>&#10003; Belum Terverifikasi</option>
+      </select>
+
+      <a
+        class="chip active"
+        href="/admin/verifikasi?q=<%= encodeURIComponent(filter.q) %>&status=<%= filter.status %>&urutan=<%= filter.urutan === 'terbaru' ? 'terlama' : 'terbaru' %>"
+      >
+        &#10003; <%= filter.urutan === 'terbaru' ? 'Terbaru' : 'Terlama' %>
+      </a>
+    </div>
+  </form>
+
+  <% if (daftarMitra.length === 0) { %>
+    <div class="empty-state">
+      Tidak ada pendaftar mitra pengacara yang sesuai dengan filter saat ini.
+    </div>
+  <% } else { %>
+    <% daftarMitra.forEach((mitra) => {
+      const st = String(mitra.statusVerifikasi || 'pending').toLowerCase();
+      let pillClass = 'pill-tertunda';
+      let pillLabel = 'Verifikasi Tertunda';
+
+      if (st === 'terverifikasi' || st === 'approved') {
+        pillClass = 'pill-terverifikasi';
+        pillLabel = 'Terverifikasi';
+      } else if (st === 'ditolak' || st === 'rejected' || st === 'belum_terverifikasi') {
+        pillClass = 'pill-belum';
+        pillLabel = 'Belum Terverifikasi';
+      }
+
+      const infoUtama = mitra.spesialisasi || mitra.tagKeahlian || mitra.namaFirma || 'Calon Mitra Pengacara';
+      const infoSekunder = mitra.deskripsi || mitra.biografi || mitra.email;
+    %>
+      <article class="mitra-card">
+        <div class="avatar-box" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="#a8acb0">
+            <circle cx="12" cy="8" r="4.2"/>
+            <path d="M4 20c0-3.8 3.6-6.5 8-6.5s8 2.7 8 6.5"/>
+          </svg>
+        </div>
+
+        <div class="card-body">
+          <h2 class="mitra-name"><%= mitra.nama %></h2>
+          <p class="mitra-info">
+            <%= infoUtama %> . <%= infoSekunder %>
+          </p>
+          <div>
+            <a class="detail-link" href="/admin/verifikasi/<%= mitra.idMitra %>">
+              Lihat Detail dan Dokumen
+            </a>
+          </div>
+          <span class="status-pill <%= pillClass %>"><%= pillLabel %></span>
+        </div>
+      </article>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

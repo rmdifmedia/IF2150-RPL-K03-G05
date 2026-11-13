@@ -24,14 +24,14 @@ exports.tampilJadwal = (req, res) => {
   if (!mitra) return;
   Sesi.batalkanKedaluwarsa();
 
-  // kasus yang jadi dasar konsultasi: ?kasus=ID, kalau gak ada pake kasus terakhir masyarakat
+  // kasus yang jadi dasar konsultasi: ?kasus=ID, bila tidak ada pakai kasus terakhir masyarakat
   const idMasyarakat = req.session.user.id;
   const kasus = req.query.kasus
     ? Sesi.cariKasusMilik(Number(req.query.kasus), idMasyarakat)
     : Sesi.kasusTerakhir(idMasyarakat);
 
   res.render('konsultasi/jadwal', {
-    judulHalaman: 'Pemilihan Jadwal', css: '/css/konsultasi.css', judul: 'HaloLaw', ikonJudul: 'telepon',
+    judulHalaman: 'Pemilihan Jadwal', judul: 'HaloLaw', ikonJudul: 'telepon',
     mitra, kasus: kasus || null, TAG,
     hariIni: Sesi.wibSekarang().tanggal,
     labelSlot: Sesi.labelSlot,

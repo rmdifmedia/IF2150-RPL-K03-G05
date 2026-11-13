@@ -28,7 +28,7 @@ const sessionMiddleware = session({
 app.use(sessionMiddleware);
 app.use(flash());
 
-// variabel yang otomatis di semua halaman
+// Variabel global yang otomatis tersedia di seluruh halaman EJS
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.sukses = req.flash('sukses');
@@ -44,7 +44,6 @@ app.use('/mitra', require('./routes/mitra'));
 app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
-app.use('/halolaw', require('./routes/halolaw'));
 app.use('/laporan', require('./routes/laporan'));
 
 app.use((req, res) =>

@@ -1,4 +1,7 @@
 <%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<link rel="stylesheet" href="/css/konsultasi.css">
 <!-- UI-08: Pemilihan Jadwal Konsultasi (UC10) -->
 
 <!-- O-30: ringkasan mitra -->
@@ -37,7 +40,7 @@
   <!-- O-32: slot waktu -->
   <div class="waktu-tersedia">
     <h2>Waktu Tersedia</h2>
-    <p id="infoTanggal" class="info-tanggal"></p>
+    <p id="infoTanggal" class="info-tanggal" hidden></p>
     <div id="daftarSlot" aria-live="polite"></div>
   </div>
 </div>

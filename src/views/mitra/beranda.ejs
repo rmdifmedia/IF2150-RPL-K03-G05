@@ -1,0 +1,63 @@
+<%- include('../partials/header', { judulHalaman: 'Beranda Mitra', navAktif: 'beranda' }) %>
+<div class="dashboard-mitra">
+
+  <h1 class="sapaan">Halo, <%= ringkasan.nama %>!</h1>   <!-- O-207 -->
+
+  <h2 class="judul-bagian">Overview</h2>                   <!-- O-208 -->
+  <section class="baris-statistik">
+    <div class="kartu-stat">                               <!-- O-209 -->
+      <strong><%= ringkasan.menunggu %></strong><span>Permintaan menunggu</span>
+    </div>
+    <div class="kartu-stat">                               <!-- O-210 -->
+      <strong><%= ringkasan.terjadwal %></strong><span>Sesi terjadwal mendatang</span>
+    </div>
+    <div class="kartu-stat">                               <!-- O-211 -->
+      <strong>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg><%= Number(ringkasan.rating).toFixed(1) %>
+      </strong><span>Rating</span>
+    </div>
+    <div class="kartu-stat">                               <!-- O-212 -->
+      <strong><%= rupiah(ringkasan.saldo) %></strong><span>Dana yang Bisa Dicairkan</span>
+    </div>
+  </section>
+
+  <div class="judul-baris">
+    <h2 class="judul-bagian">Permintaan Terbaru</h2>       <!-- O-213 -->
+    <a href="/mitra/pengajuan">Lihat Semua</a>            <!-- O-214 -->
+  </div>
+  <% if (permintaan.length === 0) { %>
+    <p class="kosong-dashboard">Belum ada permintaan konsultasi baru.</p>
+  <% } else { %>
+    <section class="baris-kartu">
+      <% permintaan.forEach(function (p, i) { %>          <!-- O-215 -->
+        <article class="kartu-mini">
+          <strong><%= i + 1 %>. <%= p.namaMasyarakat %></strong>
+          <span><%= tanggal(p.tanggalJadwal) %>, <%= p.waktuJadwal %></span>
+        </article>
+      <% }); %>
+    </section>
+  <% } %>
+
+  <h2 class="judul-bagian">Sesi Terjadwal Berikutnya</h2>  <!-- O-216 -->
+  <% if (sesi.length === 0) { %>
+    <p class="kosong-dashboard">Belum ada sesi terjadwal.</p>
+  <% } else { %>
+    <section class="baris-kartu">
+      <% sesi.forEach(function (s, i) { %>                <!-- O-217 -->
+        <div class="kolom-sesi">
+          <article class="kartu-mini">
+            <strong><%= i + 1 %>. <%= s.namaMasyarakat %></strong>
+            <span><%= tanggal(s.tanggalJadwal) %>, <%= s.waktuJadwal %></span>
+          </article>
+          <a class="tombol tombol-penuh" href="/konsultasi/sesi/<%= s.idSesi %>">Konsultasi</a>  <!-- O-218 -->
+        </div>
+      <% }); %>
+    </section>
+  <% } %>
+
+</div>
+<%- include('../partials/footer') %>
