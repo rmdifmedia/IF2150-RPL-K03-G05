@@ -110,14 +110,12 @@ function ambilDokumenById(idDokumen) {
 
 function ambilBerkasDariMitra(idMitra, jenisKey) {
   if (!URUTAN_DOKUMEN.some((u) => u.key === jenisKey)) return null;
-  const mitra = db
-    .prepare('SELECT * FROM MitraPengacara WHERE idMitra = ?')
-    .get(idMitra);
-  if (!mitra) return null;
-
-  const kolom = Object.keys(mitra).find((k) => k.toLowerCase().includes(jenisKey));
-  return kolom ? mitra[kolom] : null;
+  const dok = db
+    .prepare('SELECT lokasiBerkas FROM DokumenLegalitas WHERE idMitra = ? AND jenisDokumen = ?')
+    .get(idMitra, jenisKey);
+  return dok ? dok.lokasiBerkas : null;
 }
+
 
 const simpanKeputusanTransaksi = db.transaction((idMitra, keputusan, catatan = '') => {
   const mitra = db

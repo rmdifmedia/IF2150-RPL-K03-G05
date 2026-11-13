@@ -102,6 +102,7 @@ p  { margin: 0 0 14px; }
 .profil-menu small { display: block; color: var(--cokelat); margin-bottom: 10px; }
 .profil-menu a { color: var(--cokelat-tua); font-weight: 600; text-decoration: none; }
 .profil-menu a:hover { text-decoration: underline; }
+.profil-menu a { display: block; padding: 4px 0; white-space: nowrap; }
 
 /* ---------- Footer ---------- */
 .isian-telepon {

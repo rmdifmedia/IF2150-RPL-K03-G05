@@ -71,7 +71,6 @@ exports.proses = (req, res) => {
     });
   }
 
-  // TODO (Orang 3): arahkan ke ruang chat konsultasi untuk sesi ini
-  req.flash('sukses', 'Pembayaran berhasil. Ruang chat konsultasi sudah dapat dibuka.');
-  res.redirect('/transaksi/riwayat');
+  req.flash('sukses', 'Pembayaran berhasil. Klik Buka Chat pada sesi ini saat jadwal konsultasi tiba.');
+  res.redirect('/konsultasi/saya');
 };

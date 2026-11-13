@@ -140,8 +140,7 @@ exports.lihatDokumenById = (req, res) => {
       return res.status(404).render('error', { pesan: 'Dokumen legalitas tidak ditemukan.' });
     }
 
-    const relPath =
-      dokumen.pathDokumen || dokumen.filePath || dokumen.namaFile || dokumen.berkas;
+    const relPath = dokumen.lokasiBerkas;
     if (!relPath) {
       return res.status(404).render('error', { pesan: 'Path berkas dokumen tidak tersedia.' });
     }
