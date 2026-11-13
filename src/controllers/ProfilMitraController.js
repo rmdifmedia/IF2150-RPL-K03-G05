@@ -1,6 +1,11 @@
 const MitraPengacara = require('../models/MitraPengacara');
 const JadwalKetersediaan = require('../models/JadwalKetersediaan');
 
+const fs = require('fs');
+const path = require('path');
+const DokumenLegalitas = require('../models/DokumenLegalitas');
+const { FORMAT_DIIZINKAN, UKURAN_MAKS, JENIS_DOKUMEN } = require('../middleware/upload');
+
 const NAMA_BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 // Kode tag harus sama dengan yang dipakai filter HaloLaw (PencarianMitraController)
 const TAG = {
@@ -168,4 +173,81 @@ exports.hapusSlot = (req, res) => {
   JadwalKetersediaan.hapus(slot.idJadwal);
   req.flash('sukses', 'Slot waktu dihapus.');
   res.redirect('/mitra/profil?tanggal=' + slot.tanggal);
+};
+
+// ---------- Dokumen legalitas ----------
+
+// DPPL C09 EditDokumenLegalitasPage.validasiData (Algo-009).
+// Mengembalikan pesan error, atau null bila semua berkas valid.
+function validasiDataDokumen(daftarBerkas) {
+  if (daftarBerkas.length === 0) return 'Dokumen legalitas belum dipilih.';
+  for (const b of daftarBerkas) {
+    if (!FORMAT_DIIZINKAN.includes(b.mimetype)) {
+      return 'Format dokumen tidak didukung.';
+    }
+    if (b.size > UKURAN_MAKS) return 'Ukuran dokumen melebihi batas.';
+  }
+  return null;
+}
+
+// DPPL C28 ProfilMitraController.validasiData (Algo-028).
+function validasiData(idMitra, dokumenMitra, mode) {
+  if (!dokumenMitra) return false;
+  if (!MitraPengacara.infoProfil(idMitra)) return false;           // Q-281: mitra terdaftar?
+
+  let berhasil;
+  if (mode === 'Edit') {
+    berhasil = DokumenLegalitas.timpaDokumen(idMitra, dokumenMitra);        // Q-282
+  } else {
+    const idDokumen = DokumenLegalitas.tambahDokumen(idMitra, dokumenMitra); // Q-283 / Q-001
+    if (!idDokumen) return false;
+    berhasil = true;
+  }
+  if (berhasil) MitraPengacara.ubahStatusVerifikasi(idMitra, 'menunggu');    // Q-284
+  return berhasil;
+}
+
+function hapusBerkasUnggahan(files) {
+  Object.values(files || {}).forEach((daftar) =>
+    daftar.forEach((b) => fs.unlink(b.path, () => {})));
+}
+
+exports.formEditDokumen = (req, res) => {
+  const idMitra = req.session.user.id;
+  const profil = MitraPengacara.infoProfil(idMitra);
+  if (!profil) return res.redirect('/logout');
+  res.render('mitra/EditDokumenLegalitasPage', {
+    profil,
+    dokumen: DokumenLegalitas.cariByMitra(idMitra),
+    jenisDokumen: JENIS_DOKUMEN
+  });
+};
+
+exports.simpanDokumen = (req, res) => {
+  const idMitra = req.session.user.id;
+  const files = req.files || {};
+
+  const dipilih = JENIS_DOKUMEN.filter((j) => files[j.kode] && files[j.kode][0]);
+  const daftarBerkas = dipilih.map((j) => Object.assign(files[j.kode][0], { jenis: j.kode }));
+
+  const pesan = validasiDataDokumen(daftarBerkas);
+  if (pesan) {
+    hapusBerkasUnggahan(files);
+    req.flash('error', pesan);
+    return res.redirect('/mitra/dokumen');
+  }
+
+  const sudahAda = DokumenLegalitas.cariByMitra(idMitra);
+  let semuaBerhasil = true;
+  daftarBerkas.forEach((berkas) => {
+    const mode = sudahAda.some((d) => d.jenisDokumen === berkas.jenis) ? 'Edit' : 'Tambah';
+    if (!validasiData(idMitra, berkas, mode)) semuaBerhasil = false;
+  });
+
+  if (!semuaBerhasil) {
+    req.flash('error', 'Sebagian dokumen gagal disimpan. Coba lagi.');
+    return res.redirect('/mitra/dokumen');
+  }
+  req.flash('sukses', 'Dokumen disimpan. Akun Anda akan ditinjau ulang oleh admin.');
+  res.redirect('/mitra/profil');
 };

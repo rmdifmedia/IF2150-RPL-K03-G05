@@ -345,3 +345,16 @@ a.hari:hover { background: rgba(64, 40, 33, .08); }
 .halaman-form { max-width: 636px; margin: 0 auto; }
 .halaman-form h1 { font-size: 36px; margin: 0 0 18px; }
 .halaman-form .kotak h3 { font-size: 26px; font-weight: 400; margin-bottom: 20px; }
+
+/* ---------- Edit dokumen legalitas ---------- */
+.field-baca { border: 1px solid var(--cokelat); padding: 12px 18px; margin-bottom: 16px;
+  max-width: 528px; font-size: 20px; }
+.field-baca small { display: block; color: var(--cokelat); font-size: 20px; }
+.baris-dokumen { margin-bottom: 18px; }
+.label-dok { display: block; font-size: 20px; margin-bottom: 6px; }
+.wajib { color: #8F0000; font-weight: 700; margin-left: 4px; }
+.tombol-unggah { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 3px 10px;
+  font-size: 18px; color: var(--cokelat); border: 2px solid var(--cokelat); border-radius: 8px; cursor: pointer; }
+.tombol-unggah input { display: none; }
+.tombol-unggah svg { width: 20px; height: 20px; }
+.nama-berkas { margin-left: 12px; color: var(--cokelat); font-size: 16px; }
