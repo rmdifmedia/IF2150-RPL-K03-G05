@@ -26,7 +26,7 @@ exports.prosesMasyarakat = (req, res) => {
     }
 
     if(daftarError.length){
-        return res.status(400).render('auth/registarsi-masyarakat', {
+        return res.status(400).render('auth/registrasi-masyarakat', {
             lama: req.body,
             error: daftarError,
         });
@@ -74,7 +74,7 @@ exports.prosesMitra = (req, res) => {
         }));
     
         Mitra.daftar(
-            { nama, username, namaFirma, email, sandiHasi: bcrypt.hashSync(kataSandi, 10) },
+            { nama, username, namaFirma, email, sandiHash: bcrypt.hashSync(kataSandi, 10) },
             daftarDokumen
         );
 
