@@ -1,399 +1,260 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Laporan Admin - LawHub</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: #f3f1ed;
-      color: #432c19;
-    }
+<%- include('../partials/header') %>
 
-    /* Navbar Kuning LawHub */
-    .navbar {
-      background-color: #f0e298;
-      height: 68px;
-      padding: 0 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e5d584;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: #3d2817;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: #432c19;
-      font-size: 14.5px;
-      font-weight: 500;
-      padding: 8px 18px;
-      border-radius: 999px;
-      transition: background-color 0.15s ease;
-    }
-    .nav-links a:hover {
-      background-color: rgba(255, 255, 255, 0.45);
-    }
-    .nav-links a.active {
-      background-color: #f9f3cf;
-      font-weight: 600;
-    }
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      color: #3d2817;
-    }
-    .nav-icons a {
-      color: #3d2817;
-      display: inline-flex;
-      align-items: center;
-      text-decoration: none;
-    }
+<style>
+  .admin-wrap {
+    max-width: 920px;
+    margin: 28px auto 56px;
+    padding: 0 20px;
+    color: #432c19;
+  }
+  .admin-wrap .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .admin-wrap .page-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .filter-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .admin-wrap .filter-pill {
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background-color: #e9e4dc;
+    color: #5b432e;
+  }
+  .admin-wrap .filter-pill.active {
+    background-color: #432c19;
+    color: #ffffff;
+  }
+  .admin-wrap .laporan-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(67, 44, 25, 0.05);
+  }
+  .admin-wrap .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .admin-wrap .avatar-box {
+    width: 68px;
+    height: 68px;
+    border-radius: 6px;
+    background-color: #d3d5d7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .admin-wrap .card-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .admin-wrap .card-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .admin-wrap .card-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #432c19;
+  }
+  .admin-wrap .meta-sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8c7056;
+  }
+  .admin-wrap .card-desc {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #7c5c3e;
+  }
+  .admin-wrap .card-desc strong {
+    color: #5c4028;
+    font-weight: 600;
+  }
+  .admin-wrap .ulasan-quote {
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: #6b533b;
+    background-color: #faf8f5;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border-left: 3px solid #d6c3a5;
+  }
+  .admin-wrap .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .admin-wrap .catatan-input {
+    flex: 1;
+    background-color: #f2efeb;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: #432c19;
+    outline: none;
+  }
+  .admin-wrap .catatan-input::placeholder {
+    color: #a3978b;
+  }
+  .admin-wrap .catatan-input:focus {
+    border-color: #c8b69e;
+    background-color: #f8f6f2;
+  }
+  .admin-wrap .btn-pill {
+    border: none;
+    border-radius: 999px;
+    padding: 9px 24px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    min-width: 126px;
+    text-align: center;
+    transition: opacity 0.15s ease;
+  }
+  .admin-wrap .btn-pill:hover { opacity: 0.92; }
+  .admin-wrap .btn-tolak { background-color: #169c43; }
+  .admin-wrap .btn-blokir { background-color: #c81010; }
+  .admin-wrap .status-selesai {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .admin-wrap .status-disetujui { background-color: #fee2e2; color: #991b1b; }
+  .admin-wrap .status-ditolak { background-color: #dcfce7; color: #166534; }
+  .admin-wrap .empty-state {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 36px 24px;
+    text-align: center;
+    color: #7c5c3e;
+    font-size: 14.5px;
+  }
+  @media (max-width: 720px) {
+    .admin-wrap .card-actions { flex-wrap: wrap; }
+    .admin-wrap .catatan-input { width: 100%; flex: 1 1 100%; }
+    .admin-wrap .btn-pill { flex: 1; }
+  }
+</style>
 
-    /* Konten Utama */
-    .container {
-      max-width: 920px;
-      margin: 34px auto 56px;
-      padding: 0 24px;
-    }
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-    .page-title {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 700;
-      color: #432c19;
-    }
+<div class="admin-wrap">
+  <div class="header-row">
+    <h1 class="page-title">List Laporan</h1>
 
-    /* Filter Status */
-    .filter-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .filter-pill {
-      text-decoration: none;
-      font-size: 12.5px;
-      font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background-color: #e9e4dc;
-      color: #5b432e;
-    }
-    .filter-pill.active {
-      background-color: #432c19;
-      color: #fff;
-    }
-
-    /* Flash Alert */
-    .alert {
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin-bottom: 18px;
-      font-size: 14px;
-    }
-    .alert-sukses {
-      background-color: #e6f4ea;
-      color: #166534;
-      border: 1px solid #bbf7d0;
-    }
-    .alert-error {
-      background-color: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-
-    /* Kartu Laporan */
-    .laporan-card {
-      background-color: #ffffff;
-      border-radius: 16px;
-      padding: 18px 22px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 6px rgba(67, 44, 25, 0.04);
-    }
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-    .avatar-box {
-      width: 68px;
-      height: 68px;
-      border-radius: 6px;
-      background-color: #d3d5d7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .card-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .card-name-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-    .card-name {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 700;
-      color: #432c19;
-    }
-    .meta-sub {
-      font-size: 12px;
-      font-weight: 500;
-      color: #8c7056;
-    }
-    .card-desc {
-      margin: 0;
-      font-size: 13.5px;
-      line-height: 1.45;
-      color: #7c5c3e;
-    }
-    .card-desc strong {
-      color: #5c4028;
-      font-weight: 600;
-    }
-    .ulasan-quote {
-      margin-top: 6px;
-      font-size: 12.5px;
-      color: #6b533b;
-      background-color: #faf8f5;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border-left: 3px solid #d6c3a5;
-    }
-
-    /* Baris Input Catatan & Tombol Pil */
-    .card-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .catatan-input {
-      flex: 1;
-      background-color: #f2efeb;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13.5px;
-      color: #432c19;
-      outline: none;
-    }
-    .catatan-input::placeholder {
-      color: #a3978b;
-    }
-    .catatan-input:focus {
-      border-color: #c8b69e;
-      background-color: #f8f6f2;
-    }
-    .btn-pill {
-      border: none;
-      border-radius: 999px;
-      padding: 9px 24px;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #ffffff;
-      cursor: pointer;
-      min-width: 126px;
-      text-align: center;
-      transition: opacity 0.15s ease;
-    }
-    .btn-pill:hover { opacity: 0.92; }
-    .btn-tolak { background-color: #169c43; }
-    .btn-blokir { background-color: #c81010; }
-    .status-selesai {
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 16px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-    .status-disetujui { background-color: #fee2e2; color: #991b1b; }
-    .status-ditolak { background-color: #dcfce7; color: #166534; }
-    .empty-state {
-      background: #fff;
-      border-radius: 16px;
-      padding: 36px 24px;
-      text-align: center;
-      color: #7c5c3e;
-      font-size: 14.5px;
-    }
-
-    @media (max-width: 720px) {
-      .navbar { padding: 0 18px; }
-      .nav-links { gap: 8px; }
-      .nav-links a { padding: 6px 10px; font-size: 13px; }
-      .card-actions { flex-wrap: wrap; }
-      .catatan-input { width: 100%; flex: 1 1 100%; }
-      .btn-pill { flex: 1; }
-    }
-  </style>
-</head>
-<body>
-  <header class="navbar">
-    <a href="/admin" class="brand">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3d2817" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m14 13-7.5 7.5c-.83.83-2.17.83-3 0a2.12 2.12 0 0 1 0-3L11 10"/>
-        <path d="m16 16 6-6"/>
-        <path d="m8 8 6-6"/>
-        <path d="m9 7 8 8"/>
-        <path d="m21 11-8-8"/>
-      </svg>
-      <span>LawHub</span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="/admin">Beranda</a>
-      <a href="/admin/laporan" class="active">List Pengajuan</a>
-      <a href="/admin/livechat">Live Chat</a>
-    </nav>
-
-    <div class="nav-icons">
-      <a href="/admin/laporan?status=menunggu" title="Notifikasi Laporan">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-        </svg>
-      </a>
-      <a href="/logout" title="Keluar">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="12" cy="10" r="3"/>
-          <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
-        </svg>
-      </a>
+    <div class="filter-group">
+      <a href="/admin/laporan?status=menunggu" class="filter-pill <%= statusAktif === 'menunggu' ? 'active' : '' %>">Menunggu</a>
+      <a href="/admin/laporan?status=disetujui" class="filter-pill <%= statusAktif === 'disetujui' ? 'active' : '' %>">Diblokir</a>
+      <a href="/admin/laporan?status=ditolak" class="filter-pill <%= statusAktif === 'ditolak' ? 'active' : '' %>">Ditolak</a>
+      <a href="/admin/laporan?status=semua" class="filter-pill <%= statusAktif === 'semua' ? 'active' : '' %>">Semua</a>
     </div>
-  </header>
+  </div>
 
-  <main class="container">
-    <div class="header-row">
-      <h1 class="page-title">List Laporan</h1>
-
-      <div class="filter-group">
-        <a href="/admin/laporan?status=menunggu" class="filter-pill <%= statusAktif === 'menunggu' ? 'active' : '' %>">Menunggu</a>
-        <a href="/admin/laporan?status=disetujui" class="filter-pill <%= statusAktif === 'disetujui' ? 'active' : '' %>">Diblokir</a>
-        <a href="/admin/laporan?status=ditolak" class="filter-pill <%= statusAktif === 'ditolak' ? 'active' : '' %>">Ditolak</a>
-        <a href="/admin/laporan?status=semua" class="filter-pill <%= statusAktif === 'semua' ? 'active' : '' %>">Semua</a>
-      </div>
+  <% if (daftarLaporan.length === 0) { %>
+    <div class="empty-state">
+      Tidak ada data laporan pelanggaran pada kategori ini.
     </div>
-
-    <% if (typeof sukses !== 'undefined' && sukses && sukses.length > 0) { %>
-      <div class="alert alert-sukses"><%= sukses[0] %></div>
-    <% } %>
-    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
-      <div class="alert alert-error"><%= error[0] %></div>
-    <% } %>
-
-    <% if (daftarLaporan.length === 0) { %>
-      <div class="empty-state">
-        Tidak ada data laporan pelanggaran pada kategori ini.
-      </div>
-    <% } else { %>
-      <% daftarLaporan.forEach((item) => { %>
-        <form method="POST" class="laporan-card">
-          <div class="card-top">
-            <div class="avatar-box" aria-hidden="true">
-              <svg width="46" height="46" viewBox="0 0 24 24" fill="#a8acb0">
-                <circle cx="12" cy="8" r="4.2"/>
-                <path d="M4 20c0-3.8 3.6-6.5 8-6.5s8 2.7 8 6.5"/>
-              </svg>
-            </div>
-
-            <div class="card-info">
-              <div class="card-name-row">
-                <h2 class="card-name"><%= item.namaTerlapor %></h2>
-                <!-- Identitas pelapor hanya tampil untuk Admin -->
-                <span class="meta-sub">
-                  Terlapor: <span style="text-transform:capitalize;"><%= item.peranTerlapor %></span>
-                  &bull; Pelapor: <%= item.namaPelapor %>
-                  &bull; <%= item.tanggalLaporan %>
-                </span>
-              </div>
-
-              <p class="card-desc">
-                <strong><%= item.jenisPelanggaran %></strong> . <%= item.deskripsi %>
-              </p>
-
-              <% if (item.idUlasan) { %>
-                <div class="ulasan-quote">
-                  Ulasan terlapor (#<%= item.idUlasan %>): "<%= item.teksUlasan || '-' %>"
-                </div>
-              <% } %>
-            </div>
+  <% } else { %>
+    <% daftarLaporan.forEach((item) => { %>
+      <form method="POST" class="laporan-card">
+        <div class="card-top">
+          <div class="avatar-box" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="#a8acb0">
+              <circle cx="12" cy="8" r="4.2"/>
+              <path d="M4 20c0-3.8 3.6-6.5 8-6.5s8 2.7 8 6.5"/>
+            </svg>
           </div>
 
-          <div class="card-actions">
-            <% if (item.statusLaporan === 'menunggu') { %>
-              <input
-                type="text"
-                name="catatan"
-                class="catatan-input"
-                placeholder="Tulis catatan..."
-              />
-
-              <button
-                type="submit"
-                formaction="/admin/laporan/<%= item.idLaporan %>/tolak"
-                class="btn-pill btn-tolak"
-                onclick="return confirm('Tolak pemblokiran untuk akun <%= item.namaTerlapor %>?');"
-              >
-                Tolak Blokir
-              </button>
-
-              <button
-                type="submit"
-                formaction="/admin/laporan/<%= item.idLaporan %>/blokir"
-                class="btn-pill btn-blokir"
-                onclick="return confirm('Blokir akun <%= item.namaTerlapor %> dari seluruh akses sistem?');"
-              >
-                Blokir
-              </button>
-            <% } else { %>
-              <input
-                type="text"
-                class="catatan-input"
-                value="<%= item.catatanAdmin || 'Laporan telah selesai ditinjau.' %>"
-                disabled
-              />
-              <span class="status-selesai status-<%= item.statusLaporan %>">
-                <%= item.statusLaporan === 'disetujui' ? 'Akun Diblokir' : 'Blokir Ditolak' %>
+          <div class="card-info">
+            <div class="card-name-row">
+              <h2 class="card-name"><%= item.namaTerlapor %></h2>
+              <span class="meta-sub">
+                Terlapor: <span style="text-transform:capitalize;"><%= item.peranTerlapor %></span>
+                &bull; Pelapor: <%= item.namaPelapor %>
+                &bull; <%= item.tanggalLaporan %>
               </span>
+            </div>
+
+            <p class="card-desc">
+              <strong><%= item.jenisPelanggaran %></strong> . <%= item.deskripsi %>
+            </p>
+
+            <% if (item.idUlasan) { %>
+              <div class="ulasan-quote">
+                Ulasan terlapor (#<%= item.idUlasan %>): "<%= item.teksUlasan || '-' %>"
+              </div>
             <% } %>
           </div>
-        </form>
-      <% }) %>
-    <% } %>
-  </main>
-</body>
-</html>
+        </div>
+
+        <div class="card-actions">
+          <% if (item.statusLaporan === 'menunggu') { %>
+            <input
+              type="text"
+              name="catatan"
+              class="catatan-input"
+              placeholder="Tulis catatan..."
+            />
+
+            <button
+              type="submit"
+              formaction="/admin/laporan/<%= item.idLaporan %>/tolak"
+              class="btn-pill btn-tolak"
+              onclick="return confirm('Tolak pemblokiran untuk akun <%= item.namaTerlapor %>?');"
+            >
+              Tolak Blokir
+            </button>
+
+            <button
+              type="submit"
+              formaction="/admin/laporan/<%= item.idLaporan %>/blokir"
+              class="btn-pill btn-blokir"
+              onclick="return confirm('Blokir akun <%= item.namaTerlapor %> dari seluruh akses sistem?');"
+            >
+              Blokir
+            </button>
+          <% } else { %>
+            <input
+              type="text"
+              class="catatan-input"
+              value="<%= item.catatanAdmin || 'Laporan telah selesai ditinjau.' %>"
+              disabled
+            />
+            <span class="status-selesai status-<%= item.statusLaporan %>">
+              <%= item.statusLaporan === 'disetujui' ? 'Akun Diblokir' : 'Blokir Ditolak' %>
+            </span>
+          <% } %>
+        </div>
+      </form>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
