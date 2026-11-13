@@ -208,3 +208,49 @@ body.halaman-konsul-chat .konten > .alert { margin: 8px 36px 0; }
   .aksi-tanggapan { flex-wrap: wrap; }
   .slot-baris { font-size: 26px; }
 }
+
+/* ---------- UI-30 List Pengajuan (UC11) ---------- */
+.list-pengajuan { max-width: 980px; margin: 0 auto; }
+.list-pengajuan h2 { margin: 12px 0 28px; font-size: 36px; line-height: 42px; }
+.cari-pengajuan {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 22px; padding: 6px 16px;
+  background: var(--putih); border-radius: 25px; color: var(--cokelat);
+}
+.cari-pengajuan svg { width: 18px; height: 18px; flex: none; }
+.cari-pengajuan input { width: auto; min-height: 0; padding: 4px 0; border: 0; background: none; }
+.cari-pengajuan input { flex: 1; min-width: 0; border: 0; background: none; font-size: 20px; color: var(--cokelat); }
+.cari-pengajuan input:focus { outline: none; }
+.filter-baris { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-bottom: 22px; }
+.filter-label { padding: 5px 14px; background: var(--putih); border-radius: 40px; font-size: 20px; color: var(--cokelat); }
+.filter-form { display: contents; }
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
+  background: var(--putih); border-radius: 6px; font-size: 20px; color: var(--cokelat); text-decoration: none; cursor: pointer;
+}
+.filter-chip select {
+  width: auto; min-height: 0; margin: 0; padding: 0 4px; border: 0; border-radius: 0; background-color: transparent;
+  font: inherit; color: inherit; cursor: pointer;
+}
+.filter-chip[aria-current="true"] { background: var(--kuning); }
+.kartu-pengajuan {
+  display: flex; gap: 16px; margin-bottom: 20px; padding: 12px 16px 12px 12px;
+  background: var(--putih); border-radius: 20px;
+}
+.kartu-pengajuan .foto-klien { width: 101px; height: 101px; align-self: flex-start; }
+.kp-isi { flex: 1; min-width: 0; }
+.kp-isi h3 { margin: 0; font-size: 24px; line-height: 28px; }
+.kp-info {
+  margin: 0; font-size: 20px; line-height: 24px; color: var(--cokelat);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.kp-detail { display: inline-block; font-size: 20px; line-height: 24px; color: #0A84D6; text-decoration: none; }
+.kp-detail:hover { text-decoration: underline; }
+.kp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 48px; margin-top: 6px; }
+.badge-status {
+  min-width: 120px; padding: 5px 22px; border-radius: 40px; text-align: center;
+  font-size: 24px; line-height: 28px; font-weight: 500; color: #fff; background: var(--status-abu);
+}
+.badge-status.pil-menunggu { background: var(--status-tunggu); }
+.badge-status.pil-terjadwal, .badge-status.pil-berlangsung { background: var(--status-terima); }
+.badge-status.pil-dibatalkan { background: #B3261E; }
+@media (max-width: 700px) { .kartu-pengajuan { flex-direction: column; } .badge-status { font-size: 18px; } }
