@@ -28,7 +28,7 @@
   <% if (!izin.ok && !izin.tutup) { %>
     <div class="alert alert-error">
       <%= izin.pesan %>
-      <% if (izin.perluBayar && peran === 'masyarakat') { %> <a href="/transaksi/bayar/<%= sesi.idSesi %>">Bayar sekarang</a><% } %>
+      <% if (izin.perluBayar && peran === 'masyarakat') { %> <a href="/transaksi/pembayaran/<%= sesi.idSesi %>">Bayar sekarang</a><% } %>
     </div>
   <% } %>
 

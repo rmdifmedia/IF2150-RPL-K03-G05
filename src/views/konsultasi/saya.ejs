@@ -27,7 +27,7 @@
       <div class="aksi-sesi">
         <span class="pil pil-<%= s.statusSesi.split(' ')[0] %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
         <% if (s.statusSesi === 'terjadwal' && !lunas) { %>
-          <a class="tombol tombol-kecil" href="/transaksi/bayar/<%= s.idSesi %>">Bayar</a>
+          <a class="tombol tombol-kecil" href="/transaksi/pembayaran/<%= s.idSesi %>">Bayar</a>
         <% } %>
         <% if (['terjadwal', 'berlangsung'].includes(s.statusSesi) && (lunas || izin.ok)) { %>
           <a class="tombol tombol-kecil" href="/konsultasi/chat/<%= s.idSesi %>">Buka Chat</a>

@@ -27,7 +27,7 @@
 
   <div class="judul-baris">
     <h2 class="judul-bagian">Permintaan Terbaru</h2>       <!-- O-213 -->
-    <a href="/mitra/pengajuan">Lihat Semua</a>            <!-- O-214 -->
+    <a href="/konsultasi/pengajuan">Lihat Semua</a>            <!-- O-214 -->
   </div>
   <% if (permintaan.length === 0) { %>
     <p class="kosong-dashboard">Belum ada permintaan konsultasi baru.</p>
@@ -53,7 +53,7 @@
             <strong><%= i + 1 %>. <%= s.namaMasyarakat %></strong>
             <span><%= tanggal(s.tanggalJadwal) %>, <%= s.waktuJadwal %></span>
           </article>
-          <a class="tombol tombol-penuh" href="/konsultasi/sesi/<%= s.idSesi %>">Konsultasi</a>  <!-- O-218 -->
+          <a class="tombol tombol-penuh" href="/konsultasi/chat/<%= s.idSesi %>">Konsultasi</a>  <!-- O-218 -->
         </div>
       <% }); %>
     </section>

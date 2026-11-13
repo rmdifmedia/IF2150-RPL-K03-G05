@@ -37,7 +37,7 @@
 <header class="header <%= varian === 'polos' ? 'header-polos' : '' %>">
   <div class="header-isi">
     <a class="logo" href="<%= beranda %>" aria-label="LawHub - beranda">
-      <img src="/img/logo.png" alt="LawHub">
+      <img src="/img/LawHub.png" alt="LawHub">
     </a>
 
     <% if (varian === 'penuh') { %>
@@ -45,11 +45,11 @@
         <nav class="nav-utama" aria-label="Navigasi utama">
           <% var menu = (locals.user && locals.user.peran === 'mitra')
                ? [['beranda', '/mitra', 'Beranda'],
-                  ['pengajuan', '/mitra/pengajuan', 'List Pengajuan'],
-                  ['konfirmasi', '/mitra/konfirmasi', 'Konfirmasi Konsultasi']]
+                  ['pengajuan', '/konsultasi/pengajuan', 'List Pengajuan'],
+                  ['konfirmasi', '/konsultasi/pengajuan', 'Konfirmasi Konsultasi']]
                : [['beranda', '/masyarakat', 'Beranda'],
-                  ['history', '/masyarakat/history', 'History'],
-                  ['livechat', '/masyarakat/live-chat', 'Live Chat']];
+                  ['history', '/transaksi/riwayat', 'History'],
+                  ['livechat', '/masyarakat/livechat', 'Live Chat']];
              menu.forEach(function (m) { %>
             <a href="<%= m[1] %>" <%- locals.navAktif === m[0] ? 'aria-current="page"' : '' %>><%= m[2] %></a>
           <% }); %>
@@ -118,8 +118,8 @@
       <% if (locals.navAktif) { %>
         <nav class="nav-utama" aria-label="Navigasi utama">
           <a href="/masyarakat"            <%- locals.navAktif === 'beranda'  ? 'aria-current="page"' : '' %>>Beranda</a>
-          <a href="/masyarakat/history"    <%- locals.navAktif === 'history'  ? 'aria-current="page"' : '' %>>History</a>
-          <a href="/masyarakat/live-chat"  <%- locals.navAktif === 'livechat' ? 'aria-current="page"' : '' %>>Live Chat</a>
+          <a href="/transaksi/riwayat"    <%- locals.navAktif === 'history'  ? 'aria-current="page"' : '' %>>History</a>
+          <a href="/masyarakat/livechat"  <%- locals.navAktif === 'livechat' ? 'aria-current="page"' : '' %>>Live Chat</a>
         </nav>
       <% } else { %>
       <h1 class="judul-header">
