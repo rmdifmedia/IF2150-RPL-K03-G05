@@ -20,7 +20,7 @@ db.prepare(
    (nama, username, namaFirma, email, sandiMitra, validitas, statusVerifikasi, tagKeahlian, spesialisasi, rekeningPencairan)
    VALUES (?, ?, ?, ?, ?, 1, 'terverifikasi', ?, ?, ?)`
 ).run('Ami Pengacara', 'ami', 'Firma Ami', 'ami@lawhub.test', hash('ami657'),
-      'pidana,perdata', 'Hukum Pidana', 'BCA 1234567890');
+      'pidana,perdata', 'Hukum Pidana', 'BCA|1234567890|Ami Pengacara');
 
 // dummy klien mitra ami
 // --- data uji dashboard mitra ---
@@ -52,7 +52,7 @@ const tambahMitra = db.prepare(
   `INSERT OR IGNORE INTO MitraPengacara
    (nama, username, namaFirma, email, sandiMitra, validitas, statusVerifikasi,
     tagKeahlian, spesialisasi, deskripsi, rating, statusKetersediaan, rekeningPencairan)
-   VALUES (?, ?, ?, ?, ?, 1, 'terverifikasi', ?, ?, ?, ?, ?, 'BCA 1234567890')`
+   VALUES (?, ?, ?, ?, ?, 1, 'terverifikasi', ?, ?, ?, ?, ?, 'BCA|1234567890|Mitra Uji')`
 );
 
 tambahMitra.run('Budi Santoso, S.H.', 'budi', 'Santoso & Rekan', 'budi@lawhub.test', hash('budi123'),
@@ -73,6 +73,11 @@ if (jumlahPasal === 0) {
   tambahPasal.run('Peraturan Contoh B', 'Pasal 10', 'Isi pasal contoh tentang kontrak (data uji).');
 }
 
+const tambahPeraturan = db.prepare(`
+  INSERT OR IGNORE INTO Peraturan
+  (jenisPeraturan, nomor, tahun, judul, deskripsi, status, linkPDF)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`);
 
 const dataPeraturan = require('./dataPasal');
 
@@ -83,12 +88,7 @@ const masukkanSemua = db.transaction((daftar) => {
 });
 masukkanSemua(dataPeraturan);
 
-// dummy data awal search law
-const tambahPeraturan = db.prepare(`
-  INSERT OR IGNORE INTO Peraturan
-  (jenisPeraturan, nomor, tahun, judul, deskripsi, status, linkPDF)
-  VALUES (?, ?, ?, ?, ?, ?, ?)
-`);
+
 
 tambahPeraturan.run(
   'Permenkominfo',
@@ -99,5 +99,12 @@ tambahPeraturan.run(
   'Berlaku',
   'https://peraturan.go.id/files/permenkominfo-no-04-tahun-2024.pdf'
 );
+
+const tambahJadwal = db.prepare(
+  'INSERT OR IGNORE INTO JadwalKetersediaan (idMitra, tanggal, waktuMulai, waktuSelesai) VALUES (?, ?, ?, ?)'
+);
+for (const m of db.prepare("SELECT idMitra FROM MitraPengacara WHERE statusVerifikasi = 'terverifikasi'").all()) {
+  for (let n = 0; n < 30; n++) tambahJadwal.run(m.idMitra, hariKe(n), '14:00', '19:00');
+}
 
 console.log('Database siap.');
