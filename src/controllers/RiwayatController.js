@@ -1,5 +1,5 @@
 const Riwayat = require('../models/Riwayat');
-const { tanggal } = require('../utils/format');
+const { tanggal } = require('../utils/Format');
 
 exports.daftar = (req, res) => {
   const { id, peran } = req.session.user;

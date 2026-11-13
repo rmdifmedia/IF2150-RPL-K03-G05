@@ -1,6 +1,6 @@
 const Pencairan = require('../models/PencairanDana');
-const gateway = require('../services/paymentGateway');
-const { rupiah, tanggal } = require('../utils/format');
+const gateway = require('../services/PaymentGateway');
+const { rupiah, tanggal } = require('../utils/Format');
 
 // rekeningPencairan disimpan sebagai "Bank|Nomor|Pemilik"
 const urai = (teks) => {

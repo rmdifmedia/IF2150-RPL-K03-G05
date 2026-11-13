@@ -1,6 +1,6 @@
 const Pembayaran = require('../models/Pembayaran');
-const gateway = require('../services/paymentGateway');
-const { rupiah } = require('../utils/format');
+const gateway = require('../services/PaymentGateway');
+const { rupiah } = require('../utils/Format');
 
 const TARIF_PER_JAM = Number(process.env.TARIF_PER_JAM || 70000);
 const DURASI_JAM = Number(process.env.DURASI_SESI_JAM || 1);
