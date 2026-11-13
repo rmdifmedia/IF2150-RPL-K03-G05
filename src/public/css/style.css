@@ -450,3 +450,17 @@ a.hari:hover { background: rgba(64, 40, 33, .08); }
 .halaman-form { max-width: 636px; margin: 0 auto; }
 .halaman-form h1 { font-size: 36px; margin: 0 0 18px; }
 .halaman-form .kotak h3 { font-size: 26px; font-weight: 400; margin-bottom: 20px; }
+
+/* ---------- Form kasus HaloLaw (UI-05) ---------- */
+.judul-form-kasus { text-align: center; font-size: 28px; font-weight: 400; margin: 28px 0 16px; }
+.isian-area {
+  width: 100%; min-height: 160px; padding: 16px 20px; resize: vertical;
+  font: inherit; font-size: 20px; color: var(--cokelat-tua);
+  background: transparent; border: 1px solid var(--cokelat);
+}
+.isian-area::placeholder { color: var(--cokelat); }
+.form-kasus h3 { font-size: 22px; font-weight: 400; color: var(--cokelat); margin: 24px 0 10px; }
+.daftar-centang { display: grid; gap: 10px; }
+.daftar-centang label { display: flex; align-items: center; gap: 12px; font-size: 18px; }
+.aksi-tengah { display: flex; justify-content: center; margin: 28px 0 48px; }
+.aksi-tengah .tombol { min-width: 320px; }

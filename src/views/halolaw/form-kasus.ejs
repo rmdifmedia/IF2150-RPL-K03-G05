@@ -1,0 +1,31 @@
+<%- include('../partials/header', { judulHalaman: 'Form Kasus', judul: 'HaloLaw', ikonJudul: 'telepon' }) %>
+<div class="sempit">
+  <h2 class="judul-form-kasus">Form Kasus</h2>
+
+  <form class="form-kasus" method="POST" action="/halolaw">
+    <% if (kasus && kasus.idKasus) { %>
+      <input type="hidden" name="idKasus" value="<%= kasus.idKasus %>">
+    <% } %>
+
+    <!-- O-20 -->
+    <textarea class="isian-area" name="deskripsi" maxlength="2000" required
+              placeholder="Deskripsikan Kasusmu ..."><%= kasus && kasus.deskripsi ? kasus.deskripsi : '' %></textarea>
+
+    <!-- O-22 -->
+    <h3>Request Tag Keahlian Mitra</h3>
+    <div class="daftar-centang">
+      <% Object.keys(TAG).forEach(function (k) { %>
+        <label>
+          <input type="checkbox" name="tag" value="<%= k %>" <%= tagTerpilih.includes(k) ? 'checked' : '' %>>
+          <%= TAG[k] %>
+        </label>
+      <% }); %>
+    </div>
+
+    <!-- O-23 -->
+    <div class="aksi-tengah">
+      <button type="submit" class="tombol tombol-penuh">Cari Mitra</button>
+    </div>
+  </form>
+</div>
+<%- include('../partials/footer') %>
