@@ -1,0 +1,210 @@
+/* =====================================================================
+   Konsultasi (UC10 Pemilihan Jadwal, UC11 Konfirmasi, UC12 Chat)
+   Memakai variabel warna di style.css. Nilai ukuran berasal dari Figma.
+   Warna tambahan (status): hijau #14AE5C, merah #C00F0C / #B3261E, oranye #E6A000, abu #8E8E93
+   ===================================================================== */
+:root {
+  --status-terima: #14AE5C;
+  --status-tolak: #C00F0C;
+  --status-tunggu: #E6A000;
+  --status-abu: #8E8E93;
+}
+
+/* ---------- menu tengah header mitra ---------- */
+.nav-mitra { display: flex; align-items: center; gap: 22px; }
+.nav-mitra a {
+  padding: 10px 18px; border-radius: 40px;
+  font-size: 22px; font-weight: 500; color: var(--cokelat-tua); text-decoration: none; white-space: nowrap;
+}
+.nav-mitra a:hover { background: rgba(64, 40, 33, .08); }
+.nav-mitra a[aria-current="page"] { background: rgba(242, 241, 238, .5); }
+
+/* ---------- UI-08 ringkasan mitra (O-30) ---------- */
+.profil-mitra {
+  display: grid; grid-template-columns: 162px 1fr; align-items: center; gap: 36px;
+  max-width: 1354px; margin: 0 auto 28px; padding: 28px 64px;
+  background: var(--cokelat); border: 1px solid var(--cokelat-tua); border-radius: 52px;
+}
+.profil-mitra .foto { width: 162px; height: 162px; background: #D8D9DC; }
+.profil-mitra h2 { margin: 0 0 4px; font-size: 36px; line-height: 42px; color: var(--kuning); }
+.profil-mitra .deskripsi { margin: 0 0 12px; font-size: 24px; line-height: 28px; color: var(--kuning); max-width: 950px; }
+.judul-jadwal { max-width: 1354px; margin: 0 auto 20px; padding-left: 28px; font-size: 36px; line-height: 42px; }
+
+/* ---------- kalender (O-31) ---------- */
+.jadwal-grid {
+  display: grid; grid-template-columns: 530px 1fr; gap: 60px; align-items: start;
+  max-width: 1354px; margin: 0 auto;
+}
+.kalender {
+  padding: 26px; background: var(--putih);
+  border: 1.67px solid var(--cokelat); border-radius: 27px;
+}
+.kalender-atas { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.kal-panah {
+  width: 56px; height: 56px; border: 0; border-radius: 50%; background: none; cursor: pointer;
+  font-size: 44px; line-height: 1; color: var(--cokelat-tua);
+}
+.kal-panah:hover { background: rgba(64, 40, 33, .08); }
+.kal-select {
+  flex: 1; min-width: 0; padding: 8px 10px; font-size: 22px; color: var(--cokelat);
+  background: var(--putih); border: 1.67px solid var(--cokelat); border-radius: 13px;
+}
+.kal-hari, .kal-tanggal { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+.kal-hari { margin: 14px 0 6px; font-size: 18px; color: var(--cokelat); }
+.kal-tanggal { gap: 2px; }
+.kal-hari-btn {
+  height: 62px; border: 0; border-radius: 13px; background: none; cursor: pointer;
+  font: 400 24px/1 "Public Sans", system-ui, sans-serif; color: var(--cokelat);
+}
+.kal-hari-btn:hover:not(:disabled):not(.dipilih) { background: var(--krem); }
+.kal-hari-btn.dipilih { background: var(--cokelat-tua); color: #F5F5F5; }
+.kal-hari-btn:disabled { cursor: default; }
+.kal-hari-btn.penuh { opacity: .35; }
+.kal-hari-btn.luar { opacity: .5; }
+.kal-hari-btn:focus-visible { outline: 3px solid var(--cokelat); outline-offset: 1px; }
+
+/* ---------- slot waktu (O-32, O-33) ---------- */
+.waktu-tersedia h2 { text-align: center; font-size: 36px; line-height: 42px; margin-bottom: 6px; }
+.info-tanggal { text-align: center; color: var(--cokelat); margin-bottom: 18px; min-height: 1.5em; }
+.slot-baris {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  max-width: 700px; min-height: 99px; margin: 0 auto 24px; padding: 0 28px;
+  background: var(--putih); border: 1px solid var(--cokelat-tua); border-radius: 27px;
+  font-size: 36px; font-weight: 500;
+}
+.tombol-slot { min-height: 50px; width: 120px; padding: 0; font-size: 24px; }
+.slot-kosong { max-width: 700px; margin: 0 auto; background: var(--putih); border-radius: 27px; }
+
+/* ---------- dialog konfirmasi ---------- */
+.dialog-konsul {
+  width: min(520px, 92vw); padding: 28px; color: var(--cokelat-tua);
+  background: var(--putih); border: 1px solid var(--cokelat); border-radius: 24px;
+}
+.dialog-konsul::backdrop { background: rgba(64, 40, 33, .45); }
+.dialog-konsul h3 { font-size: 26px; }
+.aksi-dialog { display: flex; justify-content: flex-end; gap: 12px; margin-top: 18px; }
+
+/* ---------- daftar sesi (masyarakat) & list pengajuan (mitra) ---------- */
+.kartu-sesi {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  margin-bottom: 20px; padding: 22px 30px;
+  background: var(--putih); border: 1px solid var(--cokelat); border-radius: 24px;
+  color: var(--cokelat-tua); text-decoration: none;
+}
+.kartu-link:hover { box-shadow: 0 4px 12px rgba(64, 40, 33, .15); }
+.kartu-sesi h3 { margin: 0 0 4px; font-size: 26px; }
+.kartu-sesi .deskripsi { margin: 0 0 8px; color: var(--cokelat); font-size: 18px; }
+.aksi-sesi { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.pil {
+  display: inline-block; padding: 4px 16px; border-radius: 40px;
+  font-size: 18px; font-weight: 600; color: #fff; background: var(--status-abu); white-space: nowrap;
+}
+.pil-menunggu { background: var(--status-tunggu); }
+.pil-terjadwal, .pil-berlangsung { background: var(--status-terima); }
+.pil-dibatalkan { background: #B3261E; }
+.pil-selesai { background: var(--status-abu); }
+.chip-tag {
+  display: inline-block; padding: 4px 14px; border-radius: 43px;
+  font-size: 20px; color: var(--cokelat); background: var(--kuning);
+}
+
+/* ---------- Konfirmasi Konsultasi (UC11) ---------- */
+.info-klien {
+  max-width: 932px; margin: 0 auto; padding: 18px 20px 20px;
+  background: var(--putih); border-radius: 20px;
+}
+.klien-atas { display: flex; gap: 30px; margin-bottom: 10px; }
+.foto-klien { flex: none; width: 101px; height: 101px; background: #D8D9DC; }
+.klien-meta { flex: 1; min-width: 0; }
+.klien-meta h3 { margin: 0 0 8px; font-size: 24px; line-height: 28px; }
+.meta-baris { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 12px 24px; }
+.jadwal-konsul { margin: 8px 0 12px; font-size: 20px; }
+.meta-label { display: flex; align-items: center; gap: 10px; font-size: 20px; line-height: 24px; color: #000; }
+.meta-label svg { width: 22px; height: 22px; flex: none; }
+.meta-nilai { display: block; font-size: 20px; line-height: 24px; color: #000; }
+.judul-kasus { margin: 14px 0 6px; font-size: 22px; font-weight: 600; }
+.isi-kasus {
+  margin: 12px 0 18px; max-height: 480px; overflow-y: auto;
+  font-size: 20px; line-height: 24px; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.aksi-tanggapan { display: flex; align-items: center; gap: 25px; }
+.aksi-tanggapan input[type="text"] {
+  flex: 1; min-width: 0; height: 49px; padding: 5px 12px; font-size: 20px;
+  background: var(--krem); border: 0; border-radius: 10px; color: var(--cokelat-tua);
+}
+.aksi-tanggapan.sudah { flex-wrap: wrap; }
+.catatan-lama { color: var(--cokelat); font-size: 18px; flex: 1; }
+.status-pil {
+  width: 157px; height: 49px; border: 0; border-radius: 40px; cursor: pointer;
+  font: 700 24px/28px "Public Sans", system-ui, sans-serif; color: #fff;
+}
+.status-pil:hover { opacity: .9; }
+.status-terima { background: var(--status-terima); }
+.status-tolak { background: var(--status-tolak); }
+
+/* ---------- Chat Konsultasi (UI-10, UI-11) ---------- */
+body.halaman-konsul-chat { height: 100vh; overflow: hidden; }
+body.halaman-konsul-chat .konten {
+  max-width: none; padding: 0; display: flex; flex-direction: column; min-height: 0; flex: 1;
+}
+body.halaman-konsul-chat .konten > .judul-header { display: none; }
+body.halaman-konsul-chat .konten > .alert { margin: 8px 36px 0; }
+
+.konsul-subheader {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex: none;
+  min-height: 115px; padding: 0 48px; background: var(--cokelat);
+}
+.konsul-profil { display: flex; align-items: center; gap: 24px; min-width: 0; }
+.konsul-avatar { width: 101px; height: 101px; flex: none; }
+.konsul-avatar svg { width: 100%; height: 100%; display: block; }
+.konsul-profil h2 { margin: 0; font-size: 36px; line-height: 42px; color: var(--kuning); font-weight: 400; }
+.tombol-sudahi {
+  min-width: 220px; height: 64px; padding: 0 30px; border: 0; border-radius: 50px; cursor: pointer;
+  font: 500 26px/1 "Public Sans", system-ui, sans-serif; color: var(--krem); background: var(--cokelat-tua);
+}
+.tombol-sudahi:hover { opacity: .88; }
+
+.konsul-chat { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 54px 36px; }
+.konsul-status { margin: 0 0 6px 8px; font-size: 14px; color: var(--cokelat); min-height: 1.2em; }
+.konsul-pesan {
+  flex: 1; min-height: 0; overflow-y: auto; padding: 36px 0 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.pesan-baris { display: flex; }
+.pesan-baris.is-self { justify-content: flex-end; }
+.pesan-baris.is-other { justify-content: flex-start; }
+.pesan-bubble {
+  max-width: min(748px, 75%); padding: 9px 14px;
+  font-size: 22px; line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere;
+  border: 1.5px solid var(--cokelat-tua); border-radius: 12px;
+}
+.pesan-bubble.sender-masyarakat { background: var(--putih); color: var(--cokelat); }   /* klien: putih */
+.pesan-bubble.sender-mitra { background: var(--cokelat); color: var(--kuning); }       /* mitra: cokelat */
+
+.konsul-input {
+  flex: none; display: flex; align-items: center; gap: 12px;
+  height: 75px; padding: 0 30px; background: var(--putih); border-radius: 50px;
+}
+.konsul-input input {
+  flex: 1; min-width: 0; height: 100%; border: 0; background: none; padding: 0;
+  font-size: 22px; color: var(--cokelat-tua);
+}
+.konsul-input input:focus { outline: none; }
+.konsul-input:focus-within { outline: 2px solid var(--cokelat-tua); }
+.konsul-input input:disabled { cursor: not-allowed; }
+.btn-kirim {
+  width: 52px; height: 52px; flex: none; border: 0; border-radius: 50%; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--kuning); background: var(--cokelat-tua);
+}
+.btn-kirim svg { width: 24px; height: 24px; }
+.btn-kirim:disabled { opacity: .4; cursor: not-allowed; }
+
+@media (max-width: 1000px) {
+  .jadwal-grid { grid-template-columns: 1fr; }
+  .kalender { max-width: 530px; margin: 0 auto; }
+  .profil-mitra { grid-template-columns: 1fr; padding: 24px; border-radius: 36px; }
+  .nav-mitra { gap: 6px; } .nav-mitra a { font-size: 16px; padding: 8px 10px; }
+  .aksi-tanggapan { flex-wrap: wrap; }
+  .slot-baris { font-size: 26px; }
+}

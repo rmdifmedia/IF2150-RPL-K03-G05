@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS MitraPengacara (      -- C41
   nama              TEXT NOT NULL,
   email             TEXT NOT NULL UNIQUE,  
   username          TEXT NOT NULL UNIQUE,  
-  namaFirma         TEXT,   
+  namaFirma         TEXT,
+  deskripsi         TEXT,   
   sandiMitra        TEXT NOT NULL,              
   validitas         INTEGER NOT NULL DEFAULT 0 CHECK (validitas IN (0, 1)),
   statusVerifikasi  TEXT NOT NULL DEFAULT 'menunggu'
@@ -26,15 +27,6 @@ CREATE TABLE IF NOT EXISTS MitraPengacara (      -- C41
   saldo             REAL NOT NULL DEFAULT 0,
   rekeningPencairan TEXT,
   statusAkun        TEXT NOT NULL DEFAULT 'aktif' CHECK (statusAkun IN ('aktif', 'diblokir'))  
-);
-
-CREATE TABLE IF NOT EXISTS DokumenLegalitas (
-  idDokumen     INTEGER PRIMARY KEY AUTOINCREMENT,
-  idMitra       INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),
-  jenisDokumen  TEXT NOT NULL, -- ijazah, KTA, SIPA, dsb
-  validitas     INTEGER NOT NULL DEFAULT 0 CHECK (validitas IN (0, 1)),
-  namaBerkas    TEXT,
-  lokasiBerkas  TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Admin (               -- C42
@@ -61,12 +53,26 @@ CREATE TABLE IF NOT EXISTS DasarHukum (          -- C44
   isiPasal      TEXT NOT NULL                
 );
 
+CREATE TABLE IF NOT EXISTS Peraturan ( -- add data tambahan buat pasal
+  idPeraturan INTEGER PRIMARY KEY AUTOINCREMENT,
+  jenisPeraturan TEXT NOT NULL,
+  nomor TEXT NOT NULL,
+  tahun INTEGER NOT NULL,
+  judul TEXT NOT NULL,
+  deskripsi TEXT,
+  status TEXT,
+  linkPDF TEXT NOT NULL,
+  UNIQUE(jenisPeraturan, nomor, tahun)
+);
+
 CREATE TABLE IF NOT EXISTS DokumenLegalitas (    -- C45
   idDokumen    INTEGER PRIMARY KEY AUTOINCREMENT,
   idMitra      INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),
   validitas    INTEGER NOT NULL DEFAULT 0 CHECK (validitas IN (0, 1)),
+  jenisDokumen TEXT NOT NULL, -- ijazah, KTA, SIPA, dsb
   namaBerkas   TEXT,                        
-  lokasiBerkas TEXT                            
+  lokasiBerkas TEXT,
+  waktuUnggah  TEXT DEFAULT (datetime('now'))                            
 );
 
 CREATE TABLE IF NOT EXISTS SesiKonsultasi (      -- C46
@@ -145,6 +151,15 @@ CREATE TABLE IF NOT EXISTS PesanChat (
   isiPesan     TEXT NOT NULL,
   waktuKirim   TEXT NOT NULL DEFAULT (datetime('now')),
   CHECK ((idSesi IS NOT NULL) + (idChat IS NOT NULL) = 1)
+);
+
+CREATE TABLE IF NOT EXISTS JadwalKetersediaan (   -- [+] tabel bantu implementasi
+  idJadwal     INTEGER PRIMARY KEY AUTOINCREMENT,
+  idMitra      INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),
+  tanggal      TEXT NOT NULL,                   -- YYYY-MM-DD
+  waktuMulai   TEXT NOT NULL,                   -- HH:MM
+  waktuSelesai TEXT NOT NULL,                   -- HH:MM
+  UNIQUE (idMitra, tanggal, waktuMulai)
 );
 
 CREATE INDEX IF NOT EXISTS idx_pesan_sesi ON PesanChat(idSesi, idPesan);

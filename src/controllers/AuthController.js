@@ -7,21 +7,41 @@ exports.tampilLogin = (req, res) => {
 };
 
 exports.tampilLoginMasyarakat = (req, res) => {
-  if (req.session.user) return res.redirec('/' + req.session.user.peran);
+  if (req.session.user) return res.redirect('/' + req.session.user.peran);
   res.render('auth/login-masyarakat');
 }
 
 exports.prosesLogin = (req, res) => {
   const { email, kataSandi } = req.body;
+
+  const isLoginMasyarakat = req.path === '/login-masyarakat';
+
+  const halamanLogin = req.path === '/login-masyarakat'
+    ? '/login-masyarakat'
+    : '/login';
+
+  const actualPeran = isLoginMasyarakat
+    ? 'masyarakat'
+    : 'mitra';
+
   const akun = Akun.cariByEmail(email);
 
   if (!akun || !bcrypt.compareSync(kataSandi, akun.sandi)) {
     req.flash('error', 'Email atau kata sandi salah');
-    return res.redirect('/login');
+    return res.redirect(halamanLogin);
   }
+
   if (akun.statusAkun === 'diblokir') {
     req.flash('error', 'Akun Anda diblokir');
-    return res.redirect('/login');
+    return res.redirect(halamanLogin);
+  }
+
+  // Validasi role
+  if(akun.peran !== actualPeran){
+    req.flash(
+      'error',
+      'Email sudah terdaftar pada peran lain. Silahkan login pada halaman yang sesuai peran.'
+    )
   }
 
   req.session.user = { id: akun.id, nama: akun.nama, peran: akun.peran };

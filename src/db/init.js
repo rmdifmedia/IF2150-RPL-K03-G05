@@ -47,6 +47,20 @@ tambahSesi.run(masy('sisi@lawhub.test'), ami.idMitra, hariKe(1), '15:00', 'terja
 tambahSesi.run(masy('rina@lawhub.test'), ami.idMitra, hariKe(4), '11:00', 'terjadwal');
 tambahSesi.run(masy('tono@lawhub.test'), ami.idMitra, hariKe(6), '16:00', 'terjadwal');
 tambahSesi.run(masy('sisi@lawhub.test'), ami.idMitra, hariKe(8), '10:30', 'terjadwal');
+//dummy mitra pengacara
+const tambahMitra = db.prepare(
+  `INSERT OR IGNORE INTO MitraPengacara
+   (nama, username, namaFirma, email, sandiMitra, validitas, statusVerifikasi,
+    tagKeahlian, spesialisasi, deskripsi, rating, statusKetersediaan, rekeningPencairan)
+   VALUES (?, ?, ?, ?, ?, 1, 'terverifikasi', ?, ?, ?, ?, ?, 'BCA 1234567890')`
+);
+
+tambahMitra.run('Budi Santoso, S.H.', 'budi', 'Santoso & Rekan', 'budi@lawhub.test', hash('budi123'),
+  'pidana', 'Hukum Pidana', 'Pengalaman 8 tahun menangani perkara pidana umum.', 4.8, 'tersedia');
+tambahMitra.run('Citra Lestari, S.H., M.H.', 'citra', 'Lestari Law Office', 'citra@lawhub.test', hash('citra123'),
+  'perdata,administrasi', 'Hukum Perdata', 'Berfokus pada sengketa kontrak dan hukum keluarga.', 4.2, 'tersedia');
+tambahMitra.run('Dimas Prakoso, S.H.', 'dimas', 'Prakoso Advokat', 'dimas@lawhub.test', hash('dimas123'),
+  'pidana,perdata', 'Hukum Pidana', 'Menangani kasus pidana dan perdata sejak 2015.', 3.9, 'tidak tersedia');
 
 // dummy SearchLaw
 const jumlahPasal = db.prepare('SELECT COUNT(*) AS n FROM DasarHukum').get().n;
@@ -58,5 +72,22 @@ if (jumlahPasal === 0) {
   tambahPasal.run('Peraturan Contoh A', 'Pasal 2', 'Isi pasal contoh kedua (data uji).');
   tambahPasal.run('Peraturan Contoh B', 'Pasal 10', 'Isi pasal contoh tentang kontrak (data uji).');
 }
+
+// dummy data awal search law
+const tambahPeraturan = db.prepare(`
+  INSERT OR IGNORE INTO Peraturan
+  (jenisPeraturan, nomor, tahun, judul, deskripsi, status, linkPDF)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`);
+
+tambahPeraturan.run(
+  'Permenkominfo',
+  '4',
+  2024,
+  'Penyelenggaraan Urusan Pemerintahan Konkuren Bidang Komunikasi dan Informatika',
+  'Pedoman bagi Pemerintah Daerah dalam menyelenggarakan urusan pemerintahan bidang komunikasi dan informatika.',
+  'Berlaku',
+  'https://peraturan.go.id/files/permenkominfo-no-04-tahun-2024.pdf'
+);
 
 console.log('Database siap.');

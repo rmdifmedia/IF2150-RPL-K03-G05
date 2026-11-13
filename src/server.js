@@ -3,24 +3,32 @@ const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
 const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('io', io);
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
+const sessionMiddleware = session({
+  secret: process.env.SESSION_SECRET || 'lawhub-dev-secret',
   resave: false,
   saveUninitialized: false
-}));
+});
+
+app.use(sessionMiddleware);
 app.use(flash());
 
-// variabel yang otomatis di semua halaman
+// Variabel global yang otomatis tersedia di seluruh halaman EJS
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.sukses = req.flash('sukses');
@@ -28,15 +36,27 @@ app.use((req, res, next) => {
   next();
 });
 
+require('./socket/livechat')(io, sessionMiddleware);
+
 app.use('/', require('./routes/auth'));
 app.use('/masyarakat', require('./routes/masyarakat'));
 app.use('/mitra', require('./routes/mitra'));
 app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
+app.use('/laporan', require('./routes/laporan'));
 
 app.use((req, res) =>
-  res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' }));
+  res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' })
+);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`LawHub berjalan di http://localhost:${port}`));
+app.use((err, req, res, next) => {
+  console.error(err);
+  if (res.headersSent) return next(err);
+  res.status(500).render('error', { pesan: 'Terjadi kesalahan pada server' });
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`LawHub berjalan di http://localhost:${PORT}`);
+});

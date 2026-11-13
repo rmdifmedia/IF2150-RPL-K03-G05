@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<script>document.body.classList.add('halaman-konsul-chat');</script>
+<link rel="stylesheet" href="/css/konsultasi.css">
+<script>document.body.classList.add('halaman-konsul-chat');</script>
+<!-- UI-10 (masyarakat) / UI-11 (mitra): Chat Konsultasi (UC12) -->
+<section class="konsul-subheader">
+  <div class="konsul-profil">
+    <div class="konsul-avatar" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#D8D9DC"/><circle cx="32" cy="24" r="11" fill="#A9ACB3"/><path d="M12 56c0-11 9-20 20-20s20 9 20 20" fill="#A9ACB3"/></svg>
+    </div>
+    <div>
+      <h2><%= lawan %></h2>
+
+    </div>
+  </div>
+  <% if (peran === 'masyarakat' && ['terjadwal', 'berlangsung'].includes(sesi.statusSesi)) { %>
+    <form method="POST" action="/konsultasi/chat/<%= sesi.idSesi %>/akhiri" id="formAkhiri">
+      <button type="submit" class="tombol-sudahi"><%= peran === 'masyarakat' ? 'Sudahi Sesi' : 'Akhiri Sesi' %></button>
+    </form>
+  <% } %>
+</section>
+
+<div class="konsul-chat" id="konsulApp" data-id-sesi="<%= sesi.idSesi %>" data-peran="<%= peran %>"
+     data-aktif="<%= izin.ok ? '1' : '0' %>">
+  <div id="socketError" class="alert alert-error" style="display:none"></div>
+  <% if (!izin.ok && !izin.tutup) { %>
+    <div class="alert alert-error">
+      <%= izin.pesan %>
+      <% if (izin.perluBayar && peran === 'masyarakat') { %> <a href="/transaksi/bayar/<%= sesi.idSesi %>">Bayar sekarang</a><% } %>
+    </div>
+  <% } %>
+
+  <div id="konsulPesan" class="konsul-pesan">
+    <% if (kasusAwal) { %>
+      <!-- deskripsi kasus tampil sebagai pesan pembuka dari masyarakat -->
+      <div class="pesan-baris is-masyarakat <%= peran === 'masyarakat' ? 'is-self' : 'is-other' %>">
+        <div class="pesan-bubble sender-masyarakat"><%= kasusAwal %></div>
+      </div>
+    <% } %>
+    <% daftarPesan.forEach(function (p) { %>
+      <div class="pesan-baris <%= p.peranPengirim === peran ? 'is-self' : 'is-other' %>" data-id-pesan="<%= p.idPesan %>">
+        <div class="pesan-bubble sender-<%= p.peranPengirim %>"><%= p.isiPesan %></div>
+      </div>
+    <% }); %>
+  </div>
+
+        <span id="statusSesi" class="konsul-status" role="status">
+        <%= izin.ok ? 'Menghubungkan...' : '' %>
+      </span>
+  <form id="formPesan" class="konsul-input" autocomplete="off">
+    <input type="text" id="isiPesan" maxlength="2000" placeholder="..." aria-label="Tulis pesan"
+           <%= izin.ok ? '' : 'disabled' %>>
+
+  </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/konsultasi-chat.js"></script>
+<%- include('../partials/footer', { tanpaFooter: true }) %>
