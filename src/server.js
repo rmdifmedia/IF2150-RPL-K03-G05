@@ -55,6 +55,7 @@ app.use('/mitra', require('./routes/mitra'));
 app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
+app.use('/searchlaw', require('./routes/searchLaw'));
 app.use('/halolaw', require('./routes/halolaw'));
 app.use('/laporan', require('./routes/laporan'));
 
