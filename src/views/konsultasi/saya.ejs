@@ -1,4 +1,7 @@
 <%- include('../partials/header') %>
+<!-- CSS dimuat dari view agar tidak bergantung pada perubahan header.ejs -->
+<link rel="stylesheet" href="/css/konsultasi.css">
+<link rel="stylesheet" href="/css/konsultasi.css">
 <div class="sempit">
   <h2>Sesi Konsultasi Saya</h2>
 
@@ -22,7 +25,7 @@
         <% } %>
       </div>
       <div class="aksi-sesi">
-        <span class="pil pil-<%= s.statusSesi %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
+        <span class="pil pil-<%= s.statusSesi.split(' ')[0] %>"><%= LABEL_STATUS[s.statusSesi] || s.statusSesi %></span>
         <% if (s.statusSesi === 'terjadwal' && !lunas) { %>
           <a class="tombol tombol-kecil" href="/transaksi/bayar/<%= s.idSesi %>">Bayar</a>
         <% } %>

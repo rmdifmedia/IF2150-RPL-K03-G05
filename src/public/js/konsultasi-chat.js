@@ -32,7 +32,6 @@
 
   function tutupChat(teks) {
     input.disabled = true;
-    form.querySelector('button').disabled = true;
     statusEl.textContent = teks;
     var f = document.getElementById('formAkhiri');
     if (f) f.remove();
