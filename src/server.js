@@ -17,7 +17,6 @@ app.set('io', io);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET || 'lawhub-dev-secret',
@@ -38,6 +37,19 @@ app.use((req, res, next) => {
 
 require('./socket/livechat')(io, sessionMiddleware);
 
+require('./socket/konsultasi')(io, sessionMiddleware);
+
+const SesiKonsultasi = require('./models/SesiKonsultasi');
+setInterval(() => {
+  try {
+    SesiKonsultasi.batalkanKedaluwarsa();
+    SesiKonsultasi.tutupIdleSemua().forEach((id) =>
+      io.of('/konsultasi').to(`sesi_${id}`).emit('sesi_selesai', { idSesi: id, oleh: 'sistem' }));
+  } catch (e) {
+    console.error('Job konsultasi gagal:', e.message);
+  }
+}, 60 * 1000).unref();
+
 app.use('/', require('./routes/auth'));
 app.use('/masyarakat', require('./routes/masyarakat'));
 app.use('/mitra', require('./routes/mitra'));
@@ -45,6 +57,8 @@ app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
 app.use('/laporan', require('./routes/laporan'));
+app.use('/halolaw', require('./routes/halolaw'));
+app.use('/searchlaw', require('./routes/searchLaw'));
 
 app.use((req, res) =>
   res.status(404).render('error', { pesan: 'Halaman tidak ditemukan' })
