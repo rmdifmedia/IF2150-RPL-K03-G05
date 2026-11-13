@@ -1,0 +1,60 @@
+<%- include('../partials/header', { varian: 'polos', judulHalaman: 'Pembayaran' }) %>
+<div class="sempit">
+  <h2 class="judul-tengah">Pembayaran</h2>
+  <% if (locals.error) { %><% error.forEach(e => { %><div class="alert alert-error"><%= e %></div><% }) %><% } %>
+
+  <form method="POST" action="/transaksi/pembayaran/<%= sesi.idSesi %>">
+    <div class="landing-pilihan">
+      <section class="kotak">
+        <p class="login-judul">Metode Pembayaran</p>
+
+        <label for="metode">Pilih metode</label>
+        <select id="metode" name="metode" required>
+          <option value="kartu" <%= (lama.metode || 'kartu') === 'kartu' ? 'selected' : '' %>>Kartu Kredit/Debit</option>
+          <option value="ewallet" <%= lama.metode === 'ewallet' ? 'selected' : '' %>>E-Wallet</option>
+          <option value="virtual_account" <%= lama.metode === 'virtual_account' ? 'selected' : '' %>>Virtual Account</option>
+          <option value="qris" <%= lama.metode === 'qris' ? 'selected' : '' %>>QRIS</option>
+        </select>
+
+        <div id="blok-kartu">
+          <label for="nomorKartu">Nomor Kartu</label>
+          <input id="nomorKartu" type="text" name="nomorKartu" inputmode="numeric" maxlength="19"
+                 placeholder="1234 1234 1234 1234" value="<%= lama.nomorKartu || '' %>">
+          <label for="kadaluwarsa">Tanggal Kadaluwarsa</label>
+          <input id="kadaluwarsa" type="text" name="kadaluwarsa" maxlength="5" placeholder="BB/TT"
+                 value="<%= lama.kadaluwarsa || '' %>">
+          <label for="cvc">Kode Keamanan</label>
+          <input id="cvc" type="password" name="cvc" inputmode="numeric" maxlength="4" placeholder="CVC/CVV">
+        </div>
+      </section>
+
+      <section class="kartu kartu-lebar">
+        <h3 class="judul-tengah">Total Biaya</h3>
+        <p>Mitra: <strong><%= sesi.namaMitra %></strong></p>
+        <p>Biaya per Jam: <%= rupiah(biaya.tarifPerJam) %></p>
+        <p>Durasi Sesi: <%= biaya.durasiJam %> Jam</p>
+        <p>Pajak: 11% (<%= rupiah(biaya.pajak) %>)</p>
+        <h3>Total yang harus dibayar: <%= rupiah(biaya.total) %></h3>
+        <p class="bantuan-form">Sisa Waktu Pembayaran <strong id="timer">15:00</strong></p>
+        <button id="tombol-bayar" type="submit" class="tombol tombol-penuh">Bayar Sekarang</button>
+      </section>
+    </div>
+  </form>
+</div>
+
+<script>
+  const pilih = document.getElementById('metode');
+  const kartu = document.getElementById('blok-kartu');
+  const toggle = () => { kartu.hidden = pilih.value !== 'kartu'; };
+  pilih.addEventListener('change', toggle); toggle();
+
+  let sisa = 15 * 60;
+  const el = document.getElementById('timer');
+  const tombol = document.getElementById('tombol-bayar');
+  const t = setInterval(() => {
+    sisa--;
+    el.textContent = String(Math.floor(sisa / 60)).padStart(2, '0') + ':' + String(sisa % 60).padStart(2, '0');
+    if (sisa <= 0) { clearInterval(t); tombol.disabled = true; el.textContent = 'Waktu habis, muat ulang halaman'; }
+  }, 1000);
+</script>
+<%- include('../partials/footer') %>
