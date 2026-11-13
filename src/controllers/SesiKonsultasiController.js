@@ -15,18 +15,37 @@ const pisah = (iso) => {
   const f = (opt) => new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', ...opt }).format(new Date(iso));
   return {
     tanggal: f({ day: '2-digit', month: '2-digit', year: 'numeric' }),
-    jam: f({ hour: '2-digit', minute: '2-digit', hour12: false }),
+    jam: f({ hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':'),
   };
 };
 
 // ---------- UC11: Menanggapi Sesi Konsultasi (mitra) ----------
 
-// GET /konsultasi/pengajuan  -> daftar permintaan masuk
+// GET /konsultasi/pengajuan  -> UI-30 List Pengajuan (O-196..O-206)
+//   ?q=kata kunci  &status=<statusSesi>  &urut=terbaru|terdekat
 exports.daftarPengajuan = (req, res) => {
   Sesi.batalkanKedaluwarsa();
-  const daftar = Sesi.daftarPengajuanMitra(req.session.user.id);
+  const q = String(req.query.q || '').trim().toLowerCase();
+  const status = String(req.query.status || '');
+  const urut = req.query.urut === 'terdekat' ? 'terdekat' : 'terbaru';
+
+  let daftar = Sesi.daftarPengajuanMitra(req.session.user.id);
+  if (status) daftar = daftar.filter((s) => s.statusSesi === status);
+  if (q) {
+    daftar = daftar.filter((s) =>
+      [s.namaMasyarakat, s.judulKasus, s.deskripsiKasus, s.kategoriMasalah]
+        .some((t) => t && String(t).toLowerCase().includes(q)));
+  }
+  const kunciJadwal = (s) => `${s.tanggalJadwal} ${s.waktuJadwal}`;
+  daftar.sort(urut === 'terdekat'
+    ? (a, b) => kunciJadwal(a).localeCompare(kunciJadwal(b))
+    : (a, b) => String(b.waktuPengajuan || '').localeCompare(String(a.waktuPengajuan || '')) || b.idSesi - a.idSesi);
+  daftar.forEach((s) => { s.sisaDetik = s.statusSesi === Sesi.MENUNGGU ? Sesi.sisaDetikRespon(s) : 0; });
+
   res.render('konsultasi/pengajuan', {
-    judulHalaman: 'List Pengajuan', navMitra: 'pengajuan', daftar, LABEL_STATUS, pisah,
+    judulHalaman: 'List Pengajuan', css: '/css/konsultasi.css', navMitra: 'pengajuan',
+    daftar, LABEL_STATUS, pisah, q: req.query.q || '', status, urut,
+    STATUS_OPSI: Object.keys(LABEL_STATUS),
   });
 };
 
