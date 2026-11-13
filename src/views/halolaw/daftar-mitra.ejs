@@ -1,7 +1,19 @@
 <%- include('../partials/header', { judulHalaman: 'Daftar Mitra', judul: 'HaloLaw', ikonJudul: 'telepon' }) %>
 <div class="sempit">
 
+  <a class="tombol tombol-garis"
+    href="/halolaw<%= kasus ? '?kasus=' + kasus.idKasus : '' %>">
+    Edit Submisi Kasus
+  </a>
   <form class="form-filter" method="GET" action="/halolaw/mitra">
+
+    <input type="hidden" name="terapkan" value="1">
+
+    <% if (kasus) { %>
+      <input type="hidden" name="kasus" value="<%= kasus.idKasus %>">
+    <% } %>
+
+   <% if (kasus) { %><input type="hidden" name="kasus" value="<%= kasus.idKasus %>"><% } %>
     <input class="isian" type="search" name="q" placeholder="Cari nama atau firma mitra"
            value="<%= q %>">
 
@@ -22,7 +34,13 @@
         <option value="4.5" <%= ratingMin === 4.5 ? 'selected' : '' %>>Rating 4.5+</option>
       </select>
       <button type="submit" class="tombol">Terapkan</button>
-      <% if (adaFilter) { %><a href="/halolaw/mitra">Reset filter</a><% } %>
+      <% if (adaFilter) { %>
+        <a href="/halolaw/mitra<%= kasus ? '?kasus=' + kasus.idKasus : '' %>">
+          Reset filter
+        </a>
+      <% } %>
+    </div>
+  </form>
     </div>
   </form>
 
@@ -31,7 +49,12 @@
     <div class="kotak kosong-pasal">
       <p><strong>Tidak ada mitra pengacara yang sesuai.</strong></p>
       <p class="bantuan-form">Coba ubah atau hapus filter, atau gunakan kata kunci lain.</p>
-      <% if (adaFilter) { %><a class="tombol tombol-garis" href="/halolaw/mitra">Hapus semua filter</a><% } %>
+       <% if (adaFilter) { %>
+        <a class="tombol tombol-garis"
+           href="/halolaw/mitra<%= kasus ? '?kasus=' + kasus.idKasus : '' %>">
+          Hapus semua filter
+        </a>
+      <% } %>
     </div>
   <% } else { %>
     <!-- UI-06: daftar mitra -->
@@ -53,7 +76,10 @@
               · <%= m.statusKetersediaan === 'tersedia' ? 'Tersedia' : 'Tidak tersedia' %>
             </p>
           </div>
-          <a class="tombol" href="/konsultasi/jadwal/<%= m.idMitra %>">Atur Jadwal Konsultasi</a>
+          <a class="tombol"
+             href="/konsultasi/jadwal/<%= m.idMitra %><%= kasus ? '?kasus=' + kasus.idKasus : '' %>">
+            Atur Jadwal Konsultasi
+          </a>
         </article>
       <% }); %>
     </div>
