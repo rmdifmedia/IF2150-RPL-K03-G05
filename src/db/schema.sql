@@ -53,6 +53,18 @@ CREATE TABLE IF NOT EXISTS DasarHukum (          -- C44
   isiPasal      TEXT NOT NULL                
 );
 
+CREATE TABLE IF NOT EXISTS Peraturan ( -- add data tambahan buat pasal
+  idPeraturan INTEGER PRIMARY KEY AUTOINCREMENT,
+  jenisPeraturan TEXT NOT NULL,
+  nomor TEXT NOT NULL,
+  tahun INTEGER NOT NULL,
+  judul TEXT NOT NULL,
+  deskripsi TEXT,
+  status TEXT,
+  linkPDF TEXT NOT NULL,
+  UNIQUE(jenisPeraturan, nomor, tahun)
+);
+
 CREATE TABLE IF NOT EXISTS DokumenLegalitas (    -- C45
   idDokumen    INTEGER PRIMARY KEY AUTOINCREMENT,
   idMitra      INTEGER NOT NULL REFERENCES MitraPengacara(idMitra),

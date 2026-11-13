@@ -1,0 +1,26 @@
+<%- include('../partials/header', { varian: 'polos', judulHalaman: 'History' }) %>
+<div class="sempit">
+  <h2>History</h2>
+  <% if (!daftar.length) { %>
+    <div class="alert alert-sukses">Belum ada riwayat konsultasi.</div>
+  <% } %>
+
+  <div class="daftar-mitra">
+    <% daftar.forEach(r => { %>
+      <article class="kartu-mitra kartu-riwayat">
+        <div>
+          <h3><%= r.lawan %></h3>
+          <p class="deskripsi">Kasus : <%= r.judulKasus || r.deskripsiKasus || '-' %></p>
+          <p class="deskripsi kecil"><%= tanggal(r.tanggalJadwal) %> · <%= r.waktuJadwal %></p>
+        </div>
+        <div class="aksi-riwayat">
+          <a class="tombol tombol-kecil" href="/transaksi/riwayat/<%= r.idSesi %>">Lihat Chat</a>
+          <% if (user.peran === 'masyarakat' && r.statusKonsul === 'selesai' && !r.sudahUlasan) { %>
+            <a class="tombol tombol-kecil tombol-garis tombol-terang" href="/transaksi/ulasan/<%= r.idSesi %>">Beri Ulasan</a>
+          <% } %>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</div>
+<%- include('../partials/footer') %>

@@ -248,6 +248,111 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--cokelat-tua
 .judul-seksi { font-size: 24px; margin: 22px 0 12px; }
 input[type="file"] { width: 100%; font-size: 18px; margin-bottom: 8px; }
 
+
+/* -------- SearchLaw -------- */
+
+.searchlaw-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 5px;
+  background: white;
+}
+
+.searchlaw-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  background: transparent;
+}
+
+.searchlaw-tombol-cari {
+  border: none;
+  border-radius: 9px;
+  padding: 9px 20px;
+  cursor: pointer;
+}
+
+.searchlaw-filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.searchlaw-tombol-filter {
+  padding: 5px 12px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: white;
+  cursor: not-allowed;
+}
+
+.searchlaw-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.searchlaw-kartu {
+  padding: 16px 8px;
+}
+
+.searchlaw-kartu + .searchlaw-kartu {
+  border-top: 1px solid #eee;
+}
+
+.searchlaw-kartu h3 {
+  margin: 8px 0;
+}
+
+.searchlaw-kartu-bawah {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.searchlaw-kosong {
+  padding: 20px 8px;
+  text-align: center;
+}
+
+.judul-tengah { text-align: center; }
+.jarak-atas { margin-top: 24px; }
+.centang.bintang { margin: 0; }
+
+/* ---------- Riwayat ---------- */
+.kartu-riwayat { grid-template-columns: 1fr auto; border-radius: 40px; padding: 24px 40px; }
+.kartu-mitra .deskripsi.kecil { font-size: 18px; }
+.aksi-riwayat { display: grid; gap: 10px; }
+.tombol-terang { color: var(--kuning); border-color: var(--kuning); }
+
+.kartu-header-chat { grid-template-columns: 1fr; border-radius: 40px; padding: 18px 40px; margin-bottom: 24px; }
+
+.bubble-baris { display: flex; margin-bottom: 12px; }
+.bubble-baris.saya { justify-content: flex-end; }
+.bubble-baris.lawan { justify-content: flex-start; }
+.bubble {
+  max-width: 70%; padding: 10px 18px; border-radius: 18px;
+  border: 1px solid var(--cokelat);
+}
+.bubble.saya { background: var(--cokelat); color: var(--kuning); }
+.bubble.lawan { background: var(--putih); color: var(--cokelat-tua); }
+.bubble small { display: block; font-size: 13px; opacity: .7; }
+
+/* ---------- Pencairan dana ---------- */
+.saldo { color: var(--sukses-teks); }
+.input-nominal { max-width: 280px; }
+.form-rekening input + input { margin-top: 10px; }
+.baris-transaksi { padding: 12px 0; border-bottom: 1px solid var(--biru-muda-2); }
+.nominal { color: var(--sukses-teks); }
+.badge { display: inline-block; padding: 2px 12px; margin: 0 0 0 8px; }
 /* ---------- Filter daftar mitra ---------- */
 .form-filter { margin: 28px 0; display: grid; gap: 14px; }
 .chip-pilih {
