@@ -67,7 +67,7 @@ exports.buatSesiKonsultasi = (req, res) => {
   const { tanggal, waktu } = req.body;
   const kembali = `/konsultasi/jadwal/${mitra.idMitra}`;
 
-  if (!RE_TANGGAL.test(tanggal || '') || !RE_WAKTU.test(waktu || '')) { {
+  if (!RE_TANGGAL.test(tanggal || '') || !RE_WAKTU.test(waktu || '')) {
     req.flash('error', 'Pilih tanggal dan waktu konsultasi terlebih dahulu.');
     return res.redirect(kembali);
   }

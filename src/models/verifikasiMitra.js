@@ -20,17 +20,6 @@ function ambilKolomTabel(namaTabel) {
   }
 }
 
-function pastikanKolomCatatanVerifikasi() {
-  try {
-    const kolom = ambilKolomTabel('MitraPengacara');
-    if (kolom.length > 0 && !kolom.includes('catatanVerifikasi')) {
-      db.exec('ALTER TABLE MitraPengacara ADD COLUMN catatanVerifikasi TEXT');
-    }
-  } catch (err) {
-    console.warn('Info skema MitraPengacara:', err.message);
-  }
-}
-pastikanKolomCatatanVerifikasi();
 
 function ambilDaftarMitra({ q = '', status = 'semua', urutan = 'terbaru' } = {}) {
   const kolomMitra = ambilKolomTabel('MitraPengacara');

@@ -11,11 +11,6 @@ const MENUNGGU = 'menunggu tanggapan mitra';                                 // 
 const STATUS_AKTIF = [MENUNGGU, 'terjadwal', 'berlangsung'];                 // slot dianggap terisi
 exports.MENUNGGU = MENUNGGU;
 
-// kolom waktuPengajuan tidak ada di schema awal -> tambahkan sekali bila belum ada
-const kolom = db.prepare('PRAGMA table_info(SesiKonsultasi)').all().map((k) => k.name);
-if (!kolom.includes('waktuPengajuan')) {
-  db.exec('ALTER TABLE SesiKonsultasi ADD COLUMN waktuPengajuan TEXT');
-}
 
 const sekarangIso = () => new Date().toISOString();
 
