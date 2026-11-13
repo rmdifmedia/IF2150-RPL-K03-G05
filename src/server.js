@@ -42,6 +42,8 @@ app.use('/', require('./routes/auth'));
 app.use('/masyarakat', require('./routes/masyarakat'));
 app.use('/mitra', require('./routes/mitra'));
 app.use('/konsultasi', require('./routes/konsultasi'));
+app.use('/halolaw', require('./routes/halolaw'));
+app.use('/searchlaw', require('./routes/searchLaw'));
 app.use('/transaksi', require('./routes/transaksi'));
 app.use('/admin', require('./routes/admin'));
 app.use('/laporan', require('./routes/laporan'));
