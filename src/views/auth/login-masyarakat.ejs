@@ -2,7 +2,14 @@
 <div class="sempit">
 
   <section class="kotak login-panel">
-    <form id="form-login" class="login-form" method="POST" action="/login">
+    
+    <% if (error && error.length > 0) { %>
+      <div class="alert alert-error">
+          <%= error[0] %>
+      </div>
+    <% } %>
+
+    <form id="form-login" class="login-form" method="POST" action="/login-masyarakat">
       <p class="login-judul">Login Sebagai Masyarakat</p>
       <input id="username" class="isian" type="text" name="email" placeholder="Username" autocomplete="username" required>
       <input class="isian" type="password" name="kataSandi" placeholder="Password" autocomplete="current-password" required>

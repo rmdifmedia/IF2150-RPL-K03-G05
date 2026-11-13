@@ -33,6 +33,15 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.sukses = req.flash('sukses');
   res.locals.error = req.flash('error');
+
+      // Default untuk header
+  res.locals.varian = 'polos';
+  res.locals.beranda = '/';
+  res.locals.menu = [];
+  res.locals.judul = '';
+  res.locals.ikonJudul = '';
+
+  
   next();
 });
 
