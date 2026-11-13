@@ -49,9 +49,9 @@
           <% if (locals.navMitra === 'konfirmasi') { %><a href="#" aria-current="page">Konfirmasi Konsultasi</a><% } %>
         </nav>
       <% } else { %>
-      <% if (menu) { %>
+      <% if (locals.menu) { %>
         <nav class="menu-header">
-          <% menu.forEach(function (m) { %><a href="<%= m.href %>"><%= m.teks %></a><% }) %>
+          <% locals.menu.forEach(function (m) { %><a href="<%= m.href %>"><%= m.teks %></a><% }) %>
         </nav>
       <% } else { %>
       <h1 class="judul-header">

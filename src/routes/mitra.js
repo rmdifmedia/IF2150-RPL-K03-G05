@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { wajibLogin, wajibPeran } = require('../middleware/auth');
 const ProfilMitraController = require('../controllers/ProfilMitraController');
+const { unggahDokumen } = require('../middleware/upload');
 
 router.use(wajibLogin, wajibPeran('mitra'));
 router.get('/', (req, res) => res.send('Dashboard mitra (placeholder)'));
@@ -11,5 +12,16 @@ router.post('/profil/edit', ProfilMitraController.simpanProfil);
 router.post('/jadwal', ProfilMitraController.tambahSlot);
 router.post('/jadwal/:idJadwal/ubah', ProfilMitraController.ubahSlot);
 router.post('/jadwal/:idJadwal/hapus', ProfilMitraController.hapusSlot);
+router.get('/dokumen', ProfilMitraController.formEditDokumen);
+router.post('/dokumen', (req, res, next) => {
+  unggahDokumen(req, res, (err) => {
+    if (err) {
+      req.flash('error', err.code === 'LIMIT_FILE_SIZE'
+        ? 'Ukuran dokumen melebihi batas.' : 'Gagal mengunggah dokumen.');
+      return res.redirect('/mitra/dokumen');
+    }
+    next();
+  });
+}, ProfilMitraController.simpanDokumen);
 
 module.exports = router;
