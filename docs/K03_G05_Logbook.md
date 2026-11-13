@@ -135,3 +135,22 @@
 | 28-10-2026 | Livy, Cherinette | Melengkapi gambar arsitektur MVC, menyusun kelas perancangan (C09-16, C35-47), dan menyusun Bab 7 | 4 | Done | - |
 | 28-10-2026 | Raya | Menyusun dan mengimplementasikan rancangan antarmuka (UI/UX) sistem | 5 | Done | - |
 | 28-10-2026 | Ami | Merancang, membuat, dan menyelesaikan desain antarmuka (UI/UX) sistem secara ekstensif | 15 | Done | Mendesain banyak layar memakan waktu cukup lama |
+
+### Milestone 9
+**Periode** : 28-10-2026 - 13-11-2026
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / **Blocker** |
+|---|---|---|---:|---|---|
+| 05-11-2026 | Cherinette Corsane | Membuat fondasi aplikasi, database, autentikasi, dan penyesuaian UI. | 3 | Done | - |
+| 08-11-2026 | Raya Medina | Mengimplementasikan landing page serta registrasi masyarakat dan mitra pengacara. | 2 | Done | - |
+| 09-11-2026 | Cherinette Corsane | Menyesuaikan skema database dan dokumen legalitas mitra. | 2 | Done | - |
+| 10-11-2026 | Raya Medina | Mengimplementasikan SearchLaw, pencarian pasal, dan HaloLaw. | 4 | Done | - |
+| 10-11-2026 | Catherine Angel | Mengimplementasikan fitur pelaporan pelanggaran akun. | 3 | Done | - |
+| 10-11-2026 | Catherine Angel | Mengembangkan fitur LiveChat beserta backend, Socket.IO, dan antarmuka. | 4 | Done | - |
+| 10-11-2026 | Raya Medina | Mengimplementasikan dashboard masyarakat dan daftar mitra pengacara. | 2 | Done | - |
+| 11-11-2026 | Khasya Amini | Mengimplementasikan penjadwalan dan sesi konsultasi (UC10–UC12). | 3 | Done | - |
+| 11-11-2026 | Livy Chandra | Mengimplementasikan pembayaran, ulasan, riwayat transaksi, dan pencairan dana. | 5 | Done | - |
+| 12-11-2026 | Cherinette Corsane K.P. | Mengembangkan profil mitra, pengeditan profil, dan jadwal ketersediaan. | 2 | Done | - |
+| 13-11-2026 | Raya Medina | Mengembangkan dashboard mitra dan form kasus HaloLaw. | 2 | Done | - |
+| 13-11-2026 | Catherine Angel | Mengimplementasikan verifikasi mitra, moderasi laporan, dan pemblokiran akun. | 3 | Done | - |
+| 13-11-2026 | Khasya Amini | Menyempurnakan UI konsultasi dan respons sesi konsultasi. | 4 | Done | - |
+| 13-11-2026 | Cherinette Corsane K.P. | Mengembangkan pencarian pasal dan integrasi fitur ke branch develop. | 2 | Done | - |
