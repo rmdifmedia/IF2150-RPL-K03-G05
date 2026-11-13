@@ -63,6 +63,18 @@ exports.kasusTerakhir = (idMasyarakat) =>
 exports.cariKasusMilik = (idKasus, idMasyarakat) =>
   db.prepare('SELECT * FROM Kasus WHERE idKasus = ? AND idMasyarakat = ?').get(idKasus, idMasyarakat);
 
+// slot per jam yang dibuka mitra lewat JadwalKetersediaan (mis. 14:00-17:00 -> 14:00, 15:00, 16:00)
+function slotDariJadwal(idMitra, tanggal) {
+  const hasil = new Set();
+  db.prepare('SELECT waktuMulai, waktuSelesai FROM JadwalKetersediaan WHERE idMitra = ? AND tanggal = ?')
+    .all(idMitra, tanggal).forEach(({ waktuMulai, waktuSelesai }) => {
+      for (let j = parseInt(waktuMulai, 10); j < parseInt(waktuSelesai, 10); j++) {
+        hasil.add(`${String(j).padStart(2, '0')}:00`);
+      }
+    });
+  return [...hasil].sort();
+}
+
 // slot kosong mitra pada satu tanggal (validasiJadwal)
 exports.slotTersedia = (idMitra, tanggal) => {
   const terisi = new Set(
@@ -73,7 +85,7 @@ exports.slotTersedia = (idMitra, tanggal) => {
   );
   const { tanggal: hariIni, waktu: jamSkrg } = wibSekarang();
   if (tanggal < hariIni) return [];
-  return SLOT.filter((s) => !terisi.has(s) && !(tanggal === hariIni && s <= jamSkrg));
+  return slotDariJadwal(idMitra, tanggal).filter((s) => !terisi.has(s) && !(tanggal === hariIni && s <= jamSkrg));
 };
 
 // tanggal (YYYY-MM-DD) dalam satu bulan yang masih punya slot -> untuk menandai kalender
