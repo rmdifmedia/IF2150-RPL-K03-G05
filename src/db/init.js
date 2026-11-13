@@ -73,6 +73,16 @@ if (jumlahPasal === 0) {
   tambahPasal.run('Peraturan Contoh B', 'Pasal 10', 'Isi pasal contoh tentang kontrak (data uji).');
 }
 
+
+const dataPeraturan = require('./dataPasal');
+
+const masukkanSemua = db.transaction((daftar) => {
+  for (const p of daftar) {
+    tambahPeraturan.run(p.jenisPeraturan, p.nomor, p.tahun, p.judul, p.deskripsi, p.status, p.linkPDF);
+  }
+});
+masukkanSemua(dataPeraturan);
+
 // dummy data awal search law
 const tambahPeraturan = db.prepare(`
   INSERT OR IGNORE INTO Peraturan
