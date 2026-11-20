@@ -9,7 +9,8 @@
     "db:init": "node db/init.js",
     "db:seed-konsultasi": "node db/seed-konsultasi.js",
     "test": "jest --runInBand",
-    "test:integrasi": "jest --runInBand tests/integrasi"
+    "test:integrasi": "jest --runInBand tests/integrasi",
+    "test:unit": "jest tests/unit --runInBand"
   },
   "keywords": [],
   "author": "",
